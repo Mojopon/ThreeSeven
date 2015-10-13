@@ -18,7 +18,7 @@ public class GameTest
     [SetUp]
     public void Init()
     {
-        testSetting = SettingManager.Instance.GetSetting();
+        testSetting = TestSetting.Get();
         game = new Game(testSetting);
         cameraManager = Substitute.For<ICameraManager>();
         backgroundFactory = Substitute.For<IBackgroundFactory>();

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SettingManager {
+/*public class SettingManager {
 
     private static SettingManager _instance;
 
@@ -34,3 +34,4 @@ public class SettingManager {
         return null;
     }
 }
+*/

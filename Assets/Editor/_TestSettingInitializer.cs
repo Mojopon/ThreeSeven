@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 public class _TestSettingInitializer  
 {
-    SettingManager settingManager;
+    /*SettingManager settingManager;
 
     [SetUp]
     public void Init()
@@ -18,5 +18,5 @@ public class _TestSettingInitializer
     {
         Assert.IsTrue(SettingManager.Instance.Mode == SettingMode.Test);
     }
-
+    */
 }

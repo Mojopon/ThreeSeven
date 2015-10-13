@@ -342,12 +342,6 @@ public class GridTest : GridTestFixture
     }
 
     [Test]
-    public void CreateGameMessages()
-    {
-        Assert.Fail();
-    }
-
-    [Test]
     public void ShouldRenderFloatingTextWhenDelete()
     {
         IFloatingTextRenderer floatingTextRenderer = Substitute.For<IFloatingTextRenderer>();

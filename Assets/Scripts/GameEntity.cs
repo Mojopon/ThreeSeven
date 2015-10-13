@@ -3,19 +3,9 @@ using System.Collections.Generic;
 
 public class GameEntity : MonoBehaviour, IControllable {
 
-    public CameraManager cameraManager;
-    public GameSetting gameSetting;
-    public BackgroundFactory backgroundFactory;
-    public BlockViewSpawner blockViewSpawner;
-    public GroupPatternConverter groupPatternConverter;
-    public ParticleSpawner particleSpawner;
-    public BlockColorRepository blockColorRepository;
-    public GameText scoreText;
-    public GameText levelText;
-    public SoundRepository soundRepository;
-    public FloatingTextRenderer floatingTextRenderer;
+    public GameDirector[] gameDirectors;
 
-    Game game;
+    List<Game> games;
     IControllable currentControl;
 
     GameObject playerGame;
@@ -24,42 +14,35 @@ public class GameEntity : MonoBehaviour, IControllable {
 
     void Awake()
     {
-        gameSetting.Initialize();
-        gameSetting.GetGameText(GameTextType.GameMessageCenter).UpdateText("");
-
+        games = new List<Game>();
         currentControl = NullControl.Instance;
-        soundRepository.InitializeSingleton();
 
         CreateNewGame();
     }
 
     void CreateNewGame()
     {
-        playerGame = new GameObject();
-        playerGame.name = "PlayerGame";
-        playerGame.transform.position = gameSetting.PlayerGridPosition;
+        foreach (GameDirector gameDirector in gameDirectors)
+        {
+            AddGame(gameDirector.Construct());
+        }
+    }
 
-        groupPatterns = groupPatternConverter.Convert();
-
-        GameBuilder gameBuilder = new GameBuilder(playerGame,
-                                                  gameSetting,
-                                                  particleSpawner,
-                                                  blockColorRepository,
-                                                  groupPatterns,
-                                                  backgroundFactory,
-                                                  cameraManager,
-                                                  blockViewSpawner,
-                                                  floatingTextRenderer);
-
-        game = gameBuilder.Build();
-        currentControl = game;
-
-        game.StartThreeSeven();
+    void AddGame(Game game)
+    {
+        if (currentControl == NullControl.Instance)
+        {
+            currentControl = game;
+        }
+        games.Add(game);
     }
 
     void Update()
     {
-        game.OnUpdate();
+        foreach (Game game in games)
+        {
+            game.OnUpdate();
+        }
     }
 
     #region IControllable Method Group
@@ -71,7 +54,10 @@ public class GameEntity : MonoBehaviour, IControllable {
 
     public void OnJumpKeyInput()
     {
-        currentControl.OnJumpKeyInput();
+        foreach (Game game in games)
+        {
+            game.OnJumpKeyInput();
+        }
     }
 
     #endregion

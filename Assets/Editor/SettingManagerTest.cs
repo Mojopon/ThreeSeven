@@ -5,7 +5,7 @@ using NUnit.Framework;
 [TestFixture]
 public class SettingManagerTest  
 {
-    [Test]
+    /*[Test]
     public void ShouldReturnDevelopmentSetting()
     {
         SettingManager settingManager = SettingManager.Instance;
@@ -13,5 +13,5 @@ public class SettingManagerTest
         ISetting setting = settingManager.GetSetting();
         Assert.AreEqual(TestSetting.Get(), setting);
     } 
-	
+	*/
 }

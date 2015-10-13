@@ -74,28 +74,11 @@ public class GameSetting : MonoBehaviour, ISetting {
     public float WaitAfterDelete { get { return waitAfterDelete; } }
     public Vector3[] StockPositions { get { return stockPositions; } }
 
-    private static GameSetting instance;
     private IGameTextManager gameTextManager;
 
     public void  Initialize()
     {
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else if (instance != this)
-        {
-            Destroy(gameObject);
-        }
-
-        DontDestroyOnLoad(gameObject);
-
         gameTextManager = new GameTextManager(gameTextComponents);
-    }
-
-    public static ISetting Get()
-    {
-        return instance;
     }
 
     void OnDrawGizmos()

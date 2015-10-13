@@ -3,6 +3,7 @@ using System.Collections;
 
 public class CameraManager : MonoBehaviour, ICameraManager {
 
+    public bool setFromUnityEditor = false;
     public Transform mainCamera;
 
     public void SetCameraPosition(Vector2 position)
@@ -13,6 +14,9 @@ public class CameraManager : MonoBehaviour, ICameraManager {
             return;
         }
 
-        mainCamera.position = new Vector3(position.x, position.y, mainCamera.position.z);
+        if (setFromUnityEditor == false)
+        {
+            mainCamera.position = new Vector3(position.x, position.y, mainCamera.position.z);
+        }
     }
 }

@@ -19,6 +19,6 @@ public class ThreeSevenTestFixsture  {
         blockFactory = new BlockFactory(blockViewSpawner);
         groupFactory = new GroupFactory(blockFactory);
 
-        setting = SettingManager.Instance.GetSetting();
+        setting = TestSetting.Get();
     }
 }
