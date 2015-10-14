@@ -86,3 +86,9 @@ public enum GameMode
     SinglePlayerMode,
     VersusCPUMode,
 }
+
+public enum CPUMode
+{
+    None,
+    Easy,
+}

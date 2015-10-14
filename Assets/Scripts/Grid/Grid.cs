@@ -106,8 +106,9 @@ public class Grid : IGrid {
         }
     }
 
-    IGroupFactory _groupFactory;
-    ISetting _setting;
+    private IGroupFactory _groupFactory;
+    private ISetting _setting;
+    private ICPUManager _cpuManager;
 
     public void Initialize(ISetting setting, IGroupFactory groupFactory)
     {
@@ -116,6 +117,8 @@ public class Grid : IGrid {
         SetState(GridStates.GameOver);
         _gameTextCenter = _setting.GetGameText(GameTextType.GameMessageCenter);
         _gameTextCenter.UpdateText("Press Space\nTo Start Game");
+        _cpuManager = new CPUManager(this);
+        
     }
 
     public void NewGame()
@@ -136,6 +139,10 @@ public class Grid : IGrid {
         if (_setting.IsPlayer)
         {
             SubscribeInputEvents();
+        }
+        else
+        {
+            _cpuManager.ChangeCPUMode(CPUMode.Easy);
         }
 
         SetState(GridStates.ReadyForNextGroup);
@@ -348,6 +355,8 @@ public class Grid : IGrid {
         {
             _gameLevelManager.OnUpdate();
         }
+
+        _cpuManager.OnUpdate();
     }
 
     #endregion
