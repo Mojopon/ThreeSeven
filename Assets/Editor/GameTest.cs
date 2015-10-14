@@ -34,7 +34,7 @@ public class GameTest
     [Test]
     public void GameUsesSettingsToCreateWithFactory()
     {
-        game.StartThreeSeven();
+        game.InitializeGrid();
 
         backgroundFactory.Received().Create(game);
         gridFactory.Received().Create();

@@ -39,7 +39,7 @@ public class GameDirector : MonoBehaviour, IGameDirector
 
         Game game = gameBuilder.Build();
 
-        game.StartThreeSeven();
+        game.InitializeGrid();
 
         return game;
     }

@@ -44,6 +44,7 @@ public class Game : IGame
 
     private IControllable currentControl;
     private ISetting _setting;
+    private bool isRunning = false;
 
     private Game() { }
 
@@ -51,15 +52,11 @@ public class Game : IGame
     {
         _setting = setting;
         currentControl = NullControl.Instance;
+        //InputManager.OnArrowKeyPressed += new InputManager.ArrowKeyEvent(OnArrowKeyInput);
 
-        if (_setting.IsPlayer)
-        {
-            InputManager.OnJumpKeyPressed += new InputManager.JumpKeyEvent(OnJumpKeyInput);
-            InputManager.OnArrowKeyPressed += new InputManager.ArrowKeyEvent(OnArrowKeyInput);
-        }
     }
 
-    public void StartThreeSeven()
+    public void InitializeGrid()
     {
         CreateBackGround();
         CreateGrid();
@@ -93,6 +90,21 @@ public class Game : IGame
         }
     }
 
+    private bool jumpKeyEventSubscribed = false;
+    void SubscribeJumpKeyEvent()
+    {
+        if (jumpKeyEventSubscribed) return;
+
+        InputManager.OnJumpKeyPressed += new InputManager.JumpKeyEvent(OnJumpKeyInput);
+        jumpKeyEventSubscribed = true;
+    }
+
+    void UnsubscribeJumpKeyEvent()
+    {
+        InputManager.OnJumpKeyPressed -= new InputManager.JumpKeyEvent(OnJumpKeyInput);
+        jumpKeyEventSubscribed = false;
+    }
+
     #region IControllable Method Group
 
     public void OnArrowKeyInput(Direction direction)
@@ -102,7 +114,8 @@ public class Game : IGame
 
     public void OnJumpKeyInput()
     {
-        currentControl.OnJumpKeyInput();
+        _grid.NewGame();
+        UnsubscribeJumpKeyEvent();
     }
 
     #endregion
@@ -112,6 +125,11 @@ public class Game : IGame
     public void OnUpdate()
     {
         _grid.OnUpdate();
+        if (_grid.CurrenteStateName == GridStates.GameOver)
+        {
+            SubscribeJumpKeyEvent();
+            isRunning = false;
+        }
     }
 
     #endregion

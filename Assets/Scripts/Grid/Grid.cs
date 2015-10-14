@@ -133,6 +133,11 @@ public class Grid : IGrid {
 
         _gameTextCenter.Disable();
 
+        if (_setting.IsPlayer)
+        {
+            SubscribeInputEvents();
+        }
+
         SetState(GridStates.ReadyForNextGroup);
     }
 
@@ -244,6 +249,26 @@ public class Grid : IGrid {
     {
         _gameTextCenter.UpdateText("Game Over\n\nPress Space\nTo Play Again");
         SetState(GridStates.GameOver);
+        UnsubscribeInputEvents();
+    }
+
+    private bool inputEventsSubscribed = false;
+    private void SubscribeInputEvents()
+    {
+        if (inputEventsSubscribed) return;
+
+        InputManager.OnArrowKeyPressed += new InputManager.ArrowKeyEvent(OnArrowKeyInput);
+        InputManager.OnJumpKeyPressed += new InputManager.JumpKeyEvent(OnJumpKeyInput);
+
+        inputEventsSubscribed = true;
+    }
+
+    private void UnsubscribeInputEvents()
+    {
+        InputManager.OnArrowKeyPressed -= new InputManager.ArrowKeyEvent(OnArrowKeyInput);
+        InputManager.OnJumpKeyPressed -= new InputManager.JumpKeyEvent(OnJumpKeyInput);
+
+        inputEventsSubscribed = false;
     }
 
     private bool canControl = true;
@@ -285,11 +310,6 @@ public class Grid : IGrid {
 
     public void OnJumpKeyInput()
     {
-        if (CurrenteStateName == GridStates.GameOver)
-        {
-            NewGame();
-        }
-
         if (_currentGroup == null || ControllingGroup != true) return;
 
         Direction direction = Direction.Down;

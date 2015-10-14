@@ -8,5 +8,5 @@ public interface IGame : IControllable, ISetting, IUpdatable
     IGridFactory GridFactory { get; set; }
     IGroupFactory GroupFactory { get; set; }
 
-    void StartThreeSeven();
+    void InitializeGrid();
 }
