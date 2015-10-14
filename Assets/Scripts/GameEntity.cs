@@ -5,6 +5,8 @@ public class GameEntity : MonoBehaviour, IControllable {
 
     public GameDirector[] gameDirectors;
 
+    public GameMode gameMode = GameMode.SinglePlayerMode;
+
     List<Game> games;
     IControllable currentControl;
 
@@ -49,15 +51,15 @@ public class GameEntity : MonoBehaviour, IControllable {
 
     public void OnArrowKeyInput(Direction direction)
     {
-        currentControl.OnArrowKeyInput(direction);
+        //currentControl.OnArrowKeyInput(direction);
     }
 
     public void OnJumpKeyInput()
     {
-        foreach (Game game in games)
+        /*foreach (Game game in games)
         {
             game.OnJumpKeyInput();
-        }
+        }*/
     }
 
     #endregion

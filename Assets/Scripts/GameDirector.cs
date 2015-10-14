@@ -23,7 +23,7 @@ public class GameDirector : MonoBehaviour, IGameDirector
 
         GameObject playerGame = new GameObject();
         playerGame.name = gameName;
-        playerGame.transform.position = gameSetting.PlayerGridPosition;
+        playerGame.transform.position = gameSetting.GridPosition;
 
         List<IGroupPattern> groupPatterns = groupPatternConverter.Convert();
 

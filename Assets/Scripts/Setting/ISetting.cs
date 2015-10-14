@@ -9,13 +9,17 @@ public interface ISetting : IGameTextManager
     IBlockColorRepository BlockColorRepository { get; set; }
     IFloatingTextRenderer FloatingTextRenderer { get; set; }
 
+    bool IsPlayer { get; }
     float ScalePerBlock { get; }
     int GridWidth { get; }
     int GridHeight { get; }
-    Vector3 PlayerGridPosition { get; }
+    Vector3 GridPosition { get; }
     float BlockFallSpeed { get; }
     float BlockDeleteSpeed { get; }
     float WaitAfterDelete { get; }
     Coord BlockSpawnPoint { get; }
     Vector3[] StockPositions { get; }
+
+    Vector3 GetGridCenterPosition();
+    Vector3 GetGridScale();
 }

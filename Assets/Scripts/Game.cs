@@ -19,15 +19,26 @@ public class Game : IGame
     public IBlockColorRepository BlockColorRepository { get { return _setting.BlockColorRepository; } set { _setting.BlockColorRepository = value; } }
     public IFloatingTextRenderer FloatingTextRenderer { get { return _setting.FloatingTextRenderer; } set { _setting.FloatingTextRenderer = value; } }
 
+    public bool IsPlayer { get { return _setting.IsPlayer; } }
     public float ScalePerBlock { get { return _setting.ScalePerBlock; } }
     public int GridWidth { get { return _setting.GridWidth; } }
     public int GridHeight { get { return _setting.GridHeight; } }
-    public Vector3 PlayerGridPosition { get { return _setting.PlayerGridPosition; } }
+    public Vector3 GridPosition { get { return _setting.GridPosition; } }
     public Coord BlockSpawnPoint { get { return _setting.BlockSpawnPoint; } }
     public float BlockFallSpeed { get { return _setting.BlockFallSpeed; } }
     public float BlockDeleteSpeed { get { return _setting.BlockDeleteSpeed; } }
     public float WaitAfterDelete { get { return _setting.WaitAfterDelete; } }
     public Vector3[] StockPositions { get { return _setting.StockPositions; } }
+
+    public Vector3 GetGridCenterPosition()
+    {
+        return _setting.GetGridCenterPosition();
+    }
+
+    public Vector3 GetGridScale()
+    {
+        return _setting.GetGridScale();
+    }
 
     #endregion
 
@@ -40,6 +51,12 @@ public class Game : IGame
     {
         _setting = setting;
         currentControl = NullControl.Instance;
+
+        if (_setting.IsPlayer)
+        {
+            InputManager.OnJumpKeyPressed += new InputManager.JumpKeyEvent(OnJumpKeyInput);
+            InputManager.OnArrowKeyPressed += new InputManager.ArrowKeyEvent(OnArrowKeyInput);
+        }
     }
 
     public void StartThreeSeven()

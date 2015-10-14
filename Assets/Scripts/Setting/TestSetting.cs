@@ -3,6 +3,7 @@ using System.Collections;
 
 public class TestSetting : ISetting 
 {
+    private bool isPlayer = true;
     private float scalePerBlock = 1f;
     private int gridWidth = 7;
     private int gridHeight = 14;
@@ -56,15 +57,26 @@ public class TestSetting : ISetting
         }
     }
 
+    public bool IsPlayer { get { return isPlayer; } }
     public float ScalePerBlock { get { return scalePerBlock; } }
     public int GridWidth { get { return gridWidth; } }
     public int GridHeight { get { return gridHeight; } }
-    public Vector3 PlayerGridPosition { get { return playerGridPosition; } }
+    public Vector3 GridPosition { get { return playerGridPosition; } }
     public Coord BlockSpawnPoint { get { return blockPopPoint; } }
     public float BlockFallSpeed { get { return blockFallSpeed; } }
     public float BlockDeleteSpeed { get { return blockDeleteSpeed; } }
     public float WaitAfterDelete { get { return waitAfterDelete; } }
     public Vector3[] StockPositions { get { return stockPositions; } }
+
+    public Vector3 GetGridCenterPosition()
+    {
+        return Vector3.zero;
+    }
+
+    public Vector3 GetGridScale()
+    {
+        return Vector3.zero;
+    }
 
     private static ISetting instance;
 

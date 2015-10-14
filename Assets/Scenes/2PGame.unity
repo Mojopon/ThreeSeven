@@ -215,7 +215,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 726a6c9b3f49f8a49be1fcf3791702bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameName: 2PGame
+  gameName: CPUGame
   cameraManager: {fileID: 381552894}
   gameSetting: {fileID: 882195705}
   backgroundFactory: {fileID: 81058399}
@@ -238,7 +238,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 1
 --- !u!1001 &96183142
 Prefab:
   m_ObjectHideFlags: 0
@@ -276,7 +276,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 493730, guid: 96c11b04b4be46f40a85b238cd0f67a7, type: 2}
       propertyPath: m_RootOrder
-      value: 8
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 11445670, guid: 96c11b04b4be46f40a85b238cd0f67a7, type: 2}
       propertyPath: control
@@ -322,7 +322,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 496542, guid: c1d528fdbcd827342bd6c664c4600a7a, type: 2}
       propertyPath: m_RootOrder
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c1d528fdbcd827342bd6c664c4600a7a, type: 2}
@@ -383,7 +383,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 17
+  m_RootOrder: 2
 --- !u!114 &381552894 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 11465516, guid: a03253c0bfcba4546b23b23a5f08b88e,
@@ -512,7 +512,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 469786, guid: 68947892b420a77478652d1789dbe225, type: 2}
       propertyPath: m_RootOrder
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 11455824, guid: 68947892b420a77478652d1789dbe225, type: 2}
       propertyPath: cameraManager
@@ -691,7 +691,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 450706, guid: 8b38852a14c1bd84899db7c600ddc4eb, type: 2}
       propertyPath: m_RootOrder
-      value: 10
+      value: 12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8b38852a14c1bd84899db7c600ddc4eb, type: 2}
@@ -745,7 +745,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22486902, guid: f8b9af1acbed7394e8946929db12f77e, type: 2}
       propertyPath: m_RootOrder
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 22486902, guid: f8b9af1acbed7394e8946929db12f77e, type: 2}
       propertyPath: m_AnchoredPosition.x
@@ -833,7 +833,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 418190, guid: a03253c0bfcba4546b23b23a5f08b88e, type: 2}
       propertyPath: m_RootOrder
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 476306, guid: a03253c0bfcba4546b23b23a5f08b88e, type: 2}
       propertyPath: m_LocalPosition.x
@@ -1117,7 +1117,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 471918, guid: 97093e884aac8e84ba96e91733678125, type: 2}
       propertyPath: m_RootOrder
-      value: 12
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 11400782, guid: 97093e884aac8e84ba96e91733678125, type: 2}
       propertyPath: sounds.Array.data[0]
@@ -1326,7 +1326,7 @@ GameObject:
   - 222: {fileID: 1415549698}
   - 114: {fileID: 1415549697}
   m_Layer: 5
-  m_Name: GridFrame (1)
+  m_Name: 2PGridFrame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1346,7 +1346,7 @@ RectTransform:
   m_RootOrder: 5
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: 8.19999981, y: 0}
+  m_AnchoredPosition: {x: 8.05000019, y: 0}
   m_SizeDelta: {x: 300, y: 615}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &1415549697
@@ -1435,7 +1435,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 11
 --- !u!1001 &1500420038
 Prefab:
   m_ObjectHideFlags: 0
@@ -1473,7 +1473,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 480338, guid: c80102ad9f946bb4aa28c46e5e77582d, type: 2}
       propertyPath: m_RootOrder
-      value: 11
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 11469134, guid: c80102ad9f946bb4aa28c46e5e77582d, type: 2}
       propertyPath: colorsForBlocks.Array.data[4].r
@@ -1559,38 +1559,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 478168, guid: 61469cf652d2b874d9220ce377a03ff1, type: 2}
       propertyPath: m_RootOrder
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 61469cf652d2b874d9220ce377a03ff1, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &1789498796
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 1789498797}
-  m_Layer: 0
-  m_Name: _2PGame
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1789498797
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1789498796}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.34845448, y: 10.7632532, z: -4}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 2
 --- !u!114 &1816314459 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 11469134, guid: c80102ad9f946bb4aa28c46e5e77582d,
@@ -1650,7 +1623,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11452878, guid: 098c74c12d0e7b944ab6df9a5c91b213, type: 2}
       propertyPath: playerGridPosition.x
-      value: 12
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 11452878, guid: 098c74c12d0e7b944ab6df9a5c91b213, type: 2}
       propertyPath: playerGridPosition.y
@@ -1711,6 +1684,10 @@ Prefab:
     - target: {fileID: 131786, guid: 098c74c12d0e7b944ab6df9a5c91b213, type: 2}
       propertyPath: m_Name
       value: _2PGameSetting
+      objectReference: {fileID: 0}
+    - target: {fileID: 11452878, guid: 098c74c12d0e7b944ab6df9a5c91b213, type: 2}
+      propertyPath: isPlayer
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 098c74c12d0e7b944ab6df9a5c91b213, type: 2}
@@ -1813,7 +1790,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 489176, guid: e3dd57859fd361b45a5afb775e7a7c65, type: 2}
       propertyPath: m_RootOrder
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 11408866, guid: e3dd57859fd361b45a5afb775e7a7c65, type: 2}
       propertyPath: setting

@@ -4,6 +4,8 @@ using System.Collections;
 public class GameSetting : MonoBehaviour, ISetting {
 
     [SerializeField]
+    private bool isPlayer = true;
+    [SerializeField]
     private float scalePerBlock = 1f;
     [SerializeField]
     private int gridWidth = 7;
@@ -64,15 +66,36 @@ public class GameSetting : MonoBehaviour, ISetting {
         }
     }
 
+    public bool IsPlayer { get { return isPlayer; } }
     public float ScalePerBlock { get { return scalePerBlock; } }
     public int GridWidth { get { return gridWidth; } }
     public int GridHeight { get { return gridHeight; } }
-    public Vector3 PlayerGridPosition { get { return playerGridPosition; } }
+    public Vector3 GridPosition { get { return playerGridPosition; } }
     public Coord BlockSpawnPoint { get { return blockPopPoint; } }
     public float BlockFallSpeed { get { return blockFallSpeed; } }
     public float BlockDeleteSpeed { get { return blockDeleteSpeed; } }
     public float WaitAfterDelete { get { return waitAfterDelete; } }
     public Vector3[] StockPositions { get { return stockPositions; } }
+
+    public Vector3 GetGridCenterPosition()
+    {
+        Vector3 gridPosition = new Vector3(0, 0, 1);
+        float adjustedX = (float)GridWidth / 2;
+        adjustedX -= 0.5f;
+
+        float adjustedY = (float)GridHeight / 2;
+        adjustedY -= 0.5f;
+
+        gridPosition = new Vector3(gridPosition.x + adjustedX, gridPosition.y + adjustedY, gridPosition.z);
+
+        return gridPosition;
+    }
+
+    public Vector3 GetGridScale()
+    {
+        Vector3 gridScale = new Vector3(GridWidth, GridHeight, 1f);
+        return gridScale;
+    }
 
     private IGameTextManager gameTextManager;
 
@@ -93,6 +116,9 @@ public class GameSetting : MonoBehaviour, ISetting {
             Gizmos.color = Color.yellow;
             Gizmos.DrawSphere(position + playerGridPosition, 0.5f);
         }
+
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawCube(GetGridCenterPosition() + GridPosition, GetGridScale() + new Vector3(0, 0, -1));
     }
 
     public IGameText GetGameText(GameTextType type)

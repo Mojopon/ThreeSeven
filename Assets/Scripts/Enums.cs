@@ -80,3 +80,9 @@ public enum GameTextType
     ScoreText,
     GameMessageCenter,
 }
+
+public enum GameMode
+{
+    SinglePlayerMode,
+    VersusCPUMode,
+}
