@@ -10,7 +10,7 @@ public class GameEntity : MonoBehaviour, IControllable {
     List<Game> games;
     IControllable currentControl;
 
-    GameObject playerGame;
+    List<GameObject> gameObjectHolders;
 
     List<IGroupPattern> groupPatterns;
 

@@ -60,6 +60,7 @@ public class Game : IGame
     {
         _setting = setting;
         currentControl = NullControl.Instance;
+        SubscribePauseKeyEvent();
         //InputManager.OnArrowKeyPressed += new InputManager.ArrowKeyEvent(OnArrowKeyInput);
 
     }
@@ -161,13 +162,23 @@ public class Game : IGame
 
     public void Pause()
     {
+        if (_grid.CurrenteStateName == GridStates.GameOver) return;
+
         if (!paused)
         {
             paused = true;
+            if (_setting.Parent != null)
+            {
+                _setting.Parent.gameObject.SetActive(false);
+            }
         }
         else
         {
             paused = false;
+            if (_setting.Parent != null)
+            {
+                _setting.Parent.gameObject.SetActive(true);
+            }
         }
 
         _grid.Pause();

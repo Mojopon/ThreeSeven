@@ -118,7 +118,6 @@ public class Grid : IGrid {
         _gameTextCenter = _setting.GetGameText(GameTextType.GameMessageCenter);
         _gameTextCenter.UpdateText("Press Space\nTo Start Game");
         _cpuManager = new CPUManager(this);
-        InputManager.OnPauseKeyPressed += new InputManager.PauseKeyEvent(Pause);
     }
 
     public void NewGame()

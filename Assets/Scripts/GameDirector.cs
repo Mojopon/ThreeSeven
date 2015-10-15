@@ -21,13 +21,13 @@ public class GameDirector : MonoBehaviour, IGameDirector
     {
         Initialize();
 
-        GameObject playerGame = new GameObject();
-        playerGame.name = gameName;
-        playerGame.transform.position = gameSetting.GridPosition;
+        GameObject gameHolder = new GameObject();
+        gameHolder.name = gameName;
+        gameHolder.transform.position = gameSetting.GridPosition;
 
         List<IGroupPattern> groupPatterns = groupPatternConverter.Convert();
 
-        GameBuilder gameBuilder = new GameBuilder(playerGame,
+        GameBuilder gameBuilder = new GameBuilder(gameHolder,
                                                   gameSetting,
                                                   particleSpawner,
                                                   blockColorRepository,
