@@ -367,4 +367,16 @@ public class GridTest : GridTestFixture
 
         floatingTextRenderer.Received().RenderText(Arg.Any<Vector2>(), Arg.Any<string>());
     }
+
+    [Test]
+    public void ShouldBePaused()
+    {
+        GridStates stateBeforePause = grid.CurrenteStateName;
+
+        grid.Pause();
+        Assert.AreEqual(GridStates.Paused, grid.CurrenteStateName);
+
+        grid.Pause();
+        Assert.AreEqual(stateBeforePause, grid.CurrenteStateName);
+    }
 }

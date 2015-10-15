@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public interface IGame : IControllable, ISetting, IUpdatable
+public interface IGame : IControllable, ISetting, IUpdatable, IPauseEvent
 {
     ICameraManager CameraManager { get; set; }
     IBackgroundFactory BackgroundFactory { get; set; }

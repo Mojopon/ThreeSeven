@@ -42,4 +42,20 @@ public class GameTest
         cameraManager.Received().SetCameraPosition(Arg.Any<Vector3>());
     }
 
+    [Test]
+    public void ShouldPauseGameAndGrid()
+    {
+        IGrid gridMock = Substitute.For<IGrid>();
+
+        Game game = new Game(gridMock, testSetting);
+
+        game.OnUpdate();
+        gridMock.Received().OnUpdate();
+        gridMock.ClearReceivedCalls();
+
+        game.Pause();
+        game.OnUpdate();
+        gridMock.DidNotReceive().OnUpdate();
+    }
+
 }

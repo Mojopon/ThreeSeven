@@ -11,6 +11,9 @@ public class InputManager : MonoBehaviour {
     public static event ArrowKeyEvent OnArrowKeyPressed;
     public delegate void ArrowKeyEvent(Direction direction);
 
+    public static event PauseKeyEvent OnPauseKeyPressed;
+    public delegate void PauseKeyEvent();
+
     void Update()
     {
         if (Input.GetButtonDown("Jump"))
@@ -49,27 +52,12 @@ public class InputManager : MonoBehaviour {
             }
         }
 
-        /*if (Input.GetButtonDown("Jump"))
+        if (Input.GetKeyDown(KeyCode.P))
         {
-            control.OnJumpKeyInput();
-            return;
-        }*/
-        /*
-        if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            control.OnArrowKeyInput(Direction.Up);
+            if (OnPauseKeyPressed != null)
+            {
+                OnPauseKeyPressed();
+            }
         }
-        else if (Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            control.OnArrowKeyInput(Direction.Down);
-        }
-        else if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            control.OnArrowKeyInput(Direction.Left);
-        }
-        else if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            control.OnArrowKeyInput(Direction.Right);
-        }*/
     }
 }

@@ -44,9 +44,17 @@ public class Game : IGame
 
     private IControllable currentControl;
     private ISetting _setting;
-    private bool isRunning = false;
+    private bool paused = false;
 
     private Game() { }
+
+    public Game(IGrid grid, ISetting setting)
+    {
+        _setting = setting;
+        _grid = grid;
+
+        currentControl = _grid;
+    }
 
     public Game(ISetting setting)
     {
@@ -105,6 +113,11 @@ public class Game : IGame
         jumpKeyEventSubscribed = false;
     }
 
+    void SubscribePauseKeyEvent()
+    {
+        InputManager.OnPauseKeyPressed += new InputManager.PauseKeyEvent(Pause);
+    }
+
     #region IControllable Method Group
 
     public void OnArrowKeyInput(Direction direction)
@@ -124,11 +137,12 @@ public class Game : IGame
 
     public void OnUpdate()
     {
+        if (paused) return;
+
         _grid.OnUpdate();
         if (_grid.CurrenteStateName == GridStates.GameOver)
         {
             SubscribeJumpKeyEvent();
-            isRunning = false;
         }
     }
 
@@ -139,6 +153,24 @@ public class Game : IGame
     public IGameText GetGameText(GameTextType type)
     {
         return _setting.GetGameText(type);
+    }
+
+    #endregion
+
+    #region IPauseEvent Method Group
+
+    public void Pause()
+    {
+        if (!paused)
+        {
+            paused = true;
+        }
+        else
+        {
+            paused = false;
+        }
+
+        _grid.Pause();
     }
 
     #endregion

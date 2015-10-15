@@ -118,7 +118,7 @@ public class Grid : IGrid {
         _gameTextCenter = _setting.GetGameText(GameTextType.GameMessageCenter);
         _gameTextCenter.UpdateText("Press Space\nTo Start Game");
         _cpuManager = new CPUManager(this);
-        
+        InputManager.OnPauseKeyPressed += new InputManager.PauseKeyEvent(Pause);
     }
 
     public void NewGame()
@@ -136,14 +136,13 @@ public class Grid : IGrid {
 
         _gameTextCenter.Disable();
 
-        if (_setting.IsPlayer)
-        {
-            SubscribeInputEvents();
-        }
-        else
+        SubscribeInputEvents();
+
+        if (!_setting.IsPlayer)
         {
             _cpuManager.ChangeCPUMode(CPUMode.Easy);
         }
+
 
         SetState(GridStates.ReadyForNextGroup);
     }
@@ -262,7 +261,7 @@ public class Grid : IGrid {
     private bool inputEventsSubscribed = false;
     private void SubscribeInputEvents()
     {
-        if (inputEventsSubscribed) return;
+        if (!_setting.IsPlayer || inputEventsSubscribed) return;
 
         InputManager.OnArrowKeyPressed += new InputManager.ArrowKeyEvent(OnArrowKeyInput);
         InputManager.OnJumpKeyPressed += new InputManager.JumpKeyEvent(OnJumpKeyInput);
@@ -272,6 +271,8 @@ public class Grid : IGrid {
 
     private void UnsubscribeInputEvents()
     {
+        if (!_setting.IsPlayer) return;
+
         InputManager.OnArrowKeyPressed -= new InputManager.ArrowKeyEvent(OnArrowKeyInput);
         InputManager.OnJumpKeyPressed -= new InputManager.JumpKeyEvent(OnJumpKeyInput);
 
@@ -349,6 +350,8 @@ public class Grid : IGrid {
 
     public void OnUpdate()
     {
+        if (CurrenteStateName == GridStates.Paused) return;
+
         State.OnUpdate();
 
         if (_gameLevelManager != null)
@@ -357,6 +360,34 @@ public class Grid : IGrid {
         }
 
         _cpuManager.OnUpdate();
+    }
+
+    #endregion
+
+    private bool paused = false;
+    private IGridState stateBeforePause;
+    #region IPauseEvent Method Group
+
+    public void Pause()
+    {
+        if (CurrenteStateName == GridStates.GameOver) return;
+
+        if (paused == false)
+        {
+            UnsubscribeInputEvents();
+            stateBeforePause = State;
+            SetState(GridStates.Paused);
+            _gameTextCenter.UpdateText("Paused");
+            paused = true;
+        }
+        else
+        {
+            SubscribeInputEvents();
+            _gameTextCenter.UpdateText("");
+            _gameTextCenter.Disable();
+            paused = false;
+            State = stateBeforePause;
+        }
     }
 
     #endregion
