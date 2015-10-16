@@ -3,7 +3,7 @@ using System.Collections;
 
 public class InputManager : MonoBehaviour {
 
-    public GameEntity control;
+    public GameManager control;
 
     public static event JumpKeyEvent OnJumpKeyPressed;
     public delegate void JumpKeyEvent();

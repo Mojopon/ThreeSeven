@@ -284,7 +284,7 @@ public class Grid : IGrid {
     public bool ControllingGroup { get; set; }
     public void OnArrowKeyInput(Direction direction)
     {
-        if (_currentGroup == null || ControllingGroup != true) return;
+        if (_currentGroup == null || ControllingGroup != true || direction == Direction.None) return;
 
         if (direction == Direction.Up)
         {

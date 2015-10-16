@@ -29,6 +29,10 @@ public class RandomMovementBehaviour : ICPUBehaviour
         {
             _grid.OnArrowKeyInput(Direction.Down);
         }
+        else
+        {
+            _grid.OnArrowKeyInput(Direction.None);
+        }
 
     }
 }

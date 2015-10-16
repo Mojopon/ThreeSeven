@@ -60,9 +60,6 @@ public class Game : IGame
     {
         _setting = setting;
         currentControl = NullControl.Instance;
-        SubscribePauseKeyEvent();
-        //InputManager.OnArrowKeyPressed += new InputManager.ArrowKeyEvent(OnArrowKeyInput);
-
     }
 
     public void InitializeGrid()
@@ -112,11 +109,6 @@ public class Game : IGame
     {
         InputManager.OnJumpKeyPressed -= new InputManager.JumpKeyEvent(OnJumpKeyInput);
         jumpKeyEventSubscribed = false;
-    }
-
-    void SubscribePauseKeyEvent()
-    {
-        InputManager.OnPauseKeyPressed += new InputManager.PauseKeyEvent(Pause);
     }
 
     #region IControllable Method Group
