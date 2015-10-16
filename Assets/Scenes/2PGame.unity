@@ -1689,7 +1689,7 @@ Prefab:
     - target: {fileID: 11452878, guid: 098c74c12d0e7b944ab6df9a5c91b213, type: 2}
       propertyPath: gameTextComponents.Array.data[2].gameText
       value: 
-      objectReference: {fileID: 1120134565}
+      objectReference: {fileID: 0}
     - target: {fileID: 131786, guid: 098c74c12d0e7b944ab6df9a5c91b213, type: 2}
       propertyPath: m_Name
       value: _2PGameSetting

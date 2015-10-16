@@ -8,4 +8,5 @@ public interface IScoreManager
 
     void AttachScoreText(IGameText scoreTextObject);
     void OnDeleteBlocks(List<IBlock> blocks, int chains);
+    int GetScore();
 }

@@ -12,6 +12,7 @@ public class GameManagerSystem : IGameManager, IUpdatable, IPauseEvent {
         InputManager.OnPauseKeyPressed += new InputManager.PauseKeyEvent(Pause);
     }
 
+
     public void AddGame(IGame game)
     {
         games.Add(game);

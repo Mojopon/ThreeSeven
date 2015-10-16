@@ -33,4 +33,10 @@ public class NullScoreManager : IScoreManager {
     {
         
     }
+
+
+    public int GetScore()
+    {
+        return -1;
+    }
 }

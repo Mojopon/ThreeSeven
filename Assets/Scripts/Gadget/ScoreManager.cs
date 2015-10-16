@@ -31,6 +31,11 @@ public class ScoreManager : IScoreManager
         UpdateScoreText();
     }
 
+    public int GetScore()
+    {
+        return Score;
+    }
+
     void AddScore(int score)
     {
         Score += score;

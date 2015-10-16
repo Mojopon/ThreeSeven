@@ -47,7 +47,6 @@ public class GameDirector : MonoBehaviour, IGameDirector
     void Initialize()
     {
         gameSetting.Initialize();
-        gameSetting.GetGameText(GameTextType.GameMessageCenter).UpdateText("");
 
         soundRepository.InitializeSingleton();
     }

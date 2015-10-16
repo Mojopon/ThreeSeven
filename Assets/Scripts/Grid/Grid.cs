@@ -109,15 +109,45 @@ public class Grid : IGrid {
     private IGroupFactory _groupFactory;
     private ISetting _setting;
     private ICPUManager _cpuManager;
+    private IHighScoreManager _highScoreManager;
 
     public void Initialize(ISetting setting, IGroupFactory groupFactory)
     {
         _setting = setting;
         _groupFactory = groupFactory;
         SetState(GridStates.GameOver);
-        _gameTextCenter = _setting.GetGameText(GameTextType.GameMessageCenter);
-        _gameTextCenter.UpdateText("Press Space\nTo Start Game");
+        if (_setting.GetGameText(GameTextType.GameMessageCenter) == null)
+        {
+            _gameTextCenter = NullGameText.Instance;
+        }
+        else
+        {
+            _gameTextCenter = _setting.GetGameText(GameTextType.GameMessageCenter);
+        }
+
         _cpuManager = new CPUManager(this);
+
+        // initialize highscore if it is a player game.
+        if (_setting.IsPlayer)
+        {
+            _highScoreManager = new HighScoreManager();
+        }
+
+        if(_highScoreManager != null)
+        {
+            DisplayStartMessageAndHighScore();
+        }
+    }
+
+    void DisplayStartMessageAndHighScore()
+    {
+        string centerMessage = "Press Space\nTo Start Game";
+        int highScore = _highScoreManager.GetHighScore();
+        if (highScore > 0)
+        {
+            centerMessage = "High Score\n" + highScore + "\n\n\n" + centerMessage;
+        }
+        _gameTextCenter.UpdateText(centerMessage);
     }
 
     public void NewGame()
@@ -252,9 +282,19 @@ public class Grid : IGrid {
 
     public void GameOver()
     {
-        _gameTextCenter.UpdateText("Game Over\n\nPress Space\nTo Play Again");
+        if (_highScoreManager != null)
+        {
+            _highScoreManager.SetHighScore(_scoreManager.GetScore());
+            DisplayGameOverMessage();
+        }
+
         SetState(GridStates.GameOver);
         UnsubscribeInputEvents();
+    }
+
+    void DisplayGameOverMessage()
+    {
+        _gameTextCenter.UpdateText("Game Over\n\n\nHighScore\n" + _highScoreManager.GetHighScore() + "\n\n\nPress Space\nTo Play Again");
     }
 
     private bool inputEventsSubscribed = false;
