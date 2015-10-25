@@ -21,9 +21,13 @@ public class GameServerTest : GridTestFixture
     }
 
     [Test]
-    public void ShouldEndGameWhenOnlyOnePlayerAlive()
+    public void ShouldAddOnGameOverEvent()
     {
+        gameServer.Register(gridOne);
+        gameServer.Register(gridTwo);
 
+        gridOne.Received().OnGameOverEvent += Arg.Any<OnGameOver>();
+        gridTwo.Received().OnGameOverEvent += Arg.Any<OnGameOver>();
     }
 
     [Test]

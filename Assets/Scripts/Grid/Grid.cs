@@ -4,9 +4,23 @@ using System.Collections.Generic;
 
 public class Grid : IGrid {
 
-    IBlock[,] _grid;
+    public event OnGameOver OnGameOverEvent;
 
-    List<IBlock> _allBlocks;
+    public int Width { get { return _grid.GetLength(0); } }
+    public int Height { get { return _grid.GetLength(1); } }
+
+    public IBlock[,] GridRaw { get { return _grid; } set { _grid = value; } }
+
+    public int Chains { get; private set; }
+    public void IncrementChains() { Chains++; }
+    public void ResetChains() { Chains = 0; }
+
+    public GridStates CurrenteStateName { get { return State.StateEnum; } }
+
+    private IGridState State;
+    private IBlock[,] _grid;
+
+    private List<IBlock> _allBlocks;
     private IGameText _gameTextCenter;
 
     public Grid() 
@@ -36,17 +50,6 @@ public class Grid : IGrid {
         }
     }
 
-    public int Width { get { return _grid.GetLength(0); } }
-    public int Height { get { return _grid.GetLength(1); } }
-
-    public IBlock[,] GridRaw { get { return _grid; } set { _grid = value; } }
-
-    public int Chains { get; private set; }
-    public void IncrementChains() { Chains++; }
-    public void ResetChains() { Chains = 0; }
-
-    private IGridState State;
-    public GridStates CurrenteStateName { get { return State.StateEnum; } }
 
     private IGroup _currentGroup;
     public void SetCurrentGroup(IGroup group)
@@ -290,6 +293,8 @@ public class Grid : IGrid {
 
         SetState(GridStates.GameOver);
         UnsubscribeInputEvents();
+
+        if (OnGameOverEvent != null) OnGameOverEvent(this);
     }
 
     void DisplayGameOverMessage()
@@ -405,6 +410,7 @@ public class Grid : IGrid {
 
     private bool paused = false;
     private IGridState stateBeforePause;
+
     #region IPauseEvent Method Group
 
     public void Pause()
