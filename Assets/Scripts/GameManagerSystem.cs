@@ -18,7 +18,7 @@ public class GameManagerSystem : IGameManager, IUpdatable, IPauseEvent {
     public void AddGame(IGame game)
     {
         _games.Add(game);
-        game.RegisterTheGridToTheGameServer(_gameServer);
+        game.RegisterGameToTheGameServer(_gameServer);
     }
 
     public void OnUpdate()

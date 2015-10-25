@@ -20,7 +20,7 @@ public class GameManagerSystemTest
         IGame game = Substitute.For<IGame>();
         gameManagerSystem.AddGame(game);
 
-        game.Received().RegisterTheGridToTheGameServer(Arg.Any<IGameServer>());
+        game.Received().RegisterGameToTheGameServer(Arg.Any<IGameServer>());
     }
 
     [Test]

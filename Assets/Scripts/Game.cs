@@ -70,7 +70,7 @@ public class Game : IGame
     }
 
     private IGameServer _gameServer;
-    public void RegisterTheGridToTheGameServer(IGameServer gameServer)
+    public void RegisterGameToTheGameServer(IGameServer gameServer)
     {
         _gameServer = gameServer;
         _gameServer.Register(_grid);
