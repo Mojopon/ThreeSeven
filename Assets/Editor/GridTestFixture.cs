@@ -7,6 +7,7 @@ using NSubstitute;
 public class GridTestFixture : ThreeSevenTestFixsture {
 
     protected IGrid grid;
+    protected IGridFactory gridFactory;
 
     protected IBlockPattern blockPattern;
     protected BlockType[] blockTypeMock;
@@ -16,7 +17,7 @@ public class GridTestFixture : ThreeSevenTestFixsture {
     protected IGroup group;
 
     [SetUp]
-    public void Init()
+    public void InitializeGrid()
     {
         groupPattern = Substitute.For<IGroupPattern>();
         locationMock = new List<Coord[]>() {
@@ -52,7 +53,9 @@ public class GridTestFixture : ThreeSevenTestFixsture {
 
         groupFactory = new GroupFactory(blockFactory, groupPatternList);
 
-        var gridFactory = new GridFactory(setting, groupFactory);
+        gridFactory = new GridFactory(setting, groupFactory);
+
+        // create grid
         grid = gridFactory.Create();
         grid.NewGame();
 

@@ -15,6 +15,15 @@ public class GameManagerSystemTest
     }
 
     [Test]
+    public void ShouldCallRegisterTheGridToTheGameServer()
+    {
+        IGame game = Substitute.For<IGame>();
+        gameManagerSystem.AddGame(game);
+
+        game.Received().RegisterTheGridToTheGameServer(Arg.Any<IGameServer>());
+    }
+
+    [Test]
     public void ShouldUpdateGame()
     {
         IGame game = Substitute.For<IGame>();

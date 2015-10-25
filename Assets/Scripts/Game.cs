@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UniRx;
+using System;
 
 public class Game : IGame
 {
@@ -66,6 +67,11 @@ public class Game : IGame
     {
         CreateBackGround();
         CreateGrid();
+    }
+
+    public void RegisterTheGridToTheGameServer(IGameServer gameServer)
+    {
+        throw new NotImplementedException();
     }
 
     void CreateBackGround()

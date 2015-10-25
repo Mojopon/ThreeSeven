@@ -9,4 +9,5 @@ public interface IGame : IControllable, ISetting, IUpdatable, IPauseEvent
     IGroupFactory GroupFactory { get; set; }
 
     void InitializeGrid();
+    void RegisterTheGridToTheGameServer(IGameServer gameServer);
 }
