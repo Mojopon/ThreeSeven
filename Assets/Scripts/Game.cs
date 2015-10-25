@@ -128,7 +128,7 @@ public class Game : IGame
 
     public void OnJumpKeyInput()
     {
-        _grid.NewGame();
+        _gameServer.StartNewGame();
         UnsubscribeJumpKeyEvent();
     }
 
@@ -141,7 +141,7 @@ public class Game : IGame
         if (paused) return;
 
         _grid.OnUpdate();
-        if (_grid.CurrenteStateName == GridStates.GameOver)
+        if (_grid.CurrenteStateName == GridStates.GameOver && _setting.IsPlayer)
         {
             SubscribeJumpKeyEvent();
         }
