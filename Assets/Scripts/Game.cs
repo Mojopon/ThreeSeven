@@ -69,9 +69,11 @@ public class Game : IGame
         CreateGrid();
     }
 
+    private IGameServer _gameServer;
     public void RegisterTheGridToTheGameServer(IGameServer gameServer)
     {
-        gameServer.Register(_grid);
+        _gameServer = gameServer;
+        _gameServer.Register(_grid);
     }
 
     void CreateBackGround()

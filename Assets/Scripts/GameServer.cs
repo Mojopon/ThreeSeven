@@ -24,6 +24,9 @@ public class GameServer : IGameServer {
 
     public void StartNewGame()
     {
-        throw new NotImplementedException();
+        foreach(IGrid grid in _grids)
+        {
+            grid.NewGame();
+        }
     }
 }
