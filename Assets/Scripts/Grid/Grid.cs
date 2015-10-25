@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class Grid : IGrid {
 
-    public event OnGameOver OnGameOverEvent;
+    public event OnGameOverEventHandler OnGameOverEvent;
 
     public int Width { get { return _grid.GetLength(0); } }
     public int Height { get { return _grid.GetLength(1); } }
@@ -285,6 +285,8 @@ public class Grid : IGrid {
 
     public void GameOver()
     {
+        if (CurrenteStateName == GridStates.GameOver) return;
+
         if (_highScoreManager != null)
         {
             _highScoreManager.SetHighScore(_scoreManager.GetScore());

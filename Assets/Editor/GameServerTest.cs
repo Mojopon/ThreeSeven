@@ -21,13 +21,43 @@ public class GameServerTest : GridTestFixture
     }
 
     [Test]
-    public void ShouldAddOnGameOverEvent()
+    public void ShouldAddOnGameOverEventWhenStartGames()
     {
         gameServer.Register(gridOne);
         gameServer.Register(gridTwo);
 
-        gridOne.Received().OnGameOverEvent += Arg.Any<OnGameOver>();
-        gridTwo.Received().OnGameOverEvent += Arg.Any<OnGameOver>();
+        gameServer.StartNewGame();
+
+        gridOne.Received().OnGameOverEvent += Arg.Any<OnGameOverEventHandler>();
+        gridTwo.Received().OnGameOverEvent += Arg.Any<OnGameOverEventHandler>();
+    }
+
+    [Test]
+    public void ShouldRemoveOnGameOverEventWhenFinish()
+    {
+        gameServer.Register(gridOne);
+        gameServer.Register(gridTwo);
+
+        gameServer.StartNewGame();
+
+        gameServer.FinishGame();
+
+        gridOne.Received().OnGameOverEvent -= Arg.Any<OnGameOverEventHandler>();
+        gridTwo.Received().OnGameOverEvent -= Arg.Any<OnGameOverEventHandler>();
+    }
+
+    [Test]
+    public void ShouldCallGameOverForPlayersInGame()
+    {
+        gameServer.Register(gridOne);
+        gameServer.Register(gridTwo);
+
+        gameServer.StartNewGame();
+
+        gameServer.FinishGame();
+
+        gridOne.Received().GameOver();
+        gridTwo.Received().GameOver();
     }
 
     [Test]
