@@ -71,7 +71,7 @@ public class Game : IGame
 
     public void RegisterTheGridToTheGameServer(IGameServer gameServer)
     {
-        throw new NotImplementedException();
+        gameServer.Register(_grid);
     }
 
     void CreateBackGround()

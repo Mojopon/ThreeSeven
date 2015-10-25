@@ -12,8 +12,10 @@ public class GameServerTest : GridTestFixture
     IGrid gridTwo;
 
     [SetUp]
-    public void CreateGrids()
+    public void Initialize()
     {
+        gameServer = new GameServer();
+
         gridOne = Substitute.For<IGrid>();
         gridTwo = Substitute.For<IGrid>();
     }
