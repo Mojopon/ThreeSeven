@@ -160,6 +160,7 @@ public class Grid : IGrid {
         _grid = new IBlock[_setting.GridWidth, _setting.GridHeight];
         CreateScoreManager(_setting.GetGameText(GameTextType.ScoreText));
         CreateGameLevelManager(_setting);
+        CreateChainMessagePopup(_setting.FloatingTextRenderer);
 
         foreach (IBlock block in _allBlocks)
         {
@@ -208,6 +209,18 @@ public class Grid : IGrid {
 
         _gameLevelManager = new GameLevelManager(setting, this);
         AddOnDeleteEventListener(_gameLevelManager);
+    }
+
+    private IChainMessagePopup _chainMessagePopup;
+    void CreateChainMessagePopup(IFloatingTextRenderer floatingTextRenderer)
+    {
+        if(_chainMessagePopup != null)
+        {
+            RemoveOnDeleteEventListener(_chainMessagePopup);
+        }
+
+        _chainMessagePopup = new ChainMessagePopup(floatingTextRenderer);
+        AddOnDeleteEventListener(_chainMessagePopup);
     }
 
     public bool AddGroup(IGroup group)
@@ -282,7 +295,7 @@ public class Grid : IGrid {
 
     public bool StartDeleting()
     {
-        IGridCommand command = new StartDeletingCommand(this, _setting.FloatingTextRenderer, OnDeleteEvent);
+        IGridCommand command = new StartDeletingCommand(this, OnDeleteEvent);
         return command.Execute();
     }
 
