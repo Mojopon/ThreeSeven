@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class Grid : IGrid {
 
@@ -436,6 +437,20 @@ public class Grid : IGrid {
             paused = false;
             State = stateBeforePause;
         }
+    }
+
+    #endregion
+
+    #region IOnDeleteSubject method group
+
+    public void AddOnDeleteEventListener(IOnDeleteEventListener listener)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void RemoveOnDeleteEventListener(IOnDeleteEventListener listener)
+    {
+        throw new NotImplementedException();
     }
 
     #endregion
