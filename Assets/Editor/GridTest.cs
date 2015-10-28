@@ -379,4 +379,24 @@ public class GridTest : GridTestFixture
         grid.Pause();
         Assert.AreEqual(stateBeforePause, grid.CurrenteStateName);
     }
+
+    [Test]
+    public void CallDeleteEventBeforeDeletingPhase()
+    {
+        var wasCalled = false;
+
+        grid.OnDeleteEvent += (gridobj, blocks, chains) => wasCalled = true;
+
+        Assert.IsTrue(grid.AddGroup(group));
+        Assert.IsTrue(group.Location.Equals(setting.BlockSpawnPoint));
+        grid.FixGroup();
+        Assert.IsTrue(grid.DropBlocks());
+
+        grid.SetState(GridStates.Dropped);
+        Assert.IsNotNull(grid[3, 1]);
+        Assert.IsNotNull(grid[3, 0]);
+        grid.OnUpdate();
+        Assert.IsTrue(grid.CurrenteStateName == GridStates.Deleting);
+        Assert.IsTrue(wasCalled);
+    }
 }

@@ -269,7 +269,7 @@ public class Grid : IGrid {
 
     public bool StartDeleting()
     {
-        IGridCommand command = new StartDeletingCommand(this, _scoreManager, _gameLevelManager, _setting.FloatingTextRenderer);
+        IGridCommand command = new StartDeletingCommand(this, _scoreManager, _gameLevelManager, _setting.FloatingTextRenderer, OnDeleteEvent);
         return command.Execute();
     }
 

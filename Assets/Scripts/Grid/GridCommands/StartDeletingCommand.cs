@@ -7,13 +7,14 @@ public class StartDeletingCommand : GridCommand
     private IGameLevelManager _gameLevelManager;
     private IFloatingTextRenderer _floatingTextRenderer;
 
-    private OnDeleteEventHandler onDeleteEvent;
+    private OnDeleteEventHandler _onDeleteEvent;
 
-    public StartDeletingCommand(IGrid grid, IScoreManager scoreManager, IGameLevelManager gameLevelManager, IFloatingTextRenderer floatingTextRenderer) : base(grid)
+    public StartDeletingCommand(IGrid grid, IScoreManager scoreManager, IGameLevelManager gameLevelManager, IFloatingTextRenderer floatingTextRenderer, OnDeleteEventHandler onDeleteEvent) : base(grid)
     {
         _scoreManager = scoreManager;
         _gameLevelManager = gameLevelManager;
         _floatingTextRenderer = floatingTextRenderer;
+        _onDeleteEvent = onDeleteEvent;
     }
 
     public override bool Execute()
@@ -29,6 +30,11 @@ public class StartDeletingCommand : GridCommand
         DoScoreUpdate(_scoreManager, toDelete);
         DoLevelUpdate(_gameLevelManager, toDelete);
         PopupChainMessage(_floatingTextRenderer, toDelete);
+
+        if (_onDeleteEvent != null)
+        {
+            _onDeleteEvent(_grid, toDelete, _grid.Chains);
+        }
 
         foreach (IBlock block in toDelete)
         {
