@@ -3,9 +3,11 @@ using System.Collections.Generic;
 
 public class StartDeletingCommand : GridCommand 
 {
-    IScoreManager _scoreManager;
-    IGameLevelManager _gameLevelManager;
-    IFloatingTextRenderer _floatingTextRenderer;
+    private IScoreManager _scoreManager;
+    private IGameLevelManager _gameLevelManager;
+    private IFloatingTextRenderer _floatingTextRenderer;
+
+    private OnDeleteEventHandler onDeleteEvent;
 
     public StartDeletingCommand(IGrid grid, IScoreManager scoreManager, IGameLevelManager gameLevelManager, IFloatingTextRenderer floatingTextRenderer) : base(grid)
     {

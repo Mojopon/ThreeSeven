@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class Grid : IGrid {
 
     public event OnGameOverEventHandler OnGameOverEvent;
+    public event OnDeleteEventHandler OnDeleteEvent;
 
     public int Width { get { return _grid.GetLength(0); } }
     public int Height { get { return _grid.GetLength(1); } }
