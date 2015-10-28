@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class GameLevelManager : IGameLevelManager
 {
@@ -87,5 +88,10 @@ public class GameLevelManager : IGameLevelManager
         deleteCount += blocksToDelete.Count;
 
         LevelUp();
+    }
+
+    public void OnDeleteEvent(IGrid grid, List<IBlock> blocksToDelete, int chains)
+    {
+        OnBlockDelete(blocksToDelete);
     }
 }

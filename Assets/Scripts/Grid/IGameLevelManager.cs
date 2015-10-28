@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public interface IGameLevelManager : IUpdatable
+public interface IGameLevelManager : IUpdatable, IOnDeleteEventListener
 {
     void OnBlockDelete(List<IBlock> blocksToDelete);
 }

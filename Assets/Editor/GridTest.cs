@@ -399,4 +399,51 @@ public class GridTest : GridTestFixture
         Assert.IsTrue(grid.CurrenteStateName == GridStates.Deleting);
         Assert.IsTrue(wasCalled);
     }
+
+    [Test]
+    public void itWillAddOnDeleteEventListener()
+    {
+        var iOnDeleteEventListener = Substitute.For<IOnDeleteEventListener>();
+        grid.AddOnDeleteEventListener(iOnDeleteEventListener);
+
+        var blockOne = Substitute.For<IBlock>();
+        blockOne.Number.Returns(1);
+        var blockTwo = Substitute.For<IBlock>();
+        blockTwo.Number.Returns(6);
+
+        grid[3, 1] = blockOne;
+        grid[3, 0] = blockTwo;
+
+        grid.SetState(GridStates.Dropped);
+        Assert.IsNotNull(grid[3, 1]);
+        Assert.IsNotNull(grid[3, 0]);
+        grid.OnUpdate();
+        Assert.IsTrue(grid.CurrenteStateName == GridStates.Deleting);
+
+        iOnDeleteEventListener.Received().OnDeleteEvent(Arg.Any<IGrid>(), Arg.Any <List<IBlock>>(), Arg.Any<int>());
+    }
+
+    [Test]
+    public void itWillRemoveEventListener()
+    {
+        var iOnDeleteEventListener = Substitute.For<IOnDeleteEventListener>();
+        grid.AddOnDeleteEventListener(iOnDeleteEventListener);
+        grid.RemoveOnDeleteEventListener(iOnDeleteEventListener);
+
+        var blockOne = Substitute.For<IBlock>();
+        blockOne.Number.Returns(1);
+        var blockTwo = Substitute.For<IBlock>();
+        blockTwo.Number.Returns(6);
+
+        grid[3, 1] = blockOne;
+        grid[3, 0] = blockTwo;
+
+        grid.SetState(GridStates.Dropped);
+        Assert.IsNotNull(grid[3, 1]);
+        Assert.IsNotNull(grid[3, 0]);
+        grid.OnUpdate();
+        Assert.IsTrue(grid.CurrenteStateName == GridStates.Deleting);
+
+        iOnDeleteEventListener.DidNotReceive().OnDeleteEvent(Arg.Any<IGrid>(), Arg.Any<List<IBlock>>(), Arg.Any<int>());
+    }
 }

@@ -195,6 +195,7 @@ public class Grid : IGrid {
     void CreateGameLevelManager(ISetting setting)
     {
         _gameLevelManager = new GameLevelManager(setting, this);
+        AddOnDeleteEventListener(_gameLevelManager);
     }
 
     public bool AddGroup(IGroup group)
@@ -269,7 +270,7 @@ public class Grid : IGrid {
 
     public bool StartDeleting()
     {
-        IGridCommand command = new StartDeletingCommand(this, _scoreManager, _gameLevelManager, _setting.FloatingTextRenderer, OnDeleteEvent);
+        IGridCommand command = new StartDeletingCommand(this, _scoreManager, _setting.FloatingTextRenderer, OnDeleteEvent);
         return command.Execute();
     }
 
@@ -441,16 +442,21 @@ public class Grid : IGrid {
 
     #endregion
 
+    private List<IOnDeleteEventListener> onDeleteEventListeners;
     #region IOnDeleteSubject method group
 
     public void AddOnDeleteEventListener(IOnDeleteEventListener listener)
     {
-        throw new NotImplementedException();
+        if (onDeleteEventListeners == null) onDeleteEventListeners = new List<IOnDeleteEventListener>();
+
+        onDeleteEventListeners.Add(listener);
+        OnDeleteEvent += new OnDeleteEventHandler(listener.OnDeleteEvent);
     }
 
     public void RemoveOnDeleteEventListener(IOnDeleteEventListener listener)
     {
-        throw new NotImplementedException();
+        onDeleteEventListeners.Remove(listener);
+        OnDeleteEvent -= new OnDeleteEventHandler(listener.OnDeleteEvent);
     }
 
     #endregion

@@ -9,10 +9,9 @@ public class StartDeletingCommand : GridCommand
 
     private OnDeleteEventHandler _onDeleteEvent;
 
-    public StartDeletingCommand(IGrid grid, IScoreManager scoreManager, IGameLevelManager gameLevelManager, IFloatingTextRenderer floatingTextRenderer, OnDeleteEventHandler onDeleteEvent) : base(grid)
+    public StartDeletingCommand(IGrid grid, IScoreManager scoreManager, IFloatingTextRenderer floatingTextRenderer, OnDeleteEventHandler onDeleteEvent) : base(grid)
     {
         _scoreManager = scoreManager;
-        _gameLevelManager = gameLevelManager;
         _floatingTextRenderer = floatingTextRenderer;
         _onDeleteEvent = onDeleteEvent;
     }
@@ -28,7 +27,7 @@ public class StartDeletingCommand : GridCommand
 
         _grid.IncrementChains();
         DoScoreUpdate(_scoreManager, toDelete);
-        DoLevelUpdate(_gameLevelManager, toDelete);
+        //DoLevelUpdate(_gameLevelManager, toDelete);
         PopupChainMessage(_floatingTextRenderer, toDelete);
 
         if (_onDeleteEvent != null)
