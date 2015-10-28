@@ -3,15 +3,12 @@ using System.Collections.Generic;
 
 public class StartDeletingCommand : GridCommand 
 {
-    private IScoreManager _scoreManager;
-    private IGameLevelManager _gameLevelManager;
     private IFloatingTextRenderer _floatingTextRenderer;
 
     private OnDeleteEventHandler _onDeleteEvent;
 
-    public StartDeletingCommand(IGrid grid, IScoreManager scoreManager, IFloatingTextRenderer floatingTextRenderer, OnDeleteEventHandler onDeleteEvent) : base(grid)
+    public StartDeletingCommand(IGrid grid, IFloatingTextRenderer floatingTextRenderer, OnDeleteEventHandler onDeleteEvent) : base(grid)
     {
-        _scoreManager = scoreManager;
         _floatingTextRenderer = floatingTextRenderer;
         _onDeleteEvent = onDeleteEvent;
     }
@@ -26,8 +23,6 @@ public class StartDeletingCommand : GridCommand
         }
 
         _grid.IncrementChains();
-        DoScoreUpdate(_scoreManager, toDelete);
-        //DoLevelUpdate(_gameLevelManager, toDelete);
         PopupChainMessage(_floatingTextRenderer, toDelete);
 
         if (_onDeleteEvent != null)

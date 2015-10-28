@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System;
 
 public class NullScoreManager : IScoreManager {
 
@@ -38,5 +39,10 @@ public class NullScoreManager : IScoreManager {
     public int GetScore()
     {
         return -1;
+    }
+
+    public void OnDeleteEvent(IGrid grid, List<IBlock> blocksToDelete, int chains)
+    {
+
     }
 }

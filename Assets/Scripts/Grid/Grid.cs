@@ -184,16 +184,28 @@ public class Grid : IGrid {
     private IScoreManager _scoreManager = NullScoreManager.Instance;
     void CreateScoreManager(IGameText scoreText)
     {
+        if(_scoreManager != null)
+        {
+            RemoveOnDeleteEventListener(_scoreManager);
+        }
+
         _scoreManager = new ScoreManager();
         if (scoreText != null)
         {
             _scoreManager.AttachScoreText(scoreText);
         }
+
+        AddOnDeleteEventListener(_scoreManager);
     }
 
     private IGameLevelManager _gameLevelManager;
     void CreateGameLevelManager(ISetting setting)
     {
+        if(_gameLevelManager != null)
+        {
+            RemoveOnDeleteEventListener(_gameLevelManager);
+        }
+
         _gameLevelManager = new GameLevelManager(setting, this);
         AddOnDeleteEventListener(_gameLevelManager);
     }
@@ -270,7 +282,7 @@ public class Grid : IGrid {
 
     public bool StartDeleting()
     {
-        IGridCommand command = new StartDeletingCommand(this, _scoreManager, _setting.FloatingTextRenderer, OnDeleteEvent);
+        IGridCommand command = new StartDeletingCommand(this, _setting.FloatingTextRenderer, OnDeleteEvent);
         return command.Execute();
     }
 
@@ -455,6 +467,8 @@ public class Grid : IGrid {
 
     public void RemoveOnDeleteEventListener(IOnDeleteEventListener listener)
     {
+        if (onDeleteEventListeners == null) return;
+
         onDeleteEventListeners.Remove(listener);
         OnDeleteEvent -= new OnDeleteEventHandler(listener.OnDeleteEvent);
     }
