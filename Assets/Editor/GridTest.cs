@@ -448,16 +448,6 @@ public class GridTest : GridTestFixture
     }
 
     [Test]
-    public void CantAddGroupWhenItsGameOver()
-    {
-        grid.GameOver();
-        Assert.AreEqual(GridStates.GameOver, grid.CurrenteStateName);
-
-        Assert.IsFalse(grid.AddGroup(group));
-        Assert.AreEqual(GridStates.GameOver, grid.CurrenteStateName);
-    }
-
-    [Test]
     public void CantChangeStateWhenItsGameOver()
     {
         grid.GameOver();

@@ -5,17 +5,22 @@ using System.Collections.Generic;
 
 public class VersusScoreAttackModeGameServer : GameServer
 {
-    private int goalScore;
+    private int _goalScore;
     public VersusScoreAttackModeGameServer()
     {
-        goalScore = 500;
+        _goalScore = 10000;
+    }
+
+    public VersusScoreAttackModeGameServer(int goalScore)
+    {
+        _goalScore = goalScore;
     }
 
     public void OnDeleteEvent(IGrid grid, List<IBlock> blocksToDelete, int chains)
     {
         if (grid.CurrenteStateName == GridStates.GameOver) return;
 
-        if(grid.CurrentScore >= goalScore)
+        if(grid.CurrentScore >= _goalScore)
         {
             FinishGame();
         }
@@ -43,7 +48,7 @@ public class VersusScoreAttackModeGameServer : GameServer
 
     void OnDeleteEndEvent(IGrid grid)
     {
-        if (grid.CurrentScore >= goalScore)
+        if (grid.CurrentScore >= _goalScore)
         {
             FinishGame();
         }
