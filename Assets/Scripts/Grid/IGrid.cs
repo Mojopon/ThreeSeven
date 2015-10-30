@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public interface IGrid : IControllable, IUpdatable, IPauseEvent, IOnGameOver, IOnDeleteSubject
+public interface IGrid : IControllable, IUpdatable, IPauseEvent, IOnGameOver, IOnDeleteSubject, IOnDeleteEnd
 {
     IBlock this[int x, int y] { get; set; }
     int Width { get; }

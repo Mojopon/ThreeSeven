@@ -7,6 +7,7 @@ public class Grid : IGrid {
 
     public event OnGameOverEventHandler OnGameOverEvent;
     public event OnDeleteEventHandler OnDeleteEvent;
+    public event OnDeleteEndEventHandler OnDeleteEndEvent;
 
     public int Width { get { return _grid.GetLength(0); } }
     public int Height { get { return _grid.GetLength(1); } }
@@ -86,7 +87,7 @@ public class Grid : IGrid {
         {
             case GridStates.ReadyForNextGroup:
                 {
-                    State = new ReadyForNextGroupState(_setting, this, _groupFactory);
+                    State = new ReadyForNextGroupState(_setting, this, _groupFactory, OnDeleteEndEvent);
                 }
                 break;
             case GridStates.Deleted:

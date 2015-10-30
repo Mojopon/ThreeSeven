@@ -21,14 +21,14 @@ public class StartDeletingCommand : GridCommand
 
         _grid.IncrementChains();
 
-        if (_onDeleteEvent != null)
-        {
-            _onDeleteEvent(_grid, toDelete, _grid.Chains);
-        }
-
         foreach (IBlock block in toDelete)
         {
             block.StartDeleting();
+        }
+
+        if (_onDeleteEvent != null)
+        {
+            _onDeleteEvent(_grid, toDelete, _grid.Chains);
         }
 
         return true;

@@ -7,17 +7,24 @@ public class ReadyForNextGroupState : IGridState {
     ISetting _setting;
     IGrid _grid;
     IGroupFactory _groupFactory;
+    OnDeleteEndEventHandler _onDeleteEndEvent;
 
-    public ReadyForNextGroupState(ISetting setting, IGrid grid, IGroupFactory groupFactory)
+    public ReadyForNextGroupState(ISetting setting, IGrid grid, IGroupFactory groupFactory, OnDeleteEndEventHandler onDeleteEndEvent)
     {
         _setting = setting;
         _grid = grid;
         _groupFactory = groupFactory;
+        _onDeleteEndEvent = onDeleteEndEvent;
     }
 
     public void OnUpdate()
     {
-        if (_grid.CurrenteStateName == GridStates.GameOver) return;
+        if(_onDeleteEndEvent != null) _onDeleteEndEvent(_grid);
+
+        if(_grid.CurrenteStateName == GridStates.GameOver)
+        {
+            return;
+        }
 
         IGroup group = _groupFactory.Create(_setting);
         _grid.ResetChains();

@@ -3,7 +3,7 @@ using System.Collections;
 using System;
 using System.Collections.Generic;
 
-public class VersusScoreAttackModeGameServer : GameServer, IOnDeleteEventListener
+public class VersusScoreAttackModeGameServer : GameServer
 {
     private int goalScore;
     public VersusScoreAttackModeGameServer()
@@ -13,6 +13,8 @@ public class VersusScoreAttackModeGameServer : GameServer, IOnDeleteEventListene
 
     public void OnDeleteEvent(IGrid grid, List<IBlock> blocksToDelete, int chains)
     {
+        if (grid.CurrenteStateName == GridStates.GameOver) return;
+
         if(grid.CurrentScore >= goalScore)
         {
             FinishGame();
@@ -25,7 +27,7 @@ public class VersusScoreAttackModeGameServer : GameServer, IOnDeleteEventListene
 
         foreach(IGrid grid in _grids)
         {
-            AddOnDeleteEventToTheGrid(grid);
+            grid.OnDeleteEndEvent += new OnDeleteEndEventHandler(OnDeleteEndEvent);    
         }
     }
 
@@ -35,17 +37,15 @@ public class VersusScoreAttackModeGameServer : GameServer, IOnDeleteEventListene
 
         foreach (IGrid grid in _grids)
         {
-            RemoveOnDeleteEventFromTheGrid(grid);
+            grid.OnDeleteEndEvent -= new OnDeleteEndEventHandler(OnDeleteEndEvent);
         }
     }
 
-    void AddOnDeleteEventToTheGrid(IGrid grid)
+    void OnDeleteEndEvent(IGrid grid)
     {
-        grid.AddOnDeleteEventListener(this);
-    }
-
-    void RemoveOnDeleteEventFromTheGrid(IGrid grid)
-    {
-        grid.RemoveOnDeleteEventListener(this);
+        if (grid.CurrentScore >= goalScore)
+        {
+            FinishGame();
+        }
     }
 }
