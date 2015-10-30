@@ -16,11 +16,12 @@ public class AddGroupCommand : GridCommand {
 
     public override bool Execute()
     {
-        _group.SetLocation(_setting.BlockSpawnPoint);
         foreach (IBlock block in _group.Children)
         {
             _allBlocks.Add(block);
         }
+
+        _group.SetLocation(_setting.BlockSpawnPoint);
 
         if (!_grid.CanAddGroup(_group)) return false;
 

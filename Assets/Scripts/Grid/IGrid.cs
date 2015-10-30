@@ -7,6 +7,7 @@ public interface IGrid : IControllable, IUpdatable, IPauseEvent, IOnGameOver, IO
     int Width { get; }
     int Height { get; }
     int Chains { get; }
+    int CurrentScore { get; }
     void IncrementChains();
     void ResetChains();
     IBlock[,] GridRaw { get; set; }

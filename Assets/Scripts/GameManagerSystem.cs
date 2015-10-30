@@ -9,7 +9,8 @@ public class GameManagerSystem : IGameManager, IUpdatable, IPauseEvent {
     public GameManagerSystem() 
     {
         _games = new List<IGame>();
-        _gameServer = new GameServer();
+        //_gameServer = new GameServer();
+        _gameServer = new VersusScoreAttackModeGameServer();
 
         InputManager.OnPauseKeyPressed += new InputManager.PauseKeyEvent(Pause);
     }

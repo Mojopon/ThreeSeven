@@ -17,6 +17,8 @@ public class ReadyForNextGroupState : IGridState {
 
     public void OnUpdate()
     {
+        if (_grid.CurrenteStateName == GridStates.GameOver) return;
+
         IGroup group = _groupFactory.Create(_setting);
         _grid.ResetChains();
         if (_grid.AddGroup(group))

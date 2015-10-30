@@ -14,6 +14,17 @@ public class Grid : IGrid {
     public IBlock[,] GridRaw { get { return _grid; } set { _grid = value; } }
 
     public int Chains { get; private set; }
+    public int CurrentScore { get
+        {
+            if(_scoreManager == null)
+            {
+                return -1;
+            }
+
+            return _scoreManager.Score;
+        }
+    }
+
     public void IncrementChains() { Chains++; }
     public void ResetChains() { Chains = 0; }
 
@@ -28,6 +39,7 @@ public class Grid : IGrid {
     public Grid() 
     {
         _allBlocks = new List<IBlock>();
+        State = new GameOverState();
     }
 
     public IBlock this[int x, int y]
@@ -61,6 +73,15 @@ public class Grid : IGrid {
 
     public void SetState(GridStates state)
     {
+        // can only set newgame when its gameover
+        if(state == GridStates.NewGame)
+        {
+            State = new NewGameState();
+            return;
+        }
+
+        if (CurrenteStateName == GridStates.GameOver) return;
+
         switch (state)
         {
             case GridStates.ReadyForNextGroup:
@@ -157,17 +178,14 @@ public class Grid : IGrid {
 
     public void NewGame()
     {
+        SetState(GridStates.NewGame);
+
         _grid = new IBlock[_setting.GridWidth, _setting.GridHeight];
         CreateScoreManager(_setting.GetGameText(GameTextType.ScoreText));
         CreateGameLevelManager(_setting);
         CreateChainMessagePopup(_setting.FloatingTextRenderer);
 
-        foreach (IBlock block in _allBlocks)
-        {
-            if (block.IsToDelete) continue;
-            block.DeleteImmediate();
-        }
-        _allBlocks.Clear();
+        ClearBlocks();
 
         _gameTextCenter.Disable();
 
@@ -178,8 +196,18 @@ public class Grid : IGrid {
             _cpuManager.ChangeCPUMode(CPUMode.Easy);
         }
 
-
         SetState(GridStates.ReadyForNextGroup);
+    }
+
+    void ClearBlocks()
+    {
+        foreach (IBlock block in _allBlocks)
+        {
+            if (block.IsToDelete) continue;
+            block.DeleteImmediate();
+        }
+        
+        _allBlocks.Clear();
     }
 
     private IScoreManager _scoreManager = NullScoreManager.Instance;

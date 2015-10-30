@@ -40,6 +40,9 @@ public class GameServerTest : GridTestFixture
 
         gameServer.StartNewGame();
 
+        gridOne.Received().OnGameOverEvent += Arg.Any<OnGameOverEventHandler>();
+        gridTwo.Received().OnGameOverEvent += Arg.Any<OnGameOverEventHandler>();
+
         gameServer.FinishGame();
 
         gridOne.Received().OnGameOverEvent -= Arg.Any<OnGameOverEventHandler>();

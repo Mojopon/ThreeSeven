@@ -446,4 +446,24 @@ public class GridTest : GridTestFixture
 
         iOnDeleteEventListener.DidNotReceive().OnDeleteEvent(Arg.Any<IGrid>(), Arg.Any<List<IBlock>>(), Arg.Any<int>());
     }
+
+    [Test]
+    public void CantAddGroupWhenItsGameOver()
+    {
+        grid.GameOver();
+        Assert.AreEqual(GridStates.GameOver, grid.CurrenteStateName);
+
+        Assert.IsFalse(grid.AddGroup(group));
+        Assert.AreEqual(GridStates.GameOver, grid.CurrenteStateName);
+    }
+
+    [Test]
+    public void CantChangeStateWhenItsGameOver()
+    {
+        grid.GameOver();
+        Assert.AreEqual(GridStates.GameOver, grid.CurrenteStateName);
+
+        grid.SetState(GridStates.ReadyForNextGroup);
+        Assert.AreEqual(GridStates.GameOver, grid.CurrenteStateName);
+    }
 }

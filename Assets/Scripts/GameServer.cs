@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class GameServer : IGameServer {
 
-    private List<IGrid> _grids;
+    protected List<IGrid> _grids;
 	public GameServer()
     {
         _grids = new List<IGrid>();
@@ -22,8 +22,9 @@ public class GameServer : IGameServer {
         _grids.Add(grid);
     }
 
-    private List<IGrid> _playersInGame;
-    public void StartNewGame()
+    protected List<IGrid> _playersInGame;
+    protected bool _gameIsRunning = false;
+    public virtual void StartNewGame()
     {
         _playersInGame = new List<IGrid>();
 
@@ -32,27 +33,33 @@ public class GameServer : IGameServer {
             grid.NewGame();
             AddPlayerToPlayersInGame(grid);
         }
+
+        _gameIsRunning = true;
     }
 
-    public void FinishGame()
+    public virtual void FinishGame()
     {
+        _gameIsRunning = false;
+
         foreach (IGrid grid in _grids)
         {
             grid.GameOver();
-            grid.OnGameOverEvent -= new OnGameOverEventHandler(RemoveGameOverPlayer);
+            RemoveGameOverPlayer(grid);
         }
     }
 
-    void AddPlayerToPlayersInGame(IGrid grid)
+    protected void AddPlayerToPlayersInGame(IGrid grid)
     {
         _playersInGame.Add(grid);
         grid.OnGameOverEvent += new OnGameOverEventHandler(RemoveGameOverPlayer);
     }
 
-    void RemoveGameOverPlayer(IGrid grid)
+    protected void RemoveGameOverPlayer(IGrid grid)
     {
         _playersInGame.Remove(grid);
-        if(_playersInGame.Count <= 1)
+        grid.OnGameOverEvent -= new OnGameOverEventHandler(RemoveGameOverPlayer);
+
+        if (_playersInGame.Count <= 1 && _gameIsRunning)
         {
             FinishGame();
         }
