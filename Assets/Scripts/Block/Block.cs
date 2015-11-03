@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class Block : IBlock
 {
     private IBlockView _view;
 
-    public BlockType BlockType { get; set; }
+    public BlockType BlockType { get; private set; }
     public Coord Location { get; private set; }
     public Coord OriginalLocation { get; set; }
     public int Number
@@ -107,6 +108,11 @@ public class Block : IBlock
     public void PlaySound(SoundName soundName)
     {
         _view.PlaySound(soundName);
+    }
+
+    public void SetBlockType(BlockType blockType)
+    {
+        BlockType = blockType;
     }
 
     #endregion

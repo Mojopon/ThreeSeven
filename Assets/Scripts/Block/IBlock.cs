@@ -1,12 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public interface IBlock : IMovableBlock, IDeletableBlock, ISoundPlayer
+public interface IBlock : IMovableBlock, IDeletableBlock, ISoundPlayer, IBlockModel
 {
     Coord Location { get; }
     Coord OriginalLocation { get; set; }
-    BlockType BlockType { get; set; }
-    int Number { get; }
     Vector2 WorldPosition { get; }
 
     void AttachView(IBlockView view);
@@ -15,4 +13,5 @@ public interface IBlock : IMovableBlock, IDeletableBlock, ISoundPlayer
     void OnFix();
     void StartDeleting();
     void DeleteImmediate();
+    void SetBlockType(BlockType blockType);
 }
