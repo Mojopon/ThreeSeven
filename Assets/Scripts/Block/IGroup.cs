@@ -8,6 +8,7 @@ public interface IGroup : ISoundPlayer
     void AddBlock(IBlock block);
     void SetLocation(Coord location);
     void SetPattern(List<Coord[]> patterns);
+    List<Coord[]> GetPattern();
     void Move(Direction direction);
     void Rotate(RotateDirection rotateDirection);
     void Fix();

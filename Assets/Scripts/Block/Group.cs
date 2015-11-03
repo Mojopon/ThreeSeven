@@ -49,6 +49,11 @@ public class Group : IGroup
         _patterns = patterns;
     }
 
+    public List<Coord[]> GetPattern()
+    {
+        return _patterns;
+    }
+
     public void AddBlock(IBlock block)
     {
         blocks.Add(block);
