@@ -7,5 +7,4 @@ public interface IControllableBlockModel
     Coord LocationInTheGroup { get; set; }
 
     void SetLocation(Coord location);
-    void Move(Coord velocity);
 }

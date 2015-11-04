@@ -10,4 +10,5 @@ public interface IBlock : IControllableBlockView, IDeletableBlock, ISoundPlayer,
     void StartDeleting();
     void DeleteImmediate();
     void SetBlockType(BlockType blockType);
+    void Move(Coord location);
 }

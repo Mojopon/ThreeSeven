@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 using System;
 
 public class GridSimulator : IGridSimulator
@@ -32,6 +32,17 @@ public class GridSimulator : IGridSimulator
     {
         bool dropped;
         _simulatedGrid = BlockDropper.GetGridAfterDrop(_simulatedGrid, out dropped);
+
+        for(int y = 0; y < _setting.GridHeight; y++)
+        {
+            for(int x = 0; x < _setting.GridWidth; x++)
+            {
+                if (_simulatedGrid[x, y] != null)
+                {
+                    _simulatedGrid[x, y].SetLocation(new Coord(x, y));
+                }
+            }
+        }
 
         return dropped;
     }

@@ -38,16 +38,18 @@ public class Block : IBlock
         _view = view;
     }
 
+    //move block to the destinated coord immediatly
     public void SetLocation(Coord location)
     {
         Location = location + LocationInTheGroup;
         UpdateBlockPosition();
     }
 
-    public void Move(Coord velocity)
+    // move block to the destinated coord with an animation
+    public void Move(Coord location)
     {
-        Location = velocity + LocationInTheGroup;
-        MoveTo(velocity.ToVector2());
+        Location = location + LocationInTheGroup;
+        MoveTo(location.ToVector2());
     }
 
     public void OnFix()
