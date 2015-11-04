@@ -8,7 +8,7 @@ public class Block : IBlock
 
     public BlockType BlockType { get; private set; }
     public Coord Location { get; private set; }
-    public Coord OriginalLocation { get; set; }
+    public Coord LocationInTheGroup { get; set; }
     public int Number
     {
         get
@@ -30,7 +30,7 @@ public class Block : IBlock
 
     public Block(Coord originalLocation) : this()
     {
-        OriginalLocation = originalLocation;
+        LocationInTheGroup = originalLocation;
     }
 
     public void AttachView(IBlockView view)
@@ -40,19 +40,19 @@ public class Block : IBlock
 
     public void SetLocation(Coord location)
     {
-        Location = location + OriginalLocation;
+        Location = location + LocationInTheGroup;
         UpdateBlockPosition();
     }
 
-    public void MoveToLocation(Coord location)
+    public void Move(Coord velocity)
     {
-        Location = location + OriginalLocation;
-        MoveTo(location.ToVector2());
+        Location = velocity + LocationInTheGroup;
+        MoveTo(velocity.ToVector2());
     }
 
     public void OnFix()
     {
-        OriginalLocation = new Coord(0, 0);
+        LocationInTheGroup = new Coord(0, 0);
     }
 
     public void StartDeleting()

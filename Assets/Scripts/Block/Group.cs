@@ -73,7 +73,7 @@ public class Group : IGroup
 
         for (int i = 0; i < blocks.Count; i++)
         {
-            blocks[i].OriginalLocation = currentPattern[i];
+            blocks[i].LocationInTheGroup = currentPattern[i];
         }
 
         SetLocation(Location);
