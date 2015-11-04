@@ -27,6 +27,15 @@ public class GridSimulator : IGridSimulator
             }
         }
     }
+
+    public bool DropBlocks()
+    {
+        bool dropped;
+        _simulatedGrid = BlockDropper.GetGridAfterDrop(_simulatedGrid, out dropped);
+
+        return dropped;
+    }
+
     private IBlockModel[,] _simulatedGrid;
     public IBlockModel[,] SimulatedGrid
     {

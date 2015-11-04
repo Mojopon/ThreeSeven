@@ -37,6 +37,22 @@ public class GridSimulatorTest : GridTestFixture
         }
     }
 
+    [Test]
+    public void ShouldDropSimulatedBlocksToBottom()
+    {
+        Assert.AreEqual(7, setting.GridWidth);
+        Assert.AreEqual(14, setting.GridHeight);
+
+        var blockMockOne = AddBlockMock(0, 12, 5);
+        var blockMockTwo = AddBlockMock(1, 12, 3);
+
+        gridSimulator.Simulate();
+        Assert.IsTrue(gridSimulator.DropBlocks());
+
+        Assert.AreEqual(blockMockOne.Number, gridSimulator.SimulatedGrid[0, 0].Number);
+        Assert.AreEqual(blockMockTwo.Number, gridSimulator.SimulatedGrid[1, 0].Number);
+    }
+
     IBlock AddBlockMock(int x, int y, int number)
     {
         IBlock blockMock = Substitute.For<IBlock>();
