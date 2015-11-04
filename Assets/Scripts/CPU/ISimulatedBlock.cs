@@ -3,5 +3,5 @@ using System.Collections;
 
 public interface ISimulatedBlock : IBlockModel
 {
-    void SimulateFrom(IBlock block);
+    void SimulateFromBlock(IBlockModel block);
 }
