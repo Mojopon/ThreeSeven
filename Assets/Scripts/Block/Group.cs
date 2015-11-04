@@ -28,6 +28,7 @@ public class Group : IGroup
     private List<Coord[]> _patterns;
 
     private ISetting _setting;
+    private IRotatePatternManager _rotatePatternManager;
 
     public Group(ISetting setting)
     {
@@ -47,6 +48,12 @@ public class Group : IGroup
     public void SetPattern(List<Coord[]> patterns)
     {
         _patterns = patterns;
+        _rotatePatternManager = new RotatePatternManager(_patterns);
+    }
+
+    public List<Coord[]> GetPattern()
+    {
+        return _patterns;
     }
 
     public void AddBlock(IBlock block)
@@ -62,25 +69,11 @@ public class Group : IGroup
 
     public void Rotate(RotateDirection rotateDirection)
     {
-        switch (rotateDirection)
-        {
-            case RotateDirection.Clockwise:
-                {
-                    currentPattern++;
-                    if (currentPattern >= _patterns.Count) currentPattern = 0;
-                }
-                break;
-            case RotateDirection.Counterclockwise:
-                {
-                    currentPattern--;
-                    if (currentPattern < 0) currentPattern = _patterns.Count-1;
-                }
-                break;
-        }
+        var currentPattern = _rotatePatternManager.GetRotatedPattern(rotateDirection);
 
         for (int i = 0; i < blocks.Count; i++)
         {
-            blocks[i].OriginalLocation = _patterns[currentPattern][i];
+            blocks[i].LocationInTheGroup = currentPattern[i];
         }
 
         SetLocation(Location);

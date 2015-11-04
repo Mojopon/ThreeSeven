@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public interface IBlockView : IMovableBlock, IDeletableBlock, ISoundPlayer
+public interface IBlockView : IControllableBlockView, IDeletableBlock, ISoundPlayer
 {
     Color Color { get; set; }
     Vector3 Position { get; set; }

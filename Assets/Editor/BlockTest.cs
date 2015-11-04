@@ -19,7 +19,7 @@ public class IBlockTest : ThreeSevenTestFixsture
     public void ShouldReturnBlockType()
     {
         Assert.AreEqual(BlockType.Three, block.BlockType);
-        Assert.AreEqual(new Coord(1, 0), block.OriginalLocation);
+        Assert.AreEqual(new Coord(1, 0), block.LocationInTheGroup);
     }
 
     [Test]
@@ -32,7 +32,7 @@ public class IBlockTest : ThreeSevenTestFixsture
     public void ShouldSetOriginalLocationToBeDefault()
     {
         block.OnFix();
-        Assert.AreEqual(new Coord(0, 0), block.OriginalLocation);
+        Assert.AreEqual(new Coord(0, 0), block.LocationInTheGroup);
     }
 
     [Test]
@@ -62,7 +62,7 @@ public class IBlockTest : ThreeSevenTestFixsture
         IBlockView blockView = Substitute.For<IBlockView>();
         block.AttachView(blockView);
         Coord coord = new Coord(2, 2);
-        block.MoveToLocation(coord);
+        block.Move(coord);
 
         blockView.Received().MoveTo(Arg.Any<Vector2>());
     }

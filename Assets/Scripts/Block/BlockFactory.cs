@@ -15,7 +15,7 @@ public class BlockFactory : IBlockFactory
         if ((int)blockType >= 0 && (int)blockType < 7)
         {
             IBlock block = new Block(location);
-            block.BlockType = blockType;
+            block.SetBlockType(blockType);
             DoAttachView(block, setting, blockType, location);
             return block;
         }

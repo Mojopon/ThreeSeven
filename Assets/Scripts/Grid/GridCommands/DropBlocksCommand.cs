@@ -15,7 +15,7 @@ public class DropBlocksCommand : GridCommand
             {
                 if (_grid[x, y] != null)
                 {
-                    _grid[x, y].MoveToLocation(new Coord(x, y));
+                    _grid[x, y].Move(new Coord(x, y));
                 }
             }
         }

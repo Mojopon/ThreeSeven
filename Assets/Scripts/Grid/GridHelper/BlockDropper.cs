@@ -3,12 +3,12 @@ using System.Collections;
 
 public static class BlockDropper  
 {
-    public static IBlock[,] GetGridAfterDrop(IBlock[,] grid, out bool dropped)
+    public static T[,] GetGridAfterDrop<T>(T[,] grid, out bool dropped) where T : IBlockModel
     {
         int h = grid.GetLength(1);
         int w = grid.GetLength(0);
 
-        IBlock[,] gridAfterDrop = new IBlock[w, h];
+        T[,] gridAfterDrop = new T[w, h];
         for (int y = 0; y < h; y++)
         {
             for (int x = 0; x < w; x++)
@@ -33,7 +33,7 @@ public static class BlockDropper
                         if (gridAfterDrop[x, y - 1] == null)
                         {
                             gridAfterDrop[x, y - 1] = gridAfterDrop[x, y];
-                            gridAfterDrop[x, y] = null;
+                            gridAfterDrop[x, y] = default(T);
                             dropping = true;
                             dropped = true;
                         }
