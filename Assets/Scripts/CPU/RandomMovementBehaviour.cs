@@ -9,30 +9,39 @@ public class RandomMovementBehaviour : ICPUBehaviour
         _grid = grid;
     }
 
+    private const float timeBetweenAction = 0.5f;
+    private float nextAction = timeBetweenAction;
+
     public void DoAction()
     {
-        int randomNum = Random.Range(0, 5);
+        nextAction += Time.deltaTime;
+        if (nextAction >= timeBetweenAction)
+        {
 
-        if (randomNum == 0)
-        {
-            _grid.OnArrowKeyInput(Direction.Right);
-        }
-        else if (randomNum == 1)
-        {
-            _grid.OnArrowKeyInput(Direction.Left);
-        }
-        else if (randomNum == 2)
-        {
-            _grid.OnArrowKeyInput(Direction.Up);
-        }
-        else if (randomNum == 3)
-        {
-            _grid.OnArrowKeyInput(Direction.Down);
-        }
-        else
-        {
-            _grid.OnArrowKeyInput(Direction.None);
-        }
+            int randomNum = Random.Range(0, 5);
 
+            if (randomNum == 0)
+            {
+                _grid.OnArrowKeyInput(Direction.Right);
+            }
+            else if (randomNum == 1)
+            {
+                _grid.OnArrowKeyInput(Direction.Left);
+            }
+            else if (randomNum == 2)
+            {
+                _grid.OnArrowKeyInput(Direction.Up);
+            }
+            else if (randomNum == 3)
+            {
+                _grid.OnArrowKeyInput(Direction.Down);
+            }
+            else
+            {
+                _grid.OnArrowKeyInput(Direction.None);
+            }
+
+            nextAction = 0;
+        }
     }
 }

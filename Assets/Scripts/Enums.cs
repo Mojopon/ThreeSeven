@@ -41,6 +41,7 @@ public enum GridStates
     Deleted,
     ReadyForNextGroup,
     GameOver,
+    NewGame,
 }
 
 public enum GridCommands
@@ -85,6 +86,12 @@ public enum GameMode
 {
     SinglePlayerMode,
     VersusCPUMode,
+}
+
+public enum GameServerState
+{
+    GameOver,
+    Running,
 }
 
 public enum CPUMode

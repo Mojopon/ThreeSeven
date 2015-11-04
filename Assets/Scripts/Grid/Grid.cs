@@ -1,17 +1,46 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class Grid : IGrid {
 
-    IBlock[,] _grid;
+    public event OnGameOverEventHandler OnGameOverEvent;
+    public event OnDeleteEventHandler OnDeleteEvent;
+    public event OnDeleteEndEventHandler OnDeleteEndEvent;
 
-    List<IBlock> _allBlocks;
+    public int Width { get { return _grid.GetLength(0); } }
+    public int Height { get { return _grid.GetLength(1); } }
+
+    public IBlock[,] GridRaw { get { return _grid; } set { _grid = value; } }
+
+    public int Chains { get; private set; }
+    public int CurrentScore { get
+        {
+            if(_scoreManager == null)
+            {
+                return -1;
+            }
+
+            return _scoreManager.Score;
+        }
+    }
+
+    public void IncrementChains() { Chains++; }
+    public void ResetChains() { Chains = 0; }
+
+    public GridStates CurrenteStateName { get { return State.StateEnum; } }
+
+    private IGridState State;
+    private IBlock[,] _grid;
+
+    private List<IBlock> _allBlocks;
     private IGameText _gameTextCenter;
 
     public Grid() 
     {
         _allBlocks = new List<IBlock>();
+        State = new GameOverState();
     }
 
     public IBlock this[int x, int y]
@@ -36,17 +65,6 @@ public class Grid : IGrid {
         }
     }
 
-    public int Width { get { return _grid.GetLength(0); } }
-    public int Height { get { return _grid.GetLength(1); } }
-
-    public IBlock[,] GridRaw { get { return _grid; } set { _grid = value; } }
-
-    public int Chains { get; private set; }
-    public void IncrementChains() { Chains++; }
-    public void ResetChains() { Chains = 0; }
-
-    private IGridState State;
-    public GridStates CurrenteStateName { get { return State.StateEnum; } }
 
     private IGroup _currentGroup;
     public void SetCurrentGroup(IGroup group)
@@ -56,11 +74,20 @@ public class Grid : IGrid {
 
     public void SetState(GridStates state)
     {
+        // can only set newgame when its gameover
+        if(state == GridStates.NewGame)
+        {
+            State = new NewGameState();
+            return;
+        }
+
+        if (CurrenteStateName == GridStates.GameOver) return;
+
         switch (state)
         {
             case GridStates.ReadyForNextGroup:
                 {
-                    State = new ReadyForNextGroupState(_setting, this, _groupFactory);
+                    State = new ReadyForNextGroupState(_setting, this, _groupFactory, OnDeleteEndEvent);
                 }
                 break;
             case GridStates.Deleted:
@@ -152,16 +179,14 @@ public class Grid : IGrid {
 
     public void NewGame()
     {
+        SetState(GridStates.NewGame);
+
         _grid = new IBlock[_setting.GridWidth, _setting.GridHeight];
         CreateScoreManager(_setting.GetGameText(GameTextType.ScoreText));
         CreateGameLevelManager(_setting);
+        CreateChainMessagePopup(_setting.FloatingTextRenderer);
 
-        foreach (IBlock block in _allBlocks)
-        {
-            if (block.IsToDelete) continue;
-            block.DeleteImmediate();
-        }
-        _allBlocks.Clear();
+        ClearBlocks();
 
         _gameTextCenter.Disable();
 
@@ -172,24 +197,59 @@ public class Grid : IGrid {
             _cpuManager.ChangeCPUMode(CPUMode.Easy);
         }
 
-
         SetState(GridStates.ReadyForNextGroup);
+    }
+
+    void ClearBlocks()
+    {
+        foreach (IBlock block in _allBlocks)
+        {
+            if (block.IsToDelete) continue;
+            block.DeleteImmediate();
+        }
+        
+        _allBlocks.Clear();
     }
 
     private IScoreManager _scoreManager = NullScoreManager.Instance;
     void CreateScoreManager(IGameText scoreText)
     {
+        if(_scoreManager != null)
+        {
+            RemoveOnDeleteEventListener(_scoreManager);
+        }
+
         _scoreManager = new ScoreManager();
         if (scoreText != null)
         {
             _scoreManager.AttachScoreText(scoreText);
         }
+
+        AddOnDeleteEventListener(_scoreManager);
     }
 
     private IGameLevelManager _gameLevelManager;
     void CreateGameLevelManager(ISetting setting)
     {
+        if(_gameLevelManager != null)
+        {
+            RemoveOnDeleteEventListener(_gameLevelManager);
+        }
+
         _gameLevelManager = new GameLevelManager(setting, this);
+        AddOnDeleteEventListener(_gameLevelManager);
+    }
+
+    private IChainMessagePopup _chainMessagePopup;
+    void CreateChainMessagePopup(IFloatingTextRenderer floatingTextRenderer)
+    {
+        if(_chainMessagePopup != null)
+        {
+            RemoveOnDeleteEventListener(_chainMessagePopup);
+        }
+
+        _chainMessagePopup = new ChainMessagePopup(floatingTextRenderer);
+        AddOnDeleteEventListener(_chainMessagePopup);
     }
 
     public bool AddGroup(IGroup group)
@@ -264,7 +324,7 @@ public class Grid : IGrid {
 
     public bool StartDeleting()
     {
-        IGridCommand command = new StartDeletingCommand(this, _scoreManager, _gameLevelManager, _setting.FloatingTextRenderer);
+        IGridCommand command = new StartDeletingCommand(this, OnDeleteEvent);
         return command.Execute();
     }
 
@@ -282,6 +342,8 @@ public class Grid : IGrid {
 
     public void GameOver()
     {
+        if (CurrenteStateName == GridStates.GameOver) return;
+
         if (_highScoreManager != null)
         {
             _highScoreManager.SetHighScore(_scoreManager.GetScore());
@@ -290,6 +352,8 @@ public class Grid : IGrid {
 
         SetState(GridStates.GameOver);
         UnsubscribeInputEvents();
+
+        if (OnGameOverEvent != null) OnGameOverEvent(this);
     }
 
     void DisplayGameOverMessage()
@@ -405,6 +469,7 @@ public class Grid : IGrid {
 
     private bool paused = false;
     private IGridState stateBeforePause;
+
     #region IPauseEvent Method Group
 
     public void Pause()
@@ -427,6 +492,27 @@ public class Grid : IGrid {
             paused = false;
             State = stateBeforePause;
         }
+    }
+
+    #endregion
+
+    private List<IOnDeleteEventListener> onDeleteEventListeners;
+    #region IOnDeleteSubject method group
+
+    public void AddOnDeleteEventListener(IOnDeleteEventListener listener)
+    {
+        if (onDeleteEventListeners == null) onDeleteEventListeners = new List<IOnDeleteEventListener>();
+
+        onDeleteEventListeners.Add(listener);
+        OnDeleteEvent += new OnDeleteEventHandler(listener.OnDeleteEvent);
+    }
+
+    public void RemoveOnDeleteEventListener(IOnDeleteEventListener listener)
+    {
+        if (onDeleteEventListeners == null) return;
+
+        onDeleteEventListeners.Remove(listener);
+        OnDeleteEvent -= new OnDeleteEventHandler(listener.OnDeleteEvent);
     }
 
     #endregion

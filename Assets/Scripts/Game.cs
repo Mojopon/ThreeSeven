@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UniRx;
+using System;
 
 public class Game : IGame
 {
@@ -68,6 +69,13 @@ public class Game : IGame
         CreateGrid();
     }
 
+    private IGameServer _gameServer;
+    public void RegisterGameToTheGameServer(IGameServer gameServer)
+    {
+        _gameServer = gameServer;
+        _gameServer.Register(_grid);
+    }
+
     void CreateBackGround()
     {
         if (BackgroundFactory != null)
@@ -120,7 +128,7 @@ public class Game : IGame
 
     public void OnJumpKeyInput()
     {
-        _grid.NewGame();
+        _gameServer.StartNewGame();
         UnsubscribeJumpKeyEvent();
     }
 
@@ -133,7 +141,8 @@ public class Game : IGame
         if (paused) return;
 
         _grid.OnUpdate();
-        if (_grid.CurrenteStateName == GridStates.GameOver)
+
+        if (_grid.CurrenteStateName == GridStates.GameOver && _setting.IsPlayer)
         {
             SubscribeJumpKeyEvent();
         }

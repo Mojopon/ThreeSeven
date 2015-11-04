@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public interface IScoreManager 
+public interface IScoreManager : IOnDeleteEventListener
 {
     int Score { get; }
 

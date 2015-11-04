@@ -1,12 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public interface IGrid : IControllable, IUpdatable, IPauseEvent
+public interface IGrid : IControllable, IUpdatable, IPauseEvent, IOnGameOver, IOnDeleteSubject, IOnDeleteEnd
 {
     IBlock this[int x, int y] { get; set; }
     int Width { get; }
     int Height { get; }
     int Chains { get; }
+    int CurrentScore { get; }
     void IncrementChains();
     void ResetChains();
     IBlock[,] GridRaw { get; set; }

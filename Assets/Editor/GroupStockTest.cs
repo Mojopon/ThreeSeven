@@ -7,7 +7,7 @@ using NSubstitute;
 [TestFixture]
 public class GroupStockTest : ThreeSevenTestFixsture
 {
-    IGroupFactory groupFactory;
+    new IGroupFactory groupFactory;
     IGroupStock groupStock;
     Vector3[] stockPositions = new Vector3[] 
     {

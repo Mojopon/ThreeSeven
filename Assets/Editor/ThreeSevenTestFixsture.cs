@@ -13,7 +13,7 @@ public class ThreeSevenTestFixsture  {
     protected ISetting setting;
 
     [SetUp]
-    public void Init()
+    public void InitializeFactoriesAndSetting()
     {
         //blockViewSpawner = Substitute.For<IBlockViewSpawner>();
         blockFactory = new BlockFactory(blockViewSpawner);

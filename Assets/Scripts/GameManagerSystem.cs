@@ -3,11 +3,14 @@ using System.Collections.Generic;
 
 public class GameManagerSystem : IGameManager, IUpdatable, IPauseEvent {
 
-    private List<IGame> games;
+    private List<IGame> _games;
+    private IGameServer _gameServer;
 
     public GameManagerSystem() 
     {
-        games = new List<IGame>();
+        _games = new List<IGame>();
+        //_gameServer = new GameServer();
+        _gameServer = new VersusScoreAttackModeGameServer();
 
         InputManager.OnPauseKeyPressed += new InputManager.PauseKeyEvent(Pause);
     }
@@ -15,12 +18,13 @@ public class GameManagerSystem : IGameManager, IUpdatable, IPauseEvent {
 
     public void AddGame(IGame game)
     {
-        games.Add(game);
+        _games.Add(game);
+        game.RegisterGameToTheGameServer(_gameServer);
     }
 
     public void OnUpdate()
     {
-        foreach (IGame game in games)
+        foreach (IGame game in _games)
         {
             game.OnUpdate();
         }
@@ -28,7 +32,7 @@ public class GameManagerSystem : IGameManager, IUpdatable, IPauseEvent {
 
     public void Pause()
     {
-        foreach (IGame game in games)
+        foreach (IGame game in _games)
         {
             game.Pause();
         }

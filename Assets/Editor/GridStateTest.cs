@@ -103,7 +103,7 @@ public class GridStateTest : ThreeSevenTestFixsture {
     [Test]
     public void ReadyForNextGroupShouldCreateGroupToAdd()
     {
-        IGridState readyFoNextGroupState = new ReadyForNextGroupState(setting, gridMock, groupFactoryMock);
+        IGridState readyFoNextGroupState = new ReadyForNextGroupState(setting, gridMock, groupFactoryMock, Substitute.For<OnDeleteEndEventHandler>());
         gridMock.AddGroup(Arg.Any<IGroup>()).Returns(true);
 
         readyFoNextGroupState.OnUpdate();
@@ -115,7 +115,7 @@ public class GridStateTest : ThreeSevenTestFixsture {
     [Test]
     public void ShouldBeGameOverWhenCantAddGroup()
     {
-        IGridState readyFoNextGroupState = new ReadyForNextGroupState(setting, gridMock, groupFactoryMock);
+        IGridState readyFoNextGroupState = new ReadyForNextGroupState(setting, gridMock, groupFactoryMock, Substitute.For<OnDeleteEndEventHandler>());
         gridMock.AddGroup(Arg.Any<IGroup>()).Returns(false);
 
         readyFoNextGroupState.OnUpdate();
