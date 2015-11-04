@@ -5,9 +5,10 @@ using System.Linq;
 
 public static class BlockComparer 
 {
-    public static List<T> Compare<T>(T[,] grid) where T : IBlockModel
+    public static List<IBlockModel> Compare(IBlockModel[,] grid)
     {
-        var blocksToDelete = new HashSet<T>();
+        var blocksToDelete = new HashSet<IBlockModel>();
+
         for (int y = 0; y < grid.GetLength(1); y++)
         {
             for (int x = 0; x < grid.GetLength(0); x++)
@@ -19,7 +20,7 @@ public static class BlockComparer
         return blocksToDelete.ToList();
     }
 
-    static bool StartComparing<T>(T[,] grid, HashSet<T> toDelete, int x, int y) where T : IBlockModel
+    static bool StartComparing(IBlockModel[,] grid, HashSet<IBlockModel> toDelete, int x, int y)
     {
         bool itsTrue = false;
 
@@ -43,7 +44,7 @@ public static class BlockComparer
         return itsTrue;
     }
 
-    static bool CompareNumbers<T>(T[,] grid, HashSet<T> toDelete, Coord location, Direction direction, int num) where T : IBlockModel
+    static bool CompareNumbers(IBlockModel[,] grid, HashSet<IBlockModel> toDelete, Coord location, Direction direction, int num)
     {
         Coord check = location + direction.ToCoord();
         int x = (int)check.X;
@@ -75,7 +76,7 @@ public static class BlockComparer
         return false;
     }
 
-    static bool CompareSevens<T>(T[,] grid, HashSet<T> toDelete, Coord location, Direction direction, int count) where T : IBlockModel
+    static bool CompareSevens(IBlockModel[,] grid, HashSet<IBlockModel> toDelete, Coord location, Direction direction, int count)
     {
         Coord check = location + direction.ToCoord();
         int x = (int)check.X;

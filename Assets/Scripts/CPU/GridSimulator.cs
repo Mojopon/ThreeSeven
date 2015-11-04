@@ -47,8 +47,17 @@ public class GridSimulator : IGridSimulator
         return dropped;
     }
 
-    private IBlockModel[,] _simulatedGrid;
-    public IBlockModel[,] SimulatedGrid
+    public List<ISimulatedBlock> DeleteBlocks()
+    {
+        BlockComparer.Compare(SimulatedGrid);
+
+
+
+        return null;
+    }
+
+    private ISimulatedBlock[,] _simulatedGrid;
+    public ISimulatedBlock[,] SimulatedGrid
     {
         get { return _simulatedGrid; }
     }

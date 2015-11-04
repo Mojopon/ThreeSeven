@@ -53,8 +53,25 @@ public class GridSimulatorTest : GridTestFixture
         Assert.AreEqual(blockMockTwo.Number, gridSimulator.SimulatedGrid[1, 0].Number);
         Assert.AreEqual(new Coord(0, 0), gridSimulator.SimulatedGrid[0, 0].Location);
         Assert.AreEqual(new Coord(1, 0), gridSimulator.SimulatedGrid[1, 0].Location);
+    }
 
+    [Test]
+    public void ShouldDeleteSimulatedBlocks()
+    {
+        Assert.AreEqual(7, setting.GridWidth);
+        Assert.AreEqual(14, setting.GridHeight);
 
+        var blockMockOne = AddBlockMock(0, 0, 1);
+        var blockMockTwo = AddBlockMock(1, 0, 2);
+        var blockMockThree = AddBlockMock(2, 0, 4);
+
+        gridSimulator.Simulate();
+
+        Assert.AreEqual(blockMockOne.Number, gridSimulator.SimulatedGrid[0, 0].Number);
+        Assert.AreEqual(blockMockTwo.Number, gridSimulator.SimulatedGrid[1, 0].Number);
+        Assert.AreEqual(blockMockThree.Number, gridSimulator.SimulatedGrid[2, 0].Number);
+
+        var deletedBlocks = gridSimulator.DeleteBlocks();
     }
 
     IBlock AddBlockMock(int x, int y, int number)
