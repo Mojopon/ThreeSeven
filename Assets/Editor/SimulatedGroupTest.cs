@@ -12,20 +12,15 @@ public class SimulatedGroupTest : GridTestFixture
     public void CreateSimulatedGroup()
     {
         simulatedGroup = new SimulatedGroup();
+        group.SetLocation(setting.BlockSpawnPoint);
     }
 
     [Test]
     public void ShouldSimulateFromTheGroup()
     {
-        Coord spawnPoint = setting.BlockSpawnPoint;
-        group.SetLocation(spawnPoint);
-        Assert.AreEqual(group.Location, spawnPoint);
+        Assert.AreEqual(group.Location, setting.BlockSpawnPoint);
 
         simulatedGroup.Simulate(group);
-        foreach(IBlock block in group.Children)
-        {
-            Debug.Log(block.Location);
-        }
 
         Assert.AreEqual(group.Location, simulatedGroup.Location);
         Assert.AreEqual(group.GetPattern(), simulatedGroup.GetPattern());
@@ -35,5 +30,12 @@ public class SimulatedGroupTest : GridTestFixture
         {
             Assert.AreEqual(group.ChildrenLocation[i], simulatedGroup.ChildrenLocation[i]);
         }
+    }
+
+    [Test]
+    public void ShouldMoveSimulatedGroup()
+    {
+        simulatedGroup.Move(Direction.Right);
+        Assert.AreEqual(group.Location + Direction.Right.ToCoord(), simulatedGroup.Location);
     }
 }
