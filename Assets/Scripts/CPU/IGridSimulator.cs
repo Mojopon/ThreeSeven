@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public interface IGridSimulator
 {
-    void Simulate();
+    void SimulateFromOriginalGrid();
     IGroup SimulatedGroup { get; }
     bool DropBlocks();
     List<ISimulatedBlock> DeleteBlocks();

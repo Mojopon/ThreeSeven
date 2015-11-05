@@ -12,7 +12,7 @@ public class GridSimulator : IGridSimulator
         _setting = setting;
     }
 
-    public void Simulate()
+    public void SimulateFromOriginalGrid()
     {
         _simulatedGrid = new SimulatedBlock[_setting.GridWidth, _setting.GridHeight];
 
@@ -49,11 +49,9 @@ public class GridSimulator : IGridSimulator
 
     public List<ISimulatedBlock> DeleteBlocks()
     {
-        BlockComparer.Compare(SimulatedGrid);
+        var blocksToDelete = BlockComparer.Compare(SimulatedGrid);
 
-
-
-        return null;
+        return blocksToDelete;
     }
 
     private ISimulatedBlock[,] _simulatedGrid;

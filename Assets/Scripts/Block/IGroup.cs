@@ -2,17 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public interface IGroup : ISoundPlayer
+public interface IGroup : ISoundPlayer, IGroupModel
 {
     Vector3 Offset { get; set; }
     void AddBlock(IBlock block);
-    void SetLocation(Coord location);
-    void SetPattern(List<Coord[]> patterns);
-    List<Coord[]> GetPattern();
-    void Move(Direction direction);
-    void Rotate(RotateDirection rotateDirection);
     void Fix();
-    Coord Location { get; }
-    Coord[] ChildrenLocation { get; }
     IBlock[] Children { get; }
+    void SetPattern(List<Coord[]> patterns);
 }

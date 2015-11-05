@@ -12,23 +12,23 @@ public class StartDeletingCommand : GridCommand
 
     public override bool Execute()
     {
-        var toDelete = BlockComparer.Compare(_grid.GridRaw);
+        var blocksToDelete = BlockComparer.Compare(_grid.GridRaw);
 
-        if (toDelete.Count == 0)
+        if (blocksToDelete.Count == 0)
         {
             return false;
         }
 
         _grid.IncrementChains();
 
-        foreach (IBlock block in toDelete)
+        foreach (IBlock block in blocksToDelete)
         {
             block.StartDeleting();
         }
 
         if (_onDeleteEvent != null)
         {
-            _onDeleteEvent(_grid, toDelete, _grid.Chains);
+            _onDeleteEvent(_grid, blocksToDelete, _grid.Chains);
         }
 
         return true;

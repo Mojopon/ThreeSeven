@@ -5,9 +5,9 @@ using System.Linq;
 
 public static class BlockComparer 
 {
-    public static List<IBlockModel> Compare(IBlockModel[,] grid)
+    public static List<T> Compare<T>(T[,] grid) where T : IBlockModel
     {
-        var blocksToDelete = new HashSet<IBlockModel>();
+        var blocksToDelete = new HashSet<T>();
 
         for (int y = 0; y < grid.GetLength(1); y++)
         {
@@ -20,20 +20,22 @@ public static class BlockComparer
         return blocksToDelete.ToList();
     }
 
-    static bool StartComparing(IBlockModel[,] grid, HashSet<IBlockModel> toDelete, int x, int y)
+    static bool StartComparing<T>(T[,] grid, HashSet<T> toDelete, int x, int y) where T : IBlockModel
     {
         bool itsTrue = false;
 
         if (grid[x, y] == null) return false;
 
-        if (grid[x, y].Number != 7 && grid[x, y].Number != -1)
+        var gridNumber = ((IBlockModel)grid[x, y]).Number;
+
+        if (gridNumber != 7 && gridNumber != -1)
         {
-            itsTrue = CompareNumbers(grid, toDelete, new Coord(x, y), Direction.Up, grid[x, y].Number) == true ? true : itsTrue;
-            itsTrue = CompareNumbers(grid, toDelete, new Coord(x, y), Direction.Down, grid[x, y].Number) == true ? true : itsTrue;
-            itsTrue = CompareNumbers(grid, toDelete, new Coord(x, y), Direction.Left, grid[x, y].Number) == true ? true : itsTrue;
-            itsTrue = CompareNumbers(grid, toDelete, new Coord(x, y), Direction.Right, grid[x, y].Number) == true ? true : itsTrue;
+            itsTrue = CompareNumbers(grid, toDelete, new Coord(x, y), Direction.Up, gridNumber) == true ? true : itsTrue;
+            itsTrue = CompareNumbers(grid, toDelete, new Coord(x, y), Direction.Down, gridNumber) == true ? true : itsTrue;
+            itsTrue = CompareNumbers(grid, toDelete, new Coord(x, y), Direction.Left, gridNumber) == true ? true : itsTrue;
+            itsTrue = CompareNumbers(grid, toDelete, new Coord(x, y), Direction.Right, gridNumber) == true ? true : itsTrue;
         }
-        else if (grid[x, y].Number == 7)
+        else if (gridNumber == 7)
         {
             itsTrue = CompareSevens(grid, toDelete, new Coord(x, y), Direction.Up, 1) == true ? true : itsTrue;
             itsTrue = CompareSevens(grid, toDelete, new Coord(x, y), Direction.Down, 1) == true ? true : itsTrue;
@@ -44,7 +46,7 @@ public static class BlockComparer
         return itsTrue;
     }
 
-    static bool CompareNumbers(IBlockModel[,] grid, HashSet<IBlockModel> toDelete, Coord location, Direction direction, int num)
+    static bool CompareNumbers<T>(T[,] grid, HashSet<T> toDelete, Coord location, Direction direction, int num) where T : IBlockModel
     {
         Coord check = location + direction.ToCoord();
         int x = (int)check.X;
@@ -52,14 +54,16 @@ public static class BlockComparer
         int Width = grid.GetLength(0);
         int Height = grid.GetLength(1);
 
-        if (x < 0 || y < 0 || x >= Width || y >= Height || grid[x, y] == null ||
-            grid[x, y].Number == 7 ||
-            grid[x, y].Number == -1)
+        if (x < 0 || y < 0 || x >= Width || y >= Height || grid[x, y] == null) return false;
+
+        var gridNumber = ((IBlockModel)grid[x, y]).Number;
+
+        if (gridNumber == 7 || gridNumber == -1)
         {
             return false;
         }
 
-        num += grid[x, y].Number;
+        num += gridNumber;
 
         if (num == 7)
         {
@@ -76,7 +80,7 @@ public static class BlockComparer
         return false;
     }
 
-    static bool CompareSevens(IBlockModel[,] grid, HashSet<IBlockModel> toDelete, Coord location, Direction direction, int count)
+    static bool CompareSevens<T>(T[,] grid, HashSet<T> toDelete, Coord location, Direction direction, int count) where T : IBlockModel
     {
         Coord check = location + direction.ToCoord();
         int x = (int)check.X;
@@ -84,8 +88,13 @@ public static class BlockComparer
         int Width = grid.GetLength(0);
         int Height = grid.GetLength(1);
 
-        if (x < 0 || y < 0 || x >= Width || y >= Height || grid[x, y] == null ||
-            grid[x, y].Number != 7)
+        if (x < 0 || y < 0 || x >= Width || y >= Height || grid[x, y] == null)
+        {
+            return false;
+        }
+
+        var gridNumber = ((IBlockModel)grid[x, y]).Number;
+        if(gridNumber != 7)
         {
             return false;
         }

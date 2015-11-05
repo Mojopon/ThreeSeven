@@ -23,7 +23,7 @@ public class GridSimulatorTest : GridTestFixture
         Assert.AreEqual(5, grid[0, 0].Number);
         Assert.AreEqual(3, grid[1, 0].Number);
 
-        gridSimulator.Simulate();
+        gridSimulator.SimulateFromOriginalGrid();
 
         for(int y = 0; y < grid.Height; y++)
         {
@@ -46,7 +46,7 @@ public class GridSimulatorTest : GridTestFixture
         var blockMockOne = AddBlockMock(0, 12, 5);
         var blockMockTwo = AddBlockMock(1, 12, 3);
 
-        gridSimulator.Simulate();
+        gridSimulator.SimulateFromOriginalGrid();
         Assert.IsTrue(gridSimulator.DropBlocks());
 
         Assert.AreEqual(blockMockOne.Number, gridSimulator.SimulatedGrid[0, 0].Number);
@@ -65,13 +65,43 @@ public class GridSimulatorTest : GridTestFixture
         var blockMockTwo = AddBlockMock(1, 0, 2);
         var blockMockThree = AddBlockMock(2, 0, 4);
 
-        gridSimulator.Simulate();
+        gridSimulator.SimulateFromOriginalGrid();
 
         Assert.AreEqual(blockMockOne.Number, gridSimulator.SimulatedGrid[0, 0].Number);
         Assert.AreEqual(blockMockTwo.Number, gridSimulator.SimulatedGrid[1, 0].Number);
         Assert.AreEqual(blockMockThree.Number, gridSimulator.SimulatedGrid[2, 0].Number);
 
-        var deletedBlocks = gridSimulator.DeleteBlocks();
+        var blocksToDelete = gridSimulator.DeleteBlocks();
+
+        Assert.IsTrue(blocksToDelete.Contains(gridSimulator.SimulatedGrid[0, 0]));
+        Assert.IsTrue(blocksToDelete.Contains(gridSimulator.SimulatedGrid[1, 0]));
+        Assert.IsTrue(blocksToDelete.Contains(gridSimulator.SimulatedGrid[2, 0]));
+    }
+
+    [Test]
+    public void ShouldDeleteSimulatedBlocksThreeSeven()
+    {
+        var blockMockOne = AddBlockMock(0, 0, 7);
+        var blockMockTwo = AddBlockMock(1, 0, 7);
+        var blockMockThree = AddBlockMock(2, 0, 7);
+
+        gridSimulator.SimulateFromOriginalGrid();
+
+        Assert.AreEqual(blockMockOne.Number, gridSimulator.SimulatedGrid[0, 0].Number);
+        Assert.AreEqual(blockMockTwo.Number, gridSimulator.SimulatedGrid[1, 0].Number);
+        Assert.AreEqual(blockMockThree.Number, gridSimulator.SimulatedGrid[2, 0].Number);
+
+        var blocksToDelete = gridSimulator.DeleteBlocks();
+
+        Assert.IsTrue(blocksToDelete.Contains(gridSimulator.SimulatedGrid[0, 0]));
+        Assert.IsTrue(blocksToDelete.Contains(gridSimulator.SimulatedGrid[1, 0]));
+        Assert.IsTrue(blocksToDelete.Contains(gridSimulator.SimulatedGrid[2, 0]));
+    }
+
+    [Test]
+    public void ShouldSimulateGroupInTheGrid()
+    {
+
     }
 
     IBlock AddBlockMock(int x, int y, int number)
