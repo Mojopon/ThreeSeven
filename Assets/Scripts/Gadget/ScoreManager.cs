@@ -15,14 +15,7 @@ public class ScoreManager : IScoreManager
 
     public void OnDeleteBlocks(List<IBlock> blocks, int chains)
     {
-        int scoreBase = 0;
-        foreach (IBlock block in blocks)
-        {
-            scoreBase += block.Number;
-        }
-
-        int score = (scoreBase * 10) * chains;
-
+        int score = ScoreCalculator.Calculate(blocks, chains);
         AddScore(score);
     }
 
