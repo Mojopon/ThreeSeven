@@ -82,4 +82,26 @@ public class SimulatedGroupTest : GridTestFixture
             Assert.AreEqual(group.ChildrenLocation[i], simulatedGroup.ChildrenLocation[i]);
         }
     }
+
+    [Test]
+    public void ShouldCopyCurrentRotatePattern()
+    {
+        group.Rotate(RotateDirection.Clockwise);
+        simulatedGroup.Simulate(group);
+        Assert.AreEqual(group.CurrentRotatePatternNumber, simulatedGroup.CurrentRotatePatternNumber);
+
+        Assert.AreEqual(group.Location, simulatedGroup.Location);
+
+        for (int i = 0; i < group.Children.Length; i++)
+        {
+            Assert.AreEqual(group.ChildrenLocation[i], simulatedGroup.ChildrenLocation[i]);
+        }
+
+        group.Rotate(RotateDirection.Clockwise);
+        simulatedGroup.Rotate(RotateDirection.Clockwise);
+        for (int i = 0; i < group.Children.Length; i++)
+        {
+            Assert.AreEqual(group.ChildrenLocation[i], simulatedGroup.ChildrenLocation[i]);
+        }
+    }
 }

@@ -47,7 +47,7 @@ public class SimulatedGroup : ISimulatedGroup
     {
         Location = target.Location;
         _patterns = target.GetPattern();
-        _rotatePatternManager = new RotatePatternManager(_patterns);
+        _rotatePatternManager = new RotatePatternManager(_patterns, target.CurrentRotatePatternNumber);
 
         foreach(IBlock block in target.Children)
         {

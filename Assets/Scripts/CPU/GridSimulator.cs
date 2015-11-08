@@ -26,6 +26,13 @@ public class GridSimulator : IGridSimulator
                 }
             }
         }
+
+        if(_grid.CurrentGroup == null)
+        {
+            return;
+        }
+        _simulatedGroup = new SimulatedGroup();
+        _simulatedGroup.Simulate(_grid.CurrentGroup);
     }
 
     public bool DropBlocks()
@@ -60,8 +67,8 @@ public class GridSimulator : IGridSimulator
         get { return _simulatedGrid; }
     }
 
-    private IGroup _simulatedGroup;
-    public IGroup SimulatedGroup
+    private ISimulatedGroup _simulatedGroup;
+    public ISimulatedGroup SimulatedGroup
     {
         get { return _simulatedGroup; }
     }

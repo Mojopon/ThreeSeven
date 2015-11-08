@@ -12,6 +12,8 @@ public class Grid : IGrid {
     public int Width { get { return _grid.GetLength(0); } }
     public int Height { get { return _grid.GetLength(1); } }
 
+    public IGroup CurrentGroup { get { return _currentGroup; } }
+
     public int CurrentRotatePatternNumber { get
         {
             if(_currentGroup == null)

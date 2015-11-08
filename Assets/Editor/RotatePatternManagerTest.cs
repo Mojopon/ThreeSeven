@@ -17,15 +17,33 @@ public class RotatePatternManagerTest : GridTestFixture
     [Test]
     public void ItCanSetInitialRotatePatternNumber()
     {
-        rotatePatternManager = new RotatePatternManager(groupPattern.Patterns, 3);
-        Assert.AreEqual(3, rotatePatternManager.CurrentRotatePatternNumber);
+        var patterns = groupPattern.Patterns;
+        int initialRotatePatternNumber = 3;
+
+        rotatePatternManager = new RotatePatternManager(groupPattern.Patterns, initialRotatePatternNumber);
+        Assert.AreEqual(initialRotatePatternNumber, rotatePatternManager.CurrentRotatePatternNumber);
+
+        var currentPattern = rotatePatternManager.GetCurrentPattern();
+        for (int i = 0; i < patterns[initialRotatePatternNumber].Length; i++)
+        {
+            Assert.AreEqual(currentPattern[i], patterns[initialRotatePatternNumber][i]);
+        }
     }
 
     [Test]
     public void NumberWillBeZeroWhenSetInvalidValue()
     {
-        rotatePatternManager = new RotatePatternManager(groupPattern.Patterns, 4);
+        var patterns = groupPattern.Patterns;
+        int initialRotatePatternNumber = 4;
+
+        rotatePatternManager = new RotatePatternManager(groupPattern.Patterns, initialRotatePatternNumber);
         Assert.AreEqual(0, rotatePatternManager.CurrentRotatePatternNumber);
+
+        var currentPattern = rotatePatternManager.GetCurrentPattern();
+        for (int i = 0; i < patterns[0].Length; i++)
+        {
+            Assert.AreEqual(currentPattern[i], patterns[0][i]);
+        }
     }
 
     [Test]

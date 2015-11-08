@@ -11,6 +11,18 @@ public class GridSimulatorTest : GridTestFixture
     [SetUp]
     public void InitializeGridSimulator()
     {
+        blockPattern = Substitute.For<IBlockPattern>();
+        blockTypeMock = new BlockType[]
+        {
+            BlockType.One,
+            BlockType.Six,
+            BlockType.Three,
+            BlockType.Five,
+        };
+        blockPattern.Types.Returns(blockTypeMock);
+
+        group = groupFactory.Create(setting, blockPattern, groupPattern);
+        
         gridSimulator = new GridSimulator(grid, setting);
     }
 
@@ -101,7 +113,19 @@ public class GridSimulatorTest : GridTestFixture
     [Test]
     public void ShouldSimulateGroupInTheGrid()
     {
+        Assert.IsTrue(grid.AddGroup(group));
 
+        gridSimulator.SimulateFromOriginalGrid();
+
+        Assert.IsNotNull(gridSimulator.SimulatedGroup);
+
+        for(int i = 0; i < group.Children.Length; i++)
+        {
+            Assert.AreEqual(group.Children[i].BlockType, gridSimulator.SimulatedGroup.Children[i].BlockType);
+            Assert.AreEqual(group.Children[i].Number, gridSimulator.SimulatedGroup.Children[i].Number);
+            Assert.AreEqual(group.Children[i].Location, gridSimulator.SimulatedGroup.Children[i].Location);
+            Assert.AreEqual(group.Children[i].LocationInTheGroup, gridSimulator.SimulatedGroup.Children[i].LocationInTheGroup);
+        }
     }
 
     IBlock AddBlockMock(int x, int y, int number)
