@@ -56,7 +56,8 @@ public class SimulatedGroup : ISimulatedGroup
 
     public void Move(Direction direction)
     {
-        throw new NotImplementedException();
+        Coord nextLocation = Location + direction.ToCoord();
+        SetLocation(nextLocation);
     }
 
     public void Rotate(RotateDirection rotateDirection)
@@ -66,7 +67,12 @@ public class SimulatedGroup : ISimulatedGroup
 
     public void SetLocation(Coord location)
     {
-        throw new NotImplementedException();
+        Location = location;
+
+        foreach(ISimulatedBlock block in _blocks)
+        {
+            block.SetLocation(Location);
+        }
     }
 
 }
