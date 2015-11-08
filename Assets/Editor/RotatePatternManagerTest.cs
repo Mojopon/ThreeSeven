@@ -15,6 +15,20 @@ public class RotatePatternManagerTest : GridTestFixture
     }
 
     [Test]
+    public void ItCanSetInitialRotatePatternNumber()
+    {
+        rotatePatternManager = new RotatePatternManager(groupPattern.Patterns, 3);
+        Assert.AreEqual(3, rotatePatternManager.CurrentRotatePatternNumber);
+    }
+
+    [Test]
+    public void NumberWillBeZeroWhenSetInvalidValue()
+    {
+        rotatePatternManager = new RotatePatternManager(groupPattern.Patterns, 4);
+        Assert.AreEqual(0, rotatePatternManager.CurrentRotatePatternNumber);
+    }
+
+    [Test]
     public void ShouldReturnCurrentGroupPattern()
     {
         var patterns = groupPattern.Patterns;

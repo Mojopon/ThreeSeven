@@ -29,6 +29,16 @@ public class Group : IGroup
 
     private ISetting _setting;
     private IRotatePatternManager _rotatePatternManager;
+    public int CurrentRotatePatternNumber { get
+        {
+            if(_rotatePatternManager == null)
+            {
+                return -1;
+            }
+
+            return _rotatePatternManager.CurrentRotatePatternNumber;
+        }
+    }
 
     public Group(ISetting setting)
     {

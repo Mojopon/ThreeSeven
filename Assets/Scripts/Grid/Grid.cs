@@ -12,6 +12,17 @@ public class Grid : IGrid {
     public int Width { get { return _grid.GetLength(0); } }
     public int Height { get { return _grid.GetLength(1); } }
 
+    public int CurrentRotatePatternNumber { get
+        {
+            if(_currentGroup == null)
+            {
+                return -1;
+            }
+
+            return _currentGroup.CurrentRotatePatternNumber;
+        }
+    }
+
     public IBlock[,] GridRaw { get { return _grid; } set { _grid = value; } }
 
     public int Chains { get; private set; }

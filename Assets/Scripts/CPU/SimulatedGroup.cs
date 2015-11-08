@@ -9,6 +9,18 @@ public class SimulatedGroup : ISimulatedGroup
     public Coord Location { get; private set; }
     private List<Coord[]> _patterns;
     private IRotatePatternManager _rotatePatternManager;
+    public int CurrentRotatePatternNumber
+    {
+        get
+        {
+            if (_rotatePatternManager == null)
+            {
+                return -1;
+            }
+
+            return _rotatePatternManager.CurrentRotatePatternNumber;
+        }
+    }
 
     public SimulatedGroup()
     {
@@ -62,7 +74,14 @@ public class SimulatedGroup : ISimulatedGroup
 
     public void Rotate(RotateDirection rotateDirection)
     {
-        throw new NotImplementedException();
+        var currentPattern = _rotatePatternManager.GetRotatedPattern(rotateDirection);
+
+        for (int i = 0; i < _blocks.Count; i++)
+        {
+            _blocks[i].LocationInTheGroup = currentPattern[i];
+        }
+
+        SetLocation(Location);
     }
 
     public void SetLocation(Coord location)

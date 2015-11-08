@@ -136,6 +136,23 @@ public class GroupTest : ThreeSevenTestFixsture
     }
 
     [Test]
+    public void ShouldReturnCurrentRotatePatternNumber()
+    {
+        IGroup group = groupFactory.Create(setting, blockPattern, groupPattern);
+        group.SetLocation(new Coord(0, 0));
+
+        Assert.AreEqual(0, group.CurrentRotatePatternNumber);
+
+        group.Rotate(RotateDirection.Clockwise);
+        Assert.AreEqual(1, group.CurrentRotatePatternNumber);
+
+        group.Rotate(RotateDirection.Clockwise);
+        group.Rotate(RotateDirection.Clockwise);
+        group.Rotate(RotateDirection.Clockwise);
+        Assert.AreEqual(0, group.CurrentRotatePatternNumber);
+    }
+
+    [Test]
     public void ShouldRotateToNextPattern()
     {
         IGroup group = groupFactory.Create(setting, blockPattern, groupPattern);

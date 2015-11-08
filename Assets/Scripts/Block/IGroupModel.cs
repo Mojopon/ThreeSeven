@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public interface IGroupModel
+public interface IGroupModel : IRotatePatternNumber
 {
     Coord Location { get; }
     Coord[] ChildrenLocation { get; }

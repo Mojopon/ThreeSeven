@@ -3,18 +3,27 @@ using System.Collections.Generic;
 
 public class RotatePatternManager : IRotatePatternManager
 {
-    public int CurrentPattern { get; private set; }
+    public int CurrentRotatePatternNumber { get; private set; }
 
     private List<Coord[]> _patterns;
     public RotatePatternManager(List<Coord[]> patterns)
     {
-        CurrentPattern = 0;
+        CurrentRotatePatternNumber = 0;
         _patterns = patterns;
+    }
+
+    public RotatePatternManager(List<Coord[]> patterns, int initialNumber) : this(patterns)
+    {
+        CurrentRotatePatternNumber = initialNumber;
+        if(CurrentRotatePatternNumber >= patterns.Count)
+        {
+            CurrentRotatePatternNumber = 0;
+        }
     }
 
     public Coord[] GetCurrentPattern()
     {
-        return _patterns[CurrentPattern];
+        return _patterns[CurrentRotatePatternNumber];
     }
 
     public Coord[] GetRotatedPattern(RotateDirection rotateDirection)
@@ -23,14 +32,14 @@ public class RotatePatternManager : IRotatePatternManager
         {
             case RotateDirection.Clockwise:
                 {
-                    CurrentPattern++;
-                    if (CurrentPattern >= _patterns.Count) CurrentPattern = 0;
+                    CurrentRotatePatternNumber++;
+                    if (CurrentRotatePatternNumber >= _patterns.Count) CurrentRotatePatternNumber = 0;
                 }
                 break;
             case RotateDirection.Counterclockwise:
                 {
-                    CurrentPattern--;
-                    if (CurrentPattern < 0) CurrentPattern = _patterns.Count - 1;
+                    CurrentRotatePatternNumber--;
+                    if (CurrentRotatePatternNumber < 0) CurrentRotatePatternNumber = _patterns.Count - 1;
                 }
                 break;
         }
