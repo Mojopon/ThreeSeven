@@ -40,4 +40,5 @@ public class SimulatedBlockTest
         Assert.AreEqual(simulatedBlock.Location, block.Location);
         Assert.AreEqual(simulatedBlock.LocationInTheGroup, block.LocationInTheGroup);
     }
+    
 }

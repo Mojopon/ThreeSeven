@@ -128,6 +128,18 @@ public class GridSimulatorTest : GridTestFixture
         }
     }
 
+    [Test]
+    public void ShouldReturnScoreResultedFromTheSimulation()
+    {
+        Assert.IsTrue(grid.AddGroup(group));
+        int expectedScore = 70;
+
+        gridSimulator.SimulateFromOriginalGrid();
+
+        int result = gridSimulator.GetScoreFromSimulation();
+        Assert.AreEqual(expectedScore, result);
+    }
+
     IBlock AddBlockMock(int x, int y, int number)
     {
         IBlock blockMock = Substitute.For<IBlock>();

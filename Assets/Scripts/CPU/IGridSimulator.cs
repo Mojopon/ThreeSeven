@@ -5,7 +5,9 @@ public interface IGridSimulator
 {
     void SimulateFromOriginalGrid();
     ISimulatedGroup SimulatedGroup { get; }
+    ISimulatedBlock[,] SimulatedGrid { get; }
+
     bool DropBlocks();
     List<ISimulatedBlock> DeleteBlocks();
-    ISimulatedBlock[,] SimulatedGrid { get; }
+    int GetScoreFromSimulation();
 }

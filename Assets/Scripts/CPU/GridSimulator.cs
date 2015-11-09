@@ -12,6 +12,18 @@ public class GridSimulator : IGridSimulator
         _setting = setting;
     }
 
+    private ISimulatedBlock[,] _simulatedGrid;
+    public ISimulatedBlock[,] SimulatedGrid
+    {
+        get { return _simulatedGrid; }
+    }
+
+    private ISimulatedGroup _simulatedGroup;
+    public ISimulatedGroup SimulatedGroup
+    {
+        get { return _simulatedGroup; }
+    }
+
     public void SimulateFromOriginalGrid()
     {
         _simulatedGrid = new SimulatedBlock[_setting.GridWidth, _setting.GridHeight];
@@ -61,15 +73,37 @@ public class GridSimulator : IGridSimulator
         return blocksToDelete;
     }
 
-    private ISimulatedBlock[,] _simulatedGrid;
-    public ISimulatedBlock[,] SimulatedGrid
+    public int GetScoreFromSimulation()
     {
-        get { return _simulatedGrid; }
-    }
+        return -1;
 
-    private ISimulatedGroup _simulatedGroup;
-    public ISimulatedGroup SimulatedGroup
-    {
-        get { return _simulatedGroup; }
+        foreach(ISimulatedBlock block in SimulatedGroup.Children)
+        {
+            if(SimulatedGrid[block.Location.X, block.Location.Y] != null)
+            {
+                Debug.Log("Theres block in the location where group is. aborting simulate");
+                return -1;
+            }
+
+            SimulatedGrid[block.Location.X, block.Location.Y] = block;
+        }
+
+        bool simulationDone = false;
+        int totalScore = 0;
+        while(true)
+        {
+            bool dropped = false;
+            dropped = DropBlocks();
+
+
+
+            
+            if(simulationDone)
+            {
+                break;
+            }
+        }
+
+        return totalScore;
     }
 }
