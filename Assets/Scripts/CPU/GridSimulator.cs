@@ -60,8 +60,30 @@ public class GridSimulator : IGridSimulator
             for (int x = 0; x < _setting.GridWidth; x++)
             {
                 _simulatedGrid[x, y] = _simulatedGridOriginal[x, y];
+                if(_simulatedGrid[x, y] != null)
+                {
+                    _simulatedGrid[x, y].SetLocation(new Coord(x, y));
+                }
             }
         }
+    }
+
+    public bool SetGroupLocation(Coord location)
+    {
+        /*
+        var locationBefore = SimulatedGroup.Location;
+        SimulatedGroup.SetLocation(location);
+        foreach (ISimulatedBlock block in SimulatedGroup.Children)
+        {
+            if (SimulatedGrid[block.Location.X, block.Location.Y] != null)
+            {
+                SimulatedGroup.SetLocation(locationBefore);
+                return false;
+            }
+        }
+
+    */
+        return true;
     }
 
     public bool DropBlocks()
@@ -69,7 +91,7 @@ public class GridSimulator : IGridSimulator
         bool dropped;
         _simulatedGrid = BlockDropper.GetGridAfterDrop(_simulatedGrid, out dropped);
 
-        /*
+        
         for(int y = 0; y < _setting.GridHeight; y++)
         {
             for(int x = 0; x < _setting.GridWidth; x++)
@@ -80,7 +102,7 @@ public class GridSimulator : IGridSimulator
                 }
             }
         }
-        */
+        
 
         return dropped;
     }
@@ -88,13 +110,18 @@ public class GridSimulator : IGridSimulator
     public List<ISimulatedBlock> DeleteBlocks()
     {
         var blocksToDelete = BlockComparer.Compare(SimulatedGrid);
+        
+        foreach (IBlockModel block in blocksToDelete)
+        {
+            _simulatedGrid[block.Location.X, block.Location.Y] = null;
+        }
 
         return blocksToDelete;
     }
 
     public int GetScoreFromSimulation()
     {
-        return -1;
+        var tickCount = System.Environment.TickCount;
 
         foreach(ISimulatedBlock block in SimulatedGroup.Children)
         {
@@ -104,24 +131,37 @@ public class GridSimulator : IGridSimulator
                 return -1;
             }
 
+            block.FixedOnGrid = true;
             SimulatedGrid[block.Location.X, block.Location.Y] = block;
         }
+        
 
         bool simulationDone = false;
         int totalScore = 0;
-        while(true)
+        int chains = 1;
+        while(!simulationDone)
         {
-            bool dropped = false;
-            dropped = DropBlocks();
+            DropBlocks();
 
+            var deletedBlocks = DeleteBlocks();
 
-
-            
-            if(simulationDone)
+            if (deletedBlocks.Count != 0)
             {
-                break;
+                totalScore += ScoreCalculator.Calculate(deletedBlocks, chains++);
+            }
+            else
+            {
+                simulationDone = true;
             }
         }
+
+        CopyOriginalToSimulatedGrid();
+
+        foreach (ISimulatedBlock block in SimulatedGroup.Children)
+        {
+            block.FixedOnGrid = false;
+        }
+        SimulatedGroup.SetLocation(SimulatedGroup.Location);
 
         return totalScore;
     }

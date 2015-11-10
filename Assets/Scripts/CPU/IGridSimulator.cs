@@ -8,6 +8,7 @@ public interface IGridSimulator
     ISimulatedBlock[,] SimulatedGrid { get; }
 
     void CopyOriginalToSimulatedGrid();
+    bool SetGroupLocation(Coord location);
     bool DropBlocks();
     List<ISimulatedBlock> DeleteBlocks();
     int GetScoreFromSimulation();

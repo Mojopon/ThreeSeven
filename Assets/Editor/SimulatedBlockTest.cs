@@ -25,6 +25,25 @@ public class SimulatedBlockTest
     }
 
     [Test]
+    public void LocationShouldBeAffectedByLocationInTheGroup()
+    {
+        var block = new SimulatedBlock();
+        block.LocationInTheGroup = new Coord(0, 2);
+        block.SetLocation(new Coord(1, 2));
+        Assert.AreEqual(new Coord(1, 4), block.Location);
+    }
+
+    [Test]
+    public void ShouldIgnoreLocationInTheGroupWhenFixedOnGridIsTrue()
+    {
+        var block = new SimulatedBlock();
+        block.LocationInTheGroup = new Coord(0, 2);
+        block.FixedOnGrid = true;
+        block.SetLocation(new Coord(1, 2));
+        Assert.AreEqual(new Coord(1, 2), block.Location);
+    }
+
+    [Test]
     public void ShouldSimulateExistedBlock()
     {
         IBlock block = Substitute.For<IBlock>();

@@ -63,8 +63,8 @@ public class GridSimulatorTest : GridTestFixture
 
         Assert.AreEqual(blockMockOne.Number, gridSimulator.SimulatedGrid[0, 0].Number);
         Assert.AreEqual(blockMockTwo.Number, gridSimulator.SimulatedGrid[1, 0].Number);
-        //Assert.AreEqual(new Coord(0, 0), gridSimulator.SimulatedGrid[0, 0].Location);
-        //Assert.AreEqual(new Coord(1, 0), gridSimulator.SimulatedGrid[1, 0].Location);
+        Assert.AreEqual(new Coord(0, 0), gridSimulator.SimulatedGrid[0, 0].Location);
+        Assert.AreEqual(new Coord(1, 0), gridSimulator.SimulatedGrid[1, 0].Location);
     }
 
     [Test]
@@ -85,11 +85,16 @@ public class GridSimulatorTest : GridTestFixture
 
         Assert.AreEqual(blockMockOne.Number, gridSimulator.SimulatedGrid[0, 0].Number);
         Assert.AreEqual(blockMockTwo.Number, gridSimulator.SimulatedGrid[1, 0].Number);
+        Assert.AreEqual(new Coord(0, 0), gridSimulator.SimulatedGrid[0, 0].Location);
+        Assert.AreEqual(new Coord(1, 0), gridSimulator.SimulatedGrid[1, 0].Location);
 
         gridSimulator.CopyOriginalToSimulatedGrid();
 
         Assert.AreEqual(blockMockOne.Number, gridSimulator.SimulatedGrid[0, 12].Number);
         Assert.AreEqual(blockMockTwo.Number, gridSimulator.SimulatedGrid[1, 12].Number);
+        Assert.AreEqual(new Coord(0, 12), gridSimulator.SimulatedGrid[0, 12].Location);
+        Assert.AreEqual(new Coord(1, 12), gridSimulator.SimulatedGrid[1, 12].Location);
+
     }
 
     [Test]
@@ -104,15 +109,23 @@ public class GridSimulatorTest : GridTestFixture
 
         gridSimulator.CreateSimulatedGridOriginal();
 
-        Assert.AreEqual(blockMockOne.Number, gridSimulator.SimulatedGrid[0, 0].Number);
-        Assert.AreEqual(blockMockTwo.Number, gridSimulator.SimulatedGrid[1, 0].Number);
-        Assert.AreEqual(blockMockThree.Number, gridSimulator.SimulatedGrid[2, 0].Number);
+        var simulatedBlockOne = gridSimulator.SimulatedGrid[0, 0];
+        var simulatedBlockTwo= gridSimulator.SimulatedGrid[1, 0];
+        var simulatedBlockThree = gridSimulator.SimulatedGrid[2, 0];
+
+        Assert.AreEqual(blockMockOne.Number, simulatedBlockOne.Number);
+        Assert.AreEqual(blockMockTwo.Number, simulatedBlockTwo.Number);
+        Assert.AreEqual(blockMockThree.Number, simulatedBlockThree.Number);
 
         var blocksToDelete = gridSimulator.DeleteBlocks();
 
-        Assert.IsTrue(blocksToDelete.Contains(gridSimulator.SimulatedGrid[0, 0]));
-        Assert.IsTrue(blocksToDelete.Contains(gridSimulator.SimulatedGrid[1, 0]));
-        Assert.IsTrue(blocksToDelete.Contains(gridSimulator.SimulatedGrid[2, 0]));
+        Assert.IsTrue(blocksToDelete.Contains(simulatedBlockOne));
+        Assert.IsTrue(blocksToDelete.Contains(simulatedBlockTwo));
+        Assert.IsTrue(blocksToDelete.Contains(simulatedBlockThree));
+
+        Assert.IsNull(gridSimulator.SimulatedGrid[0, 0]);
+        Assert.IsNull(gridSimulator.SimulatedGrid[1, 0]);
+        Assert.IsNull(gridSimulator.SimulatedGrid[2, 0]);
     }
 
     [Test]
@@ -124,15 +137,23 @@ public class GridSimulatorTest : GridTestFixture
 
         gridSimulator.CreateSimulatedGridOriginal();
 
-        Assert.AreEqual(blockMockOne.Number, gridSimulator.SimulatedGrid[0, 0].Number);
-        Assert.AreEqual(blockMockTwo.Number, gridSimulator.SimulatedGrid[1, 0].Number);
-        Assert.AreEqual(blockMockThree.Number, gridSimulator.SimulatedGrid[2, 0].Number);
+        var simulatedBlockOne = gridSimulator.SimulatedGrid[0, 0];
+        var simulatedBlockTwo = gridSimulator.SimulatedGrid[1, 0];
+        var simulatedBlockThree = gridSimulator.SimulatedGrid[2, 0];
+
+        Assert.AreEqual(blockMockOne.Number, simulatedBlockOne.Number);
+        Assert.AreEqual(blockMockTwo.Number, simulatedBlockTwo.Number);
+        Assert.AreEqual(blockMockThree.Number, simulatedBlockThree.Number);
 
         var blocksToDelete = gridSimulator.DeleteBlocks();
 
-        Assert.IsTrue(blocksToDelete.Contains(gridSimulator.SimulatedGrid[0, 0]));
-        Assert.IsTrue(blocksToDelete.Contains(gridSimulator.SimulatedGrid[1, 0]));
-        Assert.IsTrue(blocksToDelete.Contains(gridSimulator.SimulatedGrid[2, 0]));
+        Assert.IsTrue(blocksToDelete.Contains(simulatedBlockOne));
+        Assert.IsTrue(blocksToDelete.Contains(simulatedBlockTwo));
+        Assert.IsTrue(blocksToDelete.Contains(simulatedBlockThree));
+
+        Assert.IsNull(gridSimulator.SimulatedGrid[0, 0]);
+        Assert.IsNull(gridSimulator.SimulatedGrid[1, 0]);
+        Assert.IsNull(gridSimulator.SimulatedGrid[2, 0]);
     }
 
     [Test]
@@ -163,6 +184,65 @@ public class GridSimulatorTest : GridTestFixture
 
         int result = gridSimulator.GetScoreFromSimulation();
         Assert.AreEqual(expectedScore, result);
+    }
+
+    [Test]
+    public void SimulationShouldntChangeGridState()
+    {
+        Assert.IsTrue(grid.AddGroup(group));
+        
+        gridSimulator.CreateSimulatedGridOriginal();
+
+        Assert.AreEqual(grid.CurrentGroup.Children.Length, gridSimulator.SimulatedGroup.Children.Length);
+        for(int i = 0; i < grid.CurrentGroup.Children.Length; i++)
+        {
+            Assert.AreEqual(grid.CurrentGroup.Children[i].Number, gridSimulator.SimulatedGroup.Children[i].Number);
+            Assert.AreEqual(grid.CurrentGroup.Children[i].BlockType, gridSimulator.SimulatedGroup.Children[i].BlockType);
+            Assert.AreEqual(grid.CurrentGroup.Children[i].Location, gridSimulator.SimulatedGroup.Children[i].Location);
+            Assert.AreEqual(grid.CurrentGroup.Children[i].LocationInTheGroup, gridSimulator.SimulatedGroup.Children[i].LocationInTheGroup);
+        }
+
+        for(int y = 0; y < setting.GridHeight; y++)
+        {
+            for(int x = 0; x < setting.GridWidth; x++)
+            {
+                if (grid[x, y] == null) continue;
+                Assert.AreEqual(grid[x, y].Number, gridSimulator.SimulatedGrid[x, y].Number);
+                Assert.AreEqual(grid[x, y].BlockType, gridSimulator.SimulatedGrid[x, y].BlockType);
+                Assert.AreEqual(grid[x, y].Location, gridSimulator.SimulatedGrid[x, y].Location);
+            }
+        }
+
+        gridSimulator.GetScoreFromSimulation();
+
+        Assert.AreEqual(grid.CurrentGroup.Children.Length, gridSimulator.SimulatedGroup.Children.Length);
+        for (int i = 0; i < grid.CurrentGroup.Children.Length; i++)
+        {
+            Assert.AreEqual(grid.CurrentGroup.Children[i].Number, gridSimulator.SimulatedGroup.Children[i].Number);
+            Assert.AreEqual(grid.CurrentGroup.Children[i].BlockType, gridSimulator.SimulatedGroup.Children[i].BlockType);
+            Assert.AreEqual(grid.CurrentGroup.Children[i].Location, gridSimulator.SimulatedGroup.Children[i].Location);
+            Assert.AreEqual(grid.CurrentGroup.Children[i].LocationInTheGroup, gridSimulator.SimulatedGroup.Children[i].LocationInTheGroup);
+        }
+
+        for (int y = 0; y < setting.GridHeight; y++)
+        {
+            for (int x = 0; x < setting.GridWidth; x++)
+            {
+                if (grid[x, y] == null) continue;
+                Assert.AreEqual(grid[x, y].Number, gridSimulator.SimulatedGrid[x, y].Number);
+                Assert.AreEqual(grid[x, y].BlockType, gridSimulator.SimulatedGrid[x, y].BlockType);
+                Assert.AreEqual(grid[x, y].Location, gridSimulator.SimulatedGrid[x, y].Location);
+            }
+        }
+    }
+
+    [Test]
+    public void ShouldCheckIfCanSetGroupToTheLocation()
+    {
+        Assert.IsTrue(grid.AddGroup(group));
+
+        gridSimulator.CreateSimulatedGridOriginal();
+
     }
 
     IBlock AddBlockMock(int x, int y, int number)

@@ -10,6 +10,8 @@ public class SimulatedBlock : ISimulatedBlock
     public Coord Location { get; private set; }
     public Coord LocationInTheGroup { get; set; }
 
+    public bool FixedOnGrid { get; set; }
+
     public SimulatedBlock()
     {
         BlockType = BlockType.None;
@@ -32,6 +34,12 @@ public class SimulatedBlock : ISimulatedBlock
 
     public void SetLocation(Coord location)
     {
+        if(FixedOnGrid)
+        {
+            Location = location;
+            return;
+        }
+
         Location = location + LocationInTheGroup;
     }
 
