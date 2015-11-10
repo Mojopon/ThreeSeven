@@ -12,6 +12,8 @@ public class GridSimulator : IGridSimulator
         _setting = setting;
     }
 
+    private ISimulatedBlock[,] _simulatedGridOriginal;
+
     private ISimulatedBlock[,] _simulatedGrid;
     public ISimulatedBlock[,] SimulatedGrid
     {
@@ -24,22 +26,26 @@ public class GridSimulator : IGridSimulator
         get { return _simulatedGroup; }
     }
 
-    public void SimulateFromOriginalGrid()
+    public void CreateSimulatedGridOriginal()
     {
-        _simulatedGrid = new SimulatedBlock[_setting.GridWidth, _setting.GridHeight];
+        _simulatedGridOriginal = new SimulatedBlock[_setting.GridWidth, _setting.GridHeight];
 
         for (int y = 0; y < _setting.GridHeight; y++)
         {
             for (int x = 0; x < _setting.GridWidth; x++)
             {
-                if(_grid[x, y] != null)
+                if (_grid[x, y] != null)
                 {
-                    _simulatedGrid[x, y] = new SimulatedBlock(_grid[x, y]);
+                    _simulatedGridOriginal[x, y] = new SimulatedBlock(_grid[x, y]);
                 }
             }
         }
 
-        if(_grid.CurrentGroup == null)
+        _simulatedGrid = new SimulatedBlock[_setting.GridWidth, _setting.GridHeight];
+
+        CopyOriginalToSimulatedGrid();
+
+        if (_grid.CurrentGroup == null)
         {
             return;
         }
@@ -47,11 +53,23 @@ public class GridSimulator : IGridSimulator
         _simulatedGroup.Simulate(_grid.CurrentGroup);
     }
 
+    public void CopyOriginalToSimulatedGrid()
+    {
+        for (int y = 0; y < _setting.GridHeight; y++)
+        {
+            for (int x = 0; x < _setting.GridWidth; x++)
+            {
+                _simulatedGrid[x, y] = _simulatedGridOriginal[x, y];
+            }
+        }
+    }
+
     public bool DropBlocks()
     {
         bool dropped;
         _simulatedGrid = BlockDropper.GetGridAfterDrop(_simulatedGrid, out dropped);
 
+        /*
         for(int y = 0; y < _setting.GridHeight; y++)
         {
             for(int x = 0; x < _setting.GridWidth; x++)
@@ -62,6 +80,7 @@ public class GridSimulator : IGridSimulator
                 }
             }
         }
+        */
 
         return dropped;
     }

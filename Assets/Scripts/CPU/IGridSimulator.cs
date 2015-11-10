@@ -3,10 +3,11 @@ using System.Collections.Generic;
 
 public interface IGridSimulator
 {
-    void SimulateFromOriginalGrid();
+    void CreateSimulatedGridOriginal();
     ISimulatedGroup SimulatedGroup { get; }
     ISimulatedBlock[,] SimulatedGrid { get; }
 
+    void CopyOriginalToSimulatedGrid();
     bool DropBlocks();
     List<ISimulatedBlock> DeleteBlocks();
     int GetScoreFromSimulation();
