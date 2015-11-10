@@ -243,6 +243,72 @@ public class GridSimulatorTest : GridTestFixture
 
         gridSimulator.CreateSimulatedGridOriginal();
 
+        Assert.IsTrue(gridSimulator.SetGroupLocation(grid.CurrentGroup.Location + Direction.Right.ToCoord()));
+        for (int i = 0; i < grid.CurrentGroup.Children.Length; i++)
+        {
+            Assert.AreEqual(grid.CurrentGroup.Children[i].Location + Direction.Right.ToCoord(), gridSimulator.SimulatedGroup.Children[i].Location);
+        }
+
+        Assert.IsFalse(gridSimulator.SetGroupLocation(grid.CurrentGroup.Location + new Coord(3, 0)));
+
+        for (int i = 0; i < grid.CurrentGroup.Children.Length; i++)
+        {
+            Assert.AreEqual(grid.CurrentGroup.Children[i].Location + Direction.Right.ToCoord(), gridSimulator.SimulatedGroup.Children[i].Location);
+        }
+    }
+
+    [Test]
+    public void ShouldCheckIfCanRotateTheGroup()
+    {
+        Assert.IsTrue(grid.AddGroup(group));
+        gridSimulator.CreateSimulatedGridOriginal();
+
+        Assert.IsFalse(gridSimulator.RotateGroup());
+
+        for (int i = 0; i < grid.CurrentGroup.Children.Length; i++)
+        {
+            Assert.AreEqual(grid.CurrentGroup.Children[i].Number, gridSimulator.SimulatedGroup.Children[i].Number);
+            Assert.AreEqual(grid.CurrentGroup.Children[i].BlockType, gridSimulator.SimulatedGroup.Children[i].BlockType);
+            Assert.AreEqual(grid.CurrentGroup.Children[i].Location, gridSimulator.SimulatedGroup.Children[i].Location);
+            Assert.AreEqual(grid.CurrentGroup.Children[i].LocationInTheGroup, gridSimulator.SimulatedGroup.Children[i].LocationInTheGroup);
+        }
+
+        Assert.Fail();
+    }
+
+    [Test]
+    public void SimulationTestOne()
+    {
+        AddBlockMock(3, 0, 6);
+        AddBlockMock(3, 1, 6);
+
+        blockPattern = Substitute.For<IBlockPattern>();
+        blockTypeMock = new BlockType[]
+        {
+            BlockType.One,
+            BlockType.One,
+            BlockType.Seven,
+            BlockType.Seven,
+        };
+        blockPattern.Types.Returns(blockTypeMock);
+
+        group = groupFactory.Create(setting, blockPattern, groupPattern);
+
+        grid.AddGroup(group);
+        gridSimulator.CreateSimulatedGridOriginal();
+
+        Assert.AreEqual(1, gridSimulator.SimulatedGroup.Children[0].Number);
+        Assert.AreEqual(1, gridSimulator.SimulatedGroup.Children[1].Number);
+        Assert.AreEqual(7, gridSimulator.SimulatedGroup.Children[2].Number);
+        Assert.AreEqual(7, gridSimulator.SimulatedGroup.Children[3].Number);
+
+        Assert.AreEqual(6, gridSimulator.SimulatedGrid[3, 0].Number);
+        Assert.AreEqual(6, gridSimulator.SimulatedGrid[3, 1].Number);
+
+        int expectedScore = ((1 + 6) * 10) + (((1 + 6) * 10) * 2);
+
+        var result = gridSimulator.GetScoreFromSimulation();
+        Assert.AreEqual(expectedScore, result);
     }
 
     IBlock AddBlockMock(int x, int y, int number)

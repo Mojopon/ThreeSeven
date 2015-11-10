@@ -10,6 +10,7 @@ public class GridSimulator : IGridSimulator
     {
         _grid = grid;
         _setting = setting;
+        _simulatedGroup = new SimulatedGroup();
     }
 
     private ISimulatedBlock[,] _simulatedGridOriginal;
@@ -49,7 +50,6 @@ public class GridSimulator : IGridSimulator
         {
             return;
         }
-        _simulatedGroup = new SimulatedGroup();
         _simulatedGroup.Simulate(_grid.CurrentGroup);
     }
 
@@ -70,19 +70,34 @@ public class GridSimulator : IGridSimulator
 
     public bool SetGroupLocation(Coord location)
     {
-        /*
+        
         var locationBefore = SimulatedGroup.Location;
         SimulatedGroup.SetLocation(location);
         foreach (ISimulatedBlock block in SimulatedGroup.Children)
         {
-            if (SimulatedGrid[block.Location.X, block.Location.Y] != null)
+            if (IsOutOfRange(block.Location.X, block.Location.Y) || SimulatedGrid[block.Location.X, block.Location.Y] != null)
             {
                 SimulatedGroup.SetLocation(locationBefore);
                 return false;
             }
         }
 
-    */
+        return true;
+    }
+
+    public bool RotateGroup()
+    {
+        SimulatedGroup.Rotate(RotateDirection.Clockwise);
+
+        foreach (ISimulatedBlock block in SimulatedGroup.Children)
+        {
+            if (IsOutOfRange(block.Location.X, block.Location.Y) || SimulatedGrid[block.Location.X, block.Location.Y] != null)
+            {
+                SimulatedGroup.Rotate(RotateDirection.Counterclockwise);
+                return false;
+            }
+        }
+
         return true;
     }
 
@@ -164,5 +179,16 @@ public class GridSimulator : IGridSimulator
         SimulatedGroup.SetLocation(SimulatedGroup.Location);
 
         return totalScore;
+    }
+
+    bool IsOutOfRange(int x, int y)
+    {
+        if(x < 0 || y < 0 || x >= _setting.GridWidth || y >= _setting.GridHeight)
+        {
+            return true;
+        }else
+        {
+            return false;
+        }
     }
 }
