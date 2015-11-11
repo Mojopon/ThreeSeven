@@ -10,7 +10,6 @@ public class GridSimulator : IGridSimulator
     {
         _grid = grid;
         _setting = setting;
-        _simulatedGroup = new SimulatedGroup();
     }
 
     private ISimulatedBlock[,] _simulatedGridOriginal;
@@ -50,6 +49,7 @@ public class GridSimulator : IGridSimulator
         {
             return;
         }
+        _simulatedGroup = new SimulatedGroup();
         _simulatedGroup.Simulate(_grid.CurrentGroup);
     }
 

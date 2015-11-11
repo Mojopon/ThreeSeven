@@ -165,7 +165,7 @@ public class Grid : IGrid {
             _gameTextCenter = _setting.GetGameText(GameTextType.GameMessageCenter);
         }
 
-        _cpuManager = new CPUManager(this);
+        _cpuManager = new CPUManager(this, _setting);
 
         // initialize highscore if it is a player game.
         if (_setting.IsPlayer)
