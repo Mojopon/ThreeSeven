@@ -339,6 +339,66 @@ public class GridSimulatorTest : GridTestFixture
         Assert.AreEqual(expectedScore, result);
     }
 
+    [Test]
+    public void SimulationTestThree()
+    {
+        AddBlockMock(3, 0, 3);
+        AddBlockMock(3, 1, 2);
+        AddBlockMock(3, 2, 4);
+        AddBlockMock(4, 0, 7);
+
+        blockPattern = Substitute.For<IBlockPattern>();
+        blockTypeMock = new BlockType[]
+        {
+            BlockType.Seven,
+            BlockType.Two,
+            BlockType.Seven,
+            BlockType.Five,
+        };
+        blockPattern.Types.Returns(blockTypeMock);
+
+        group = groupFactory.Create(setting, blockPattern, groupPattern);
+
+        grid.AddGroup(group);
+        grid.CurrentGroup.Rotate(RotateDirection.Clockwise);
+        grid.CurrentGroup.Rotate(RotateDirection.Clockwise);
+        gridSimulator.CreateSimulatedGridOriginal();
+
+        int expectedScore = 70 + 140 + 630;
+
+        var result = gridSimulator.GetScoreFromSimulation();
+        Assert.AreEqual(expectedScore, result);
+    }
+
+    [Test]
+    public void SimulationTestFour()
+    {
+        AddBlockMock(3, 0, 3);
+        AddBlockMock(3, 1, 2);
+        AddBlockMock(3, 2, 4);
+        AddBlockMock(4, 0, 7);
+
+        blockPattern = Substitute.For<IBlockPattern>();
+        blockTypeMock = new BlockType[]
+        {
+            BlockType.Seven,
+            BlockType.Two,
+            BlockType.Seven,
+            BlockType.Five,
+        };
+        blockPattern.Types.Returns(blockTypeMock);
+
+        group = groupFactory.Create(setting, blockPattern, groupPattern);
+
+        grid.AddGroup(group);
+        gridSimulator.CreateSimulatedGridOriginal();
+
+        int expectedScore = 0;
+
+        var result = gridSimulator.GetScoreFromSimulation();
+        Assert.AreEqual(expectedScore, result);
+    }
+
     IBlock AddBlockMock(int x, int y, int number)
     {
         IBlock blockMock = Substitute.For<IBlock>();
