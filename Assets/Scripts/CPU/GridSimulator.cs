@@ -68,37 +68,16 @@ public class GridSimulator : IGridSimulator
         }
     }
 
-    public bool SetGroupLocation(Coord location)
+    public void SetGroupLocation(Coord location)
     {
         
         var locationBefore = SimulatedGroup.Location;
         SimulatedGroup.SetLocation(location);
-        foreach (ISimulatedBlock block in SimulatedGroup.Children)
-        {
-            if (IsOutOfRange(block.Location.X, block.Location.Y) || SimulatedGrid[block.Location.X, block.Location.Y] != null)
-            {
-                SimulatedGroup.SetLocation(locationBefore);
-                return false;
-            }
-        }
-
-        return true;
     }
 
-    public bool RotateGroup()
+    public void RotateGroup()
     {
         SimulatedGroup.Rotate(RotateDirection.Clockwise);
-
-        foreach (ISimulatedBlock block in SimulatedGroup.Children)
-        {
-            if (IsOutOfRange(block.Location.X, block.Location.Y) || SimulatedGrid[block.Location.X, block.Location.Y] != null)
-            {
-                SimulatedGroup.Rotate(RotateDirection.Counterclockwise);
-                return false;
-            }
-        }
-
-        return true;
     }
 
     public bool DropBlocks()
@@ -122,6 +101,23 @@ public class GridSimulator : IGridSimulator
         return dropped;
     }
 
+    public bool AdjustGroupPosition()
+    {
+        var locationBeforeAdjust = SimulatedGroup.Location;
+        while(SimulatedGroup.Location.Y >= 0)
+        {
+            if(CanFixGroup())
+            {
+                return true;
+            }
+
+            SimulatedGroup.SetLocation(SimulatedGroup.Location + Direction.Down.ToCoord());
+        }
+
+        SimulatedGroup.SetLocation(locationBeforeAdjust);
+        return false;
+    }
+
     public List<ISimulatedBlock> DeleteBlocks()
     {
         var blocksToDelete = BlockComparer.Compare(SimulatedGrid);
@@ -136,14 +132,13 @@ public class GridSimulator : IGridSimulator
 
     public int GetScoreFromSimulation()
     {
-        var tickCount = System.Environment.TickCount;
+        if (!AdjustGroupPosition()) return -1;
 
         foreach(ISimulatedBlock block in SimulatedGroup.Children)
         {
             if(SimulatedGrid[block.Location.X, block.Location.Y] != null)
             {
-                Debug.Log("Theres block in the location where group is. aborting simulate");
-                return -1;
+                return -2;
             }
 
             block.FixedOnGrid = true;
@@ -186,9 +181,45 @@ public class GridSimulator : IGridSimulator
         if(x < 0 || y < 0 || x >= _setting.GridWidth || y >= _setting.GridHeight)
         {
             return true;
-        }else
+        }
+        else
         {
             return false;
         }
+    }
+
+    bool IsOutOfRange(Coord coord)
+    {
+        return IsOutOfRange(coord.X, coord.Y);
+    }
+
+    bool IsAvailable(int x, int y)
+    {
+        if(IsOutOfRange(x, y) || SimulatedGrid[x, y] != null)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
+    bool IsAvailable(Coord coord)
+    {
+        return IsAvailable(coord.X, coord.Y);
+    }
+
+    bool CanFixGroup()
+    {
+        foreach(ISimulatedBlock block in SimulatedGroup.Children)
+        {
+            if(!IsAvailable(block.Location))
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

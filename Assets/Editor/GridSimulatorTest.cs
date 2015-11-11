@@ -190,7 +190,6 @@ public class GridSimulatorTest : GridTestFixture
     public void SimulationShouldntChangeGridState()
     {
         Assert.IsTrue(grid.AddGroup(group));
-        
         gridSimulator.CreateSimulatedGridOriginal();
 
         Assert.AreEqual(grid.CurrentGroup.Children.Length, gridSimulator.SimulatedGroup.Children.Length);
@@ -237,43 +236,45 @@ public class GridSimulatorTest : GridTestFixture
     }
 
     [Test]
-    public void ShouldCheckIfCanSetGroupToTheLocation()
+    public void ShouldAdjustGroupPositionFromOutSideToInside()
     {
         Assert.IsTrue(grid.AddGroup(group));
-
         gridSimulator.CreateSimulatedGridOriginal();
 
-        Assert.IsTrue(gridSimulator.SetGroupLocation(grid.CurrentGroup.Location + Direction.Right.ToCoord()));
-        for (int i = 0; i < grid.CurrentGroup.Children.Length; i++)
-        {
-            Assert.AreEqual(grid.CurrentGroup.Children[i].Location + Direction.Right.ToCoord(), gridSimulator.SimulatedGroup.Children[i].Location);
-        }
+        grid.CurrentGroup.Rotate(RotateDirection.Clockwise);
+        gridSimulator.RotateGroup();
+        gridSimulator.AdjustGroupPosition();
 
-        Assert.IsFalse(gridSimulator.SetGroupLocation(grid.CurrentGroup.Location + new Coord(3, 0)));
+        Assert.AreEqual(setting.BlockSpawnPoint + Direction.Down.ToCoord(), gridSimulator.SimulatedGroup.Location);
 
         for (int i = 0; i < grid.CurrentGroup.Children.Length; i++)
         {
-            Assert.AreEqual(grid.CurrentGroup.Children[i].Location + Direction.Right.ToCoord(), gridSimulator.SimulatedGroup.Children[i].Location);
+            Assert.AreEqual(grid.CurrentGroup.Children[i].Location + Direction.Down.ToCoord(), gridSimulator.SimulatedGroup.Children[i].Location);
         }
     }
 
     [Test]
-    public void ShouldCheckIfCanRotateTheGroup()
+    public void CantAdjustGroupWhenTheresNoSpaceDownBelowTheGroup()
     {
         Assert.IsTrue(grid.AddGroup(group));
         gridSimulator.CreateSimulatedGridOriginal();
 
-        Assert.IsFalse(gridSimulator.RotateGroup());
+        gridSimulator.SetGroupLocation(new Coord(0, 13));
+        Assert.IsFalse(gridSimulator.AdjustGroupPosition());
 
-        for (int i = 0; i < grid.CurrentGroup.Children.Length; i++)
-        {
-            Assert.AreEqual(grid.CurrentGroup.Children[i].Number, gridSimulator.SimulatedGroup.Children[i].Number);
-            Assert.AreEqual(grid.CurrentGroup.Children[i].BlockType, gridSimulator.SimulatedGroup.Children[i].BlockType);
-            Assert.AreEqual(grid.CurrentGroup.Children[i].Location, gridSimulator.SimulatedGroup.Children[i].Location);
-            Assert.AreEqual(grid.CurrentGroup.Children[i].LocationInTheGroup, gridSimulator.SimulatedGroup.Children[i].LocationInTheGroup);
-        }
+        Assert.AreEqual(new Coord(0, 13), gridSimulator.SimulatedGroup.Location);
+    }
 
-        Assert.Fail();
+    [Test]
+    public void SimulationShouldReturnMinusOneScoreWhenCantFixGroup()
+    {
+        Assert.IsTrue(grid.AddGroup(group));
+        gridSimulator.CreateSimulatedGridOriginal();
+
+        gridSimulator.SetGroupLocation(new Coord(0, 13));
+        var score = gridSimulator.GetScoreFromSimulation();
+
+        Assert.AreEqual(-1, score);
     }
 
     [Test]
@@ -306,6 +307,33 @@ public class GridSimulatorTest : GridTestFixture
         Assert.AreEqual(6, gridSimulator.SimulatedGrid[3, 1].Number);
 
         int expectedScore = ((1 + 6) * 10) + (((1 + 6) * 10) * 2);
+
+        var result = gridSimulator.GetScoreFromSimulation();
+        Assert.AreEqual(expectedScore, result);
+    }
+
+    [Test]
+    public void SimulationTestTwo()
+    {
+        AddBlockMock(3, 0, 7);
+
+        blockPattern = Substitute.For<IBlockPattern>();
+        blockTypeMock = new BlockType[]
+        {
+            BlockType.Seven,
+            BlockType.One,
+            BlockType.Seven,
+            BlockType.One,
+        };
+        blockPattern.Types.Returns(blockTypeMock);
+
+        group = groupFactory.Create(setting, blockPattern, groupPattern);
+
+        grid.AddGroup(group);
+        grid.CurrentGroup.Rotate(RotateDirection.Clockwise);
+        gridSimulator.CreateSimulatedGridOriginal();
+
+        int expectedScore = 210;
 
         var result = gridSimulator.GetScoreFromSimulation();
         Assert.AreEqual(expectedScore, result);
