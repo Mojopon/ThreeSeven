@@ -3,15 +3,17 @@ using System.Collections.Generic;
 
 public class AddGroupCommand : GridCommand {
 
-    ISetting _setting;
-    IGroup _group;
-    List<IBlock> _allBlocks;
+    private ISetting _setting;
+    private IGroup _group;
+    private List<IBlock> _allBlocks;
+    private OnGroupAddEventHandler _onGroupAddEvent;
 
-    public AddGroupCommand(IGrid grid, ISetting setting, IGroup group, List<IBlock> allBlocks) : base(grid) 
+    public AddGroupCommand(IGrid grid, ISetting setting, IGroup group, List<IBlock> allBlocks, OnGroupAddEventHandler onGroupAddEvent) : base(grid) 
     {
         _setting = setting;
         _group = group;
         _allBlocks = allBlocks;
+        _onGroupAddEvent = onGroupAddEvent;
     }
 
     public override bool Execute()
@@ -27,6 +29,8 @@ public class AddGroupCommand : GridCommand {
 
         _grid.SetCurrentGroup(_group);
         _grid.ControllingGroup = true;
+
+        if (_onGroupAddEvent != null) _onGroupAddEvent(_grid, _group);
         return true;
     }
 }

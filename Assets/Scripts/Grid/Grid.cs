@@ -8,6 +8,7 @@ public class Grid : IGrid {
     public event OnGameOverEventHandler OnGameOverEvent;
     public event OnDeleteEventHandler OnDeleteEvent;
     public event OnDeleteEndEventHandler OnDeleteEndEvent;
+    public event OnGroupAddEventHandler OnGroupAdd;
 
     public int Width { get { return _grid.GetLength(0); } }
     public int Height { get { return _grid.GetLength(1); } }
@@ -267,7 +268,7 @@ public class Grid : IGrid {
 
     public bool AddGroup(IGroup group)
     {
-        IGridCommand command = new AddGroupCommand(this, _setting, group, _allBlocks);
+        IGridCommand command = new AddGroupCommand(this, _setting, group, _allBlocks, OnGroupAdd);
         return command.Execute();
     }
 
