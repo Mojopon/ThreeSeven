@@ -22,22 +22,26 @@ public class CPUBehaviourTest : GridTestFixture
             BlockType.Five,
         };
         blockPattern.Types.Returns(blockTypeMock);
-
         group = groupFactory.Create(setting, blockPattern, groupPattern);
 
-        gridSimulator = new GridSimulator(grid, setting);
-        cpuManager = new CPUManager(grid, setting);
-
-        grid.AddGroup(group);
         AddBlockMock(5, 0, 7);
 
-        var cpu = new OutputBestMovement(gridSimulator);
-        var movements = cpu.Output();
-        Assert.AreEqual(2, movements.Count);
-        Assert.AreEqual(Direction.Right, movements[0]);
-        Assert.AreEqual(Direction.Right, movements[1]);
+        var smartCPU = new SmartCPUBehaviour(grid, setting); 
 
-        Assert.Fail();
+        grid.AddGroup(group);
+        var groupLocation = group.Location;
+
+        smartCPU.ProcessMovement();
+        groupLocation += Direction.Right.ToCoord();
+        Assert.AreEqual(groupLocation, group.Location);
+
+        smartCPU.ProcessMovement();
+        groupLocation += Direction.Right.ToCoord();
+        Assert.AreEqual(groupLocation, group.Location);
+
+        smartCPU.ProcessMovement();
+        groupLocation += Direction.Down.ToCoord();
+        Assert.AreEqual(groupLocation, group.Location);
     }
 
     [Test]

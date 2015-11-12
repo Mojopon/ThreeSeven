@@ -98,4 +98,5 @@ public enum CPUMode
 {
     None,
     Easy,
+    Normal,
 }

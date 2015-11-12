@@ -456,4 +456,18 @@ public class GridTest : GridTestFixture
         grid.SetState(GridStates.ReadyForNextGroup);
         Assert.AreEqual(GridStates.GameOver, grid.CurrenteStateName);
     }
+
+    [Test]
+    public void ShouldCallOnGroupAddEvent()
+    {
+        bool eventCalled = false;
+        grid.OnGroupAdd += new OnGroupAddEventHandler((_grid, _group) => 
+        {
+            Assert.AreEqual(grid, _grid);
+            Assert.AreEqual(group, _group);
+            eventCalled = true;
+        });
+        Assert.IsTrue(grid.AddGroup(group));
+        Assert.IsTrue(eventCalled);
+    }
 }

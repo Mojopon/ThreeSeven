@@ -23,6 +23,9 @@ public class CPUManager : ICPUManager
             case CPUMode.Easy:
                 _behaviour = new RandomMovementBehaviour(_grid);
                 break;
+            case CPUMode.Normal:
+                _behaviour = new SmartCPUBehaviour(_grid, _setting);
+                break;
         }
     }
 

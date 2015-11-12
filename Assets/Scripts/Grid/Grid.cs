@@ -208,7 +208,7 @@ public class Grid : IGrid {
 
         if (!_setting.IsPlayer)
         {
-            _cpuManager.ChangeCPUMode(CPUMode.Easy);
+            _cpuManager.ChangeCPUMode(CPUMode.Normal);
         }
 
         SetState(GridStates.ReadyForNextGroup);
