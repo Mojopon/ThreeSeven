@@ -9,25 +9,54 @@ public class OutputBestMovement {
         _simulator = simulator;
     }
 
+    private Direction directionToPut = Direction.Left;
     public List<Direction> Output()
     {
+        var tickCount = System.Environment.TickCount;
+
         _simulator.CreateSimulatedGridOriginal();
         var defaultGroupPosition = _simulator.SimulatedGroup.Location;
 
         int bestScore = -777;
         int bestLocationX = -1;
-        for(int i = 0; i < _simulator.SimulatedGrid.GetLength(0); i++)
+        int bestRotation = 0;
+        for (int j = 0; j < _simulator.SimulatedGroup.RotationPatternNumber; j++)
         {
-            _simulator.SetGroupLocation(new Coord(i, _simulator.SimulatedGroup.Location.Y));
-            var simulatedScore = _simulator.GetScoreFromSimulation();
-            if(simulatedScore > bestScore)
+            for (int i = 0; i < _simulator.SimulatedGrid.GetLength(0); i++)
             {
-                bestScore = simulatedScore;
-                bestLocationX = i;
+                _simulator.SetGroupLocation(new Coord(i, _simulator.SimulatedGroup.Location.Y));
+                var simulatedScore = _simulator.GetScoreFromSimulation();
+                if (simulatedScore > bestScore)
+                {
+                    bestScore = simulatedScore;
+                    bestLocationX = i;
+                    bestRotation = _simulator.SimulatedGroup.CurrentRotatePatternNumber;
+                }
+            }
+            _simulator.RotateGroup();
+        }
+
+        if(bestScore == 0)
+        {
+            if(directionToPut == Direction.Left)
+            {
+                bestLocationX = 0;
+                directionToPut = Direction.Right;
+            }
+            else if(directionToPut == Direction.Right)
+            {
+                bestLocationX = _simulator.SimulatedGrid.GetLength(0) - 1;
+                directionToPut = Direction.Left;
             }
         }
 
         List<Direction> movementsToGetDestination = new List<Direction>();
+        
+        while(bestRotation != 0)
+        {
+            movementsToGetDestination.Add(Direction.Up);
+            bestRotation--;
+        }
 
         while(defaultGroupPosition.X != bestLocationX)
         {
@@ -43,6 +72,7 @@ public class OutputBestMovement {
             }
         }
 
+        Debug.Log(System.Environment.TickCount - tickCount);
         return movementsToGetDestination;
     }
 

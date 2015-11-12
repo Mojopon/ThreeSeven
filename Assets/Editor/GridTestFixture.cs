@@ -13,14 +13,14 @@ public class GridTestFixture : ThreeSevenTestFixsture {
     protected BlockType[] blockTypeMock;
     protected IGroupPattern groupPattern;
     protected List<IGroupPattern> groupPatternList;
-    protected List<Coord[]> locationMock;
+    protected List<Coord[]> rotationMock;
     protected IGroup group;
 
     [SetUp]
     public void InitializeGrid()
     {
         groupPattern = Substitute.For<IGroupPattern>();
-        locationMock = new List<Coord[]>() {
+        rotationMock = new List<Coord[]>() {
             new Coord[] {
                 new Coord(0, 0),
                 new Coord(0, -1),
@@ -46,7 +46,7 @@ public class GridTestFixture : ThreeSevenTestFixsture {
                 new Coord(0, -1),
             },
         };
-        groupPattern.Patterns.Returns(locationMock);
+        groupPattern.Patterns.Returns(rotationMock);
 
         groupPatternList = new List<IGroupPattern>();
         groupPatternList.Add(groupPattern);

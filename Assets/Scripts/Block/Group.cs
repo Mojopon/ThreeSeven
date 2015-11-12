@@ -40,6 +40,19 @@ public class Group : IGroup
         }
     }
 
+    public int RotationPatternNumber
+    {
+        get
+        {
+            if (_rotatePatternManager == null)
+            {
+                return -1;
+            }
+
+            return _rotatePatternManager.RotationPatternNumber;
+        }
+    }
+
     public Group(ISetting setting)
     {
         blocks = new List<IBlock>();

@@ -70,4 +70,10 @@ public class RotatePatternManagerTest : GridTestFixture
             }
         }
     }
+
+    [Test]
+    public void ShouldReturnNumOfRotationPattern()
+    {
+        Assert.AreEqual(rotationMock.Count, rotatePatternManager.RotationPatternNumber);
+    }
 }

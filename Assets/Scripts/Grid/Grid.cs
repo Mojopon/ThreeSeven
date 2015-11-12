@@ -26,6 +26,19 @@ public class Grid : IGrid {
         }
     }
 
+    public int RotationPatternNumber
+    {
+        get
+        {
+            if (_currentGroup == null)
+            {
+                return -1;
+            }
+
+            return _currentGroup.RotationPatternNumber;
+        }
+    }
+
     public IBlock[,] GridRaw { get { return _grid; } set { _grid = value; } }
 
     public int Chains { get; private set; }

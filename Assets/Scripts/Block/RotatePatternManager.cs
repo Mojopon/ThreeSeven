@@ -4,6 +4,16 @@ using System.Collections.Generic;
 public class RotatePatternManager : IRotatePatternManager
 {
     public int CurrentRotatePatternNumber { get; private set; }
+    public int RotationPatternNumber { get
+        {
+            if(_patterns == null)
+            {
+                return -1;
+            }
+
+            return _patterns.Count;
+        }
+    }
 
     private List<Coord[]> _patterns;
     public RotatePatternManager(List<Coord[]> patterns)

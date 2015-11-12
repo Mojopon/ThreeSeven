@@ -31,13 +31,13 @@ public class GridTest : GridTestFixture
 
         for (int i = 0; i < group.ChildrenLocation.Length; i++)
         {
-            Assert.AreEqual(group.Location + locationMock[0][i], group.ChildrenLocation[i]);
+            Assert.AreEqual(group.Location + rotationMock[0][i], group.ChildrenLocation[i]);
         }
 
         grid.OnArrowKeyInput(Direction.Right);
         for (int i = 0; i < group.ChildrenLocation.Length; i++)
         {
-            Assert.AreEqual(group.Location + locationMock[0][i], group.ChildrenLocation[i]);
+            Assert.AreEqual(group.Location + rotationMock[0][i], group.ChildrenLocation[i]);
         }
     }
 
@@ -65,7 +65,7 @@ public class GridTest : GridTestFixture
         for (int i = 0; i < group.ChildrenLocation.Length; i++)
         {
             Coord vector = Direction.Right.ToCoord() + Direction.Right.ToCoord();
-            Assert.AreEqual(locationMock[0][i] + setting.BlockSpawnPoint + vector, group.ChildrenLocation[i]);
+            Assert.AreEqual(rotationMock[0][i] + setting.BlockSpawnPoint + vector, group.ChildrenLocation[i]);
             locations[i] = group.ChildrenLocation[i];
         }
 
@@ -85,7 +85,7 @@ public class GridTest : GridTestFixture
 
         for (int i = 0; i < group.ChildrenLocation.Length; i++)
         {
-            Assert.AreEqual(group.Location + locationMock[0][i], group.ChildrenLocation[i]);
+            Assert.AreEqual(group.Location + rotationMock[0][i], group.ChildrenLocation[i]);
         }
 
         grid.SetState(GridStates.OnFix);
