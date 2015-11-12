@@ -316,7 +316,7 @@ public class Grid : IGrid {
         return false;
     }
 
-    void RotateCurrentGroup()
+    bool RotateCurrentGroup()
     {
         _currentGroup.Rotate(RotateDirection.Clockwise);
 
@@ -325,9 +325,11 @@ public class Grid : IGrid {
             if (!IsAvailable(coord.X, coord.Y))
             {
                 _currentGroup.Rotate(RotateDirection.Counterclockwise);
-                return;
+                return false;
             }
         }
+
+        return true;
     }
 
     public void FixGroup()
@@ -413,14 +415,13 @@ public class Grid : IGrid {
     #region IControllable Method Group
 
     public bool ControllingGroup { get; set; }
-    public void OnArrowKeyInput(Direction direction)
+    public bool OnArrowKeyInput(Direction direction)
     {
         if (_currentGroup == null || ControllingGroup != true || direction == Direction.None) return;
 
         if (direction == Direction.Up)
         {
-            RotateCurrentGroup();
-            return;
+            return RotateCurrentGroup();
         }
 
         bool bumpedOnTheGround = false;

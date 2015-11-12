@@ -3,6 +3,6 @@ using System.Collections;
 
 public interface IControllable 
 {
-    void OnArrowKeyInput(Direction direction);
+    bool OnArrowKeyInput(Direction direction);
     void OnJumpKeyInput();
 }

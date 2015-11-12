@@ -18,8 +18,9 @@ public class NullControl : IControllable {
         }
     }
 
-    public void OnArrowKeyInput(Direction direction)
+    public bool OnArrowKeyInput(Direction direction)
     {
+        return false;
     }
 
     public void OnJumpKeyInput()

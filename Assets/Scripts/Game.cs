@@ -121,9 +121,9 @@ public class Game : IGame
 
     #region IControllable Method Group
 
-    public void OnArrowKeyInput(Direction direction)
+    public bool OnArrowKeyInput(Direction direction)
     {
-        currentControl.OnArrowKeyInput(direction);
+        return currentControl.OnArrowKeyInput(direction);
     }
 
     public void OnJumpKeyInput()
