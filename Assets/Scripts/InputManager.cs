@@ -9,7 +9,7 @@ public class InputManager : MonoBehaviour {
     public delegate void JumpKeyEvent();
 
     public static event ArrowKeyEvent OnArrowKeyPressed;
-    public delegate bool ArrowKeyEvent(Direction direction);
+    public delegate void ArrowKeyEvent(Direction direction);
 
     public static event PauseKeyEvent OnPauseKeyPressed;
     public delegate void PauseKeyEvent();

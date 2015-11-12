@@ -72,6 +72,7 @@ public class OutputBestMovement {
             }
         }
 
+        Debug.Log(System.Environment.TickCount - tickCount);
         return movementsToGetDestination;
     }
 
