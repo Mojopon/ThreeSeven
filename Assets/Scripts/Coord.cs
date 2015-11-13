@@ -18,6 +18,16 @@ public struct Coord {
         return new Vector2(Mathf.RoundToInt(X), Mathf.RoundToInt(Y));
     }
 
+    public static bool operator ==(Coord lhs, Coord rhs)
+    {
+        return (lhs.X == rhs.X && lhs.Y == rhs.Y);
+    }
+
+    public static bool operator !=(Coord lhs, Coord rhs)
+    {
+        return !(lhs == rhs);
+    }
+
     public static Coord operator +(Coord lhs, Coord rhs)
     {
         return new Coord(lhs.X + rhs.X, lhs.Y + rhs.Y);
