@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using UniRx;
 using System;
+using System.Collections;
+using System.Threading;
 
 public class SmartCPUBehaviour : ICPUBehaviour
 {
@@ -26,13 +29,28 @@ public class SmartCPUBehaviour : ICPUBehaviour
     private List<Direction> movements;
     void OnGroupAddEvent(IGrid grid, IGroup group)
     {
-        movements = _outputter.Output();
+        var coroutine = Observable.FromCoroutine(GetOutPutCoroutine)
+                                  .Subscribe(_ => onWaitingOutput = false);
+    }
+
+    private bool onWaitingOutput = false;
+    private IEnumerator GetOutPutCoroutine()
+    {
+        onWaitingOutput = true;
+        yield return Observable.Start(() => GetOutPut()).StartAsCoroutine((list) => movements = list);
+    }
+
+    private List<Direction> GetOutPut()
+    {
+        return _outputter.Output();
     }
 
     private int currentRotation;
     private Coord currentLocation;
     public void ProcessMovement()
     {
+        if (onWaitingOutput) return;
+
         currentRotation = _grid.CurrentGroup.CurrentRotatePatternNumber;
         currentLocation = _grid.CurrentGroup.Location;
 
