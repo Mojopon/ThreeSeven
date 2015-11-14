@@ -99,4 +99,6 @@ public enum CPUMode
     None,
     Easy,
     Normal,
+    Hard,
+    Kusotuyo,
 }

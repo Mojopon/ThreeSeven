@@ -10,6 +10,7 @@ public interface ISetting : IGameTextManager
     IFloatingTextRenderer FloatingTextRenderer { get; set; }
 
     bool IsPlayer { get; }
+    CPUMode CPUDifficulty { get; }
     float ScalePerBlock { get; }
     int GridWidth { get; }
     int GridHeight { get; }

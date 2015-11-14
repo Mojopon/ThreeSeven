@@ -26,7 +26,7 @@ public class CPUBehaviourTest : GridTestFixture
 
         AddBlockMock(5, 0, 7);
 
-        var smartCPU = new SmartCPUBehaviour(grid, setting); 
+        var smartCPU = new SmartCPUBehaviour(grid, setting, CPUMode.Easy); 
 
         grid.AddGroup(group);
         var groupLocation = group.Location;

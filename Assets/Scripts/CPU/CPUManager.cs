@@ -21,10 +21,10 @@ public class CPUManager : ICPUManager
                 _behaviour = new NullBehaviour();
                 break;
             case CPUMode.Easy:
-                _behaviour = new RandomMovementBehaviour(_grid);
-                break;
             case CPUMode.Normal:
-                _behaviour = new SmartCPUBehaviour(_grid, _setting);
+            case CPUMode.Hard:
+            case CPUMode.Kusotuyo:
+                _behaviour = new SmartCPUBehaviour(_grid, _setting, mode);
                 break;
         }
     }

@@ -4,6 +4,7 @@ using System.Collections;
 public class TestSetting : ISetting 
 {
     private bool isPlayer = true;
+    private CPUMode cpuDifficulty = CPUMode.Easy;
     private float scalePerBlock = 1f;
     private int gridWidth = 7;
     private int gridHeight = 14;
@@ -58,6 +59,7 @@ public class TestSetting : ISetting
     }
 
     public bool IsPlayer { get { return isPlayer; } }
+    public CPUMode CPUDifficulty { get { return cpuDifficulty; } }
     public float ScalePerBlock { get { return scalePerBlock; } }
     public int GridWidth { get { return gridWidth; } }
     public int GridHeight { get { return gridHeight; } }

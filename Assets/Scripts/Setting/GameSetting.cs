@@ -1,10 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class GameSetting : MonoBehaviour, ISetting {
 
     [SerializeField]
     private bool isPlayer = true;
+    [SerializeField]
+    private CPUMode cpuDifficulty = CPUMode.Normal;
     [SerializeField]
     private float scalePerBlock = 1f;
     [SerializeField]
@@ -67,6 +70,7 @@ public class GameSetting : MonoBehaviour, ISetting {
     }
 
     public bool IsPlayer { get { return isPlayer; } }
+    public CPUMode CPUDifficulty { get { return cpuDifficulty; } }
     public float ScalePerBlock { get { return scalePerBlock; } }
     public int GridWidth { get { return gridWidth; } }
     public int GridHeight { get { return gridHeight; } }

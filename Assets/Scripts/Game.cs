@@ -21,6 +21,7 @@ public class Game : IGame
     public IFloatingTextRenderer FloatingTextRenderer { get { return _setting.FloatingTextRenderer; } set { _setting.FloatingTextRenderer = value; } }
 
     public bool IsPlayer { get { return _setting.IsPlayer; } }
+    public CPUMode CPUDifficulty { get { return _setting.CPUDifficulty; } }
     public float ScalePerBlock { get { return _setting.ScalePerBlock; } }
     public int GridWidth { get { return _setting.GridWidth; } }
     public int GridHeight { get { return _setting.GridHeight; } }
