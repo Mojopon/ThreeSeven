@@ -12,11 +12,22 @@ public class BlockFactory : IBlockFactory
 
     public IBlock Create(ISetting setting, BlockType blockType, Coord location)
     {
+        return Create(null, setting, blockType, location);
+    }
+    public IBlock Create(Transform parent, ISetting setting, BlockType blockType, Coord location)
+    {
         if ((int)blockType >= 0 && (int)blockType < 7)
         {
             IBlock block = new Block(location);
             block.SetBlockType(blockType);
-            DoAttachView(block, setting, blockType, location);
+            if (parent == null)
+            {
+                DoAttachView(setting.Parent, block, setting, blockType, location);
+            }
+            else
+            {
+                DoAttachView(parent, block, setting, blockType, location);
+            }
             return block;
         }
         else
@@ -27,10 +38,10 @@ public class BlockFactory : IBlockFactory
         return null;
     }
 
-    void DoAttachView(IBlock block, ISetting setting, BlockType blockType, Coord location)
+    void DoAttachView(Transform parent, IBlock block, ISetting setting, BlockType blockType, Coord location)
     {
         if (_blockViewSpawner == null) return;
 
-        block.AttachView(_blockViewSpawner.Spawn(setting, (int)blockType, location));
+        block.AttachView(_blockViewSpawner.Spawn(parent, setting, (int)blockType, location));
     }
 }

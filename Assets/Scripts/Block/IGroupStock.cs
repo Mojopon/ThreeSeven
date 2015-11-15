@@ -3,6 +3,6 @@ using System.Collections;
 
 public interface IGroupStock : IGroupFactory
 {
-    Vector3[] StockPositions { get; set; }
+    StockDisplayConfig[] StockDisplayConfig { get; set; }
     void Prepare(ISetting setting);
 }

@@ -16,6 +16,7 @@ public class BlockView : MonoBehaviour, IBlockView {
         get { return transform.localPosition; }
         set { transform.localPosition = value; }
     }
+
     public Vector3 WorldPosition
     {
         get { return transform.position; }

@@ -6,9 +6,9 @@ public class GroupStock : IGroupStock
 {
     IGroupFactory _groupFactory;
     List<IGroup> _groupStocks;
-
-    Vector3[] _stockPositions;
-    public Vector3[] StockPositions
+    List<GameObject> _groupHolder;
+    StockDisplayConfig[] _stockPositions;
+    public StockDisplayConfig[] StockDisplayConfig
     {
         get
         {
@@ -58,13 +58,13 @@ public class GroupStock : IGroupStock
     void CreateNextStock(ISetting setting)
     {
         _groupStocks.Add(_groupFactory.Create(setting));
-
+        
         int i = 0;
         foreach (IGroup group in _groupStocks)
         {
-            group.Offset = _stockPositions[i];
+            group.Offset = _stockPositions[i].position;
             group.SetLocation(new Coord(0, 0));
-
+            
             i++;
         }
 

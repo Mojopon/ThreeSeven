@@ -6,6 +6,8 @@ using System;
 
 public class Game : IGame
 {
+    public bool IsProduction{ get { return _setting.IsProduction; } }
+
     public ICameraManager CameraManager { get; set; }
     public IBackgroundFactory BackgroundFactory { get; set; }
     public IGridFactory GridFactory { get; set; }
@@ -30,7 +32,7 @@ public class Game : IGame
     public float BlockFallSpeed { get { return _setting.BlockFallSpeed; } }
     public float BlockDeleteSpeed { get { return _setting.BlockDeleteSpeed; } }
     public float WaitAfterDelete { get { return _setting.WaitAfterDelete; } }
-    public Vector3[] StockPositions { get { return _setting.StockPositions; } }
+    public StockDisplayConfig[] StockPositions { get { return _setting.StockPositions; } }
 
     public Vector3 GetGridCenterPosition()
     {

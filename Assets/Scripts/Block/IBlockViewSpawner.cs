@@ -3,5 +3,5 @@ using System.Collections;
 
 public interface IBlockViewSpawner 
 {
-    IBlockView Spawn(ISetting setting, int number, Coord location);   
+    IBlockView Spawn(Transform parent, ISetting setting, int number, Coord location);   
 }

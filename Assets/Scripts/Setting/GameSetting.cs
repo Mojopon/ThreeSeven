@@ -4,6 +4,8 @@ using System;
 
 public class GameSetting : MonoBehaviour, ISetting {
 
+    private bool isProduction = true;
+
     [SerializeField]
     private bool isPlayer = true;
     [SerializeField]
@@ -25,7 +27,7 @@ public class GameSetting : MonoBehaviour, ISetting {
     [SerializeField]
     private float waitAfterDelete = 0.5f;
     [SerializeField]
-    private Vector3[] stockPositions;
+    private StockDisplayConfig[] stockPositions;
     [SerializeField]
     private GameTextComponent[] gameTextComponents;
     private IParticleSpawner particleSpawner = NullParticleSpawner.Instance;
@@ -69,6 +71,7 @@ public class GameSetting : MonoBehaviour, ISetting {
         }
     }
 
+    public bool IsProduction { get { return isProduction; } }
     public bool IsPlayer { get { return isPlayer; } }
     public CPUMode CPUDifficulty { get { return cpuDifficulty; } }
     public float ScalePerBlock { get { return scalePerBlock; } }
@@ -79,7 +82,7 @@ public class GameSetting : MonoBehaviour, ISetting {
     public float BlockFallSpeed { get { return blockFallSpeed; } }
     public float BlockDeleteSpeed { get { return blockDeleteSpeed; } }
     public float WaitAfterDelete { get { return waitAfterDelete; } }
-    public Vector3[] StockPositions { get { return stockPositions; } }
+    public StockDisplayConfig[] StockPositions { get { return stockPositions; } }
 
     public Vector3 GetGridCenterPosition()
     {
@@ -115,10 +118,10 @@ public class GameSetting : MonoBehaviour, ISetting {
             return;
         }
 
-        foreach (Vector3 position in stockPositions)
+        foreach (StockDisplayConfig config in stockPositions)
         {
             Gizmos.color = Color.yellow;
-            Gizmos.DrawSphere(position + playerGridPosition, 0.5f);
+            Gizmos.DrawSphere(config.position + playerGridPosition, 0.5f);
         }
 
         Gizmos.color = Color.cyan;

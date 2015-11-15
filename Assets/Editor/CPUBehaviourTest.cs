@@ -2,6 +2,7 @@
 using System.Collections;
 using NUnit.Framework;
 using NSubstitute;
+using System.Threading;
 
 [TestFixture]
 public class CPUBehaviourTest : GridTestFixture
@@ -11,7 +12,6 @@ public class CPUBehaviourTest : GridTestFixture
     public void ShouldOutputBestLocationToGetScore()
     {
         IGridSimulator gridSimulator;
-        ICPUManager cpuManager;
 
         blockPattern = Substitute.For<IBlockPattern>();
         blockTypeMock = new BlockType[]
@@ -26,7 +26,7 @@ public class CPUBehaviourTest : GridTestFixture
 
         AddBlockMock(5, 0, 7);
 
-        var smartCPU = new SmartCPUBehaviour(grid, setting, CPUMode.Easy); 
+        var smartCPU = new SmartCPUBehaviour(grid, setting, CPUMode.Kusotuyo); 
 
         grid.AddGroup(group);
         var groupLocation = group.Location;
@@ -42,18 +42,6 @@ public class CPUBehaviourTest : GridTestFixture
         smartCPU.ProcessMovement();
         groupLocation += Direction.Down.ToCoord();
         Assert.AreEqual(groupLocation, group.Location);
-    }
-
-    [Test]
-    public void ShouldInputMoveAction()
-    {
-        IGrid gridMock = Substitute.For<IGrid>();
-        ICPUManager cpuManager = new CPUManager(gridMock, setting);
-
-        cpuManager.ChangeCPUMode(CPUMode.Easy);
-        cpuManager.OnUpdate();
-
-        gridMock.Received().OnArrowKeyInput(Arg.Any<Direction>());
     }
 
     IBlock AddBlockMock(int x, int y, int number)

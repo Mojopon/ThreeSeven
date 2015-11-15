@@ -4,6 +4,8 @@ using UniRx;
 
 public interface ISetting : IGameTextManager
 {
+    bool IsProduction { get; }
+
     Transform Parent { get; set; }
     IParticleSpawner ParticleSpawner { get; set; }
     IBlockColorRepository BlockColorRepository { get; set; }
@@ -19,7 +21,7 @@ public interface ISetting : IGameTextManager
     float BlockDeleteSpeed { get; }
     float WaitAfterDelete { get; }
     Coord BlockSpawnPoint { get; }
-    Vector3[] StockPositions { get; }
+    StockDisplayConfig[] StockPositions { get; }
 
     Vector3 GetGridCenterPosition();
     Vector3 GetGridScale();

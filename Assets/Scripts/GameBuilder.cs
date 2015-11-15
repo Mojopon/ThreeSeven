@@ -54,7 +54,7 @@ public class GameBuilder : IBuilder<Game>
 
         IGroupFactory groupFactory = new GroupFactory(blockFactory, _groupPatterns);
         IGroupStock groupStock = new GroupStock(groupFactory);
-        groupStock.StockPositions = _setting.StockPositions;
+        groupStock.StockDisplayConfig = _setting.StockPositions;
         groupStock.Prepare(_setting);
         game.GroupFactory = groupStock;
 

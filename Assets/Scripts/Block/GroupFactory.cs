@@ -40,12 +40,18 @@ public class GroupFactory : IGroupFactory {
         }
 
         IGroup group = new Group(setting);
+        Transform groupHolder = null;
+        if (setting.IsProduction)
+        {
+            //groupHolder = new GameObject("Group").transform;
+            //group.Parent = groupHolder.transform;
+        }
 
         IGroupPattern groupPattern = _groupPatternList[Random.Range(0, _groupPatternList.Count)];
 
         for (int i = 0; i < groupPattern.Patterns[0].Length; i++)
         {
-            IBlock block = _blockFactory.Create(setting, BlockTypeHelper.GetRandom(), groupPattern.Patterns[0][i]);
+            IBlock block = _blockFactory.Create(groupHolder, setting, BlockTypeHelper.GetRandom(), groupPattern.Patterns[0][i]);
             group.AddBlock(block);
         }
 

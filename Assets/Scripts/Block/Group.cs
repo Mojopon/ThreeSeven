@@ -4,6 +4,8 @@ using System.Linq;
 
 public class Group : IGroup
 {
+    public Transform Parent { get; set; }
+
     private Vector3 _offset;
     public Vector3 Offset
     {
@@ -20,6 +22,8 @@ public class Group : IGroup
             }
         }
     }
+
+    private Vector3 _scale = new Vector3(1, 1, 1);
 
     private Coord _location;
     private List<IBlock> blocks;

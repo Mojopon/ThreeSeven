@@ -75,7 +75,7 @@ public class SmartCPUBehaviour : ICPUBehaviour
     private Coord currentLocation;
     public void ProcessMovement()
     {
-        if (onWaitingOutput || Time.time < nextMoveTime) return;
+        if (onWaitingOutput || movements == null || Time.time < nextMoveTime) return;
 
         currentRotation = _grid.CurrentGroup.CurrentRotatePatternNumber;
         currentLocation = _grid.CurrentGroup.Location;

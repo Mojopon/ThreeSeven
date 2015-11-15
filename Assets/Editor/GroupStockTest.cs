@@ -9,11 +9,11 @@ public class GroupStockTest : ThreeSevenTestFixsture
 {
     new IGroupFactory groupFactory;
     IGroupStock groupStock;
-    Vector3[] stockPositions = new Vector3[] 
+    StockDisplayConfig[] stockPositions = new StockDisplayConfig[] 
     {
-        new Vector3(3, 3, 0),
-        new Vector3(2, 2, 0),
-        new Vector3(1, 1, 0),
+        new StockDisplayConfig() {position =  new Vector3(3, 3, 0) },
+        new StockDisplayConfig() {position =  new Vector3(2, 2, 0) },
+        new StockDisplayConfig() {position =  new Vector3(1, 1, 0) },
     };
 
     [SetUp]
@@ -21,7 +21,7 @@ public class GroupStockTest : ThreeSevenTestFixsture
     {
         groupFactory = Substitute.For<IGroupFactory>();
         groupStock = new GroupStock(groupFactory);
-        groupStock.StockPositions = stockPositions;
+        groupStock.StockDisplayConfig = stockPositions;
     }
 	
     [Test]

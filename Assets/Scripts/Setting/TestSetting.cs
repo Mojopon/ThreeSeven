@@ -3,16 +3,17 @@ using System.Collections;
 
 public class TestSetting : ISetting 
 {
+    private bool isProduction = false;
     private bool isPlayer = true;
     private CPUMode cpuDifficulty = CPUMode.Easy;
     private float scalePerBlock = 1f;
     private int gridWidth = 7;
     private int gridHeight = 14;
     private Vector3 playerGridPosition = Vector3.zero;
-    private Vector3[] stockPositions = new Vector3[] 
+    private StockDisplayConfig[] stockPositions = new StockDisplayConfig[] 
     {
-        new Vector3(2, 0, 0),
-        new Vector3(2, 2, 0),
+        new StockDisplayConfig() { position = new Vector3(2, 0, 0) },
+        new StockDisplayConfig() { position = new Vector3(2, 2, 0) },
     };
 
     private Coord blockPopPoint = new Coord(3, 13);
@@ -58,6 +59,7 @@ public class TestSetting : ISetting
         }
     }
 
+    public bool IsProduction { get { return isProduction; } }
     public bool IsPlayer { get { return isPlayer; } }
     public CPUMode CPUDifficulty { get { return cpuDifficulty; } }
     public float ScalePerBlock { get { return scalePerBlock; } }
@@ -68,7 +70,7 @@ public class TestSetting : ISetting
     public float BlockFallSpeed { get { return blockFallSpeed; } }
     public float BlockDeleteSpeed { get { return blockDeleteSpeed; } }
     public float WaitAfterDelete { get { return waitAfterDelete; } }
-    public Vector3[] StockPositions { get { return stockPositions; } }
+    public StockDisplayConfig[] StockPositions { get { return stockPositions; } }
 
     public Vector3 GetGridCenterPosition()
     {
