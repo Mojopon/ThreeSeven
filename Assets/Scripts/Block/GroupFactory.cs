@@ -43,8 +43,9 @@ public class GroupFactory : IGroupFactory {
         Transform groupHolder = null;
         if (setting.IsProduction)
         {
-            //groupHolder = new GameObject("Group").transform;
-            //group.Parent = groupHolder.transform;
+            groupHolder = new GameObject("Group").transform;
+            group.Parent = groupHolder.transform;
+            group.Parent.SetParent(setting.Parent, false);
         }
 
         IGroupPattern groupPattern = _groupPatternList[Random.Range(0, _groupPatternList.Count)];

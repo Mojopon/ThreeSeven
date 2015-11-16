@@ -121,7 +121,7 @@ public class GameSetting : MonoBehaviour, ISetting {
         foreach (StockDisplayConfig config in stockPositions)
         {
             Gizmos.color = Color.yellow;
-            Gizmos.DrawSphere(config.position + playerGridPosition, 0.5f);
+            Gizmos.DrawSphere(config.position, 0.5f);
         }
 
         Gizmos.color = Color.cyan;

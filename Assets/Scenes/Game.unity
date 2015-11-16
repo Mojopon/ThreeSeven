@@ -986,6 +986,66 @@ Prefab:
       propertyPath: gameTextComponents.Array.data[2].gameText
       value: 
       objectReference: {fileID: 1120134565}
+    - target: {fileID: 11452878, guid: 098c74c12d0e7b944ab6df9a5c91b213, type: 2}
+      propertyPath: stockPositions.Array.data[0].position.x
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 11452878, guid: 098c74c12d0e7b944ab6df9a5c91b213, type: 2}
+      propertyPath: stockPositions.Array.data[0].position.y
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 11452878, guid: 098c74c12d0e7b944ab6df9a5c91b213, type: 2}
+      propertyPath: stockPositions.Array.data[1].position.x
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 11452878, guid: 098c74c12d0e7b944ab6df9a5c91b213, type: 2}
+      propertyPath: stockPositions.Array.data[1].position.y
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 11452878, guid: 098c74c12d0e7b944ab6df9a5c91b213, type: 2}
+      propertyPath: stockPositions.Array.data[2].position.x
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 11452878, guid: 098c74c12d0e7b944ab6df9a5c91b213, type: 2}
+      propertyPath: stockPositions.Array.data[2].position.y
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 11452878, guid: 098c74c12d0e7b944ab6df9a5c91b213, type: 2}
+      propertyPath: stockPositions.Array.data[2].scale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11452878, guid: 098c74c12d0e7b944ab6df9a5c91b213, type: 2}
+      propertyPath: stockPositions.Array.data[2].scale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11452878, guid: 098c74c12d0e7b944ab6df9a5c91b213, type: 2}
+      propertyPath: stockPositions.Array.data[2].scale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11452878, guid: 098c74c12d0e7b944ab6df9a5c91b213, type: 2}
+      propertyPath: stockPositions.Array.data[1].scale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11452878, guid: 098c74c12d0e7b944ab6df9a5c91b213, type: 2}
+      propertyPath: stockPositions.Array.data[1].scale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11452878, guid: 098c74c12d0e7b944ab6df9a5c91b213, type: 2}
+      propertyPath: stockPositions.Array.data[1].scale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11452878, guid: 098c74c12d0e7b944ab6df9a5c91b213, type: 2}
+      propertyPath: stockPositions.Array.data[0].scale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11452878, guid: 098c74c12d0e7b944ab6df9a5c91b213, type: 2}
+      propertyPath: stockPositions.Array.data[0].scale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11452878, guid: 098c74c12d0e7b944ab6df9a5c91b213, type: 2}
+      propertyPath: stockPositions.Array.data[0].scale.z
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 098c74c12d0e7b944ab6df9a5c91b213, type: 2}
   m_IsPrefabParent: 0
