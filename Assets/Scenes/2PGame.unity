@@ -1880,7 +1880,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11452878, guid: 098c74c12d0e7b944ab6df9a5c91b213, type: 2}
       propertyPath: stockPositions.Array.data[0].position.x
-      value: 12
+      value: 12.5
       objectReference: {fileID: 0}
     - target: {fileID: 11452878, guid: 098c74c12d0e7b944ab6df9a5c91b213, type: 2}
       propertyPath: stockPositions.Array.data[0].position.y
@@ -1896,11 +1896,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11452878, guid: 098c74c12d0e7b944ab6df9a5c91b213, type: 2}
       propertyPath: stockPositions.Array.data[1].position.x
-      value: 12
+      value: 12.5
       objectReference: {fileID: 0}
     - target: {fileID: 11452878, guid: 098c74c12d0e7b944ab6df9a5c91b213, type: 2}
       propertyPath: stockPositions.Array.data[2].position.x
-      value: 12
+      value: 12.5
       objectReference: {fileID: 0}
     - target: {fileID: 11452878, guid: 098c74c12d0e7b944ab6df9a5c91b213, type: 2}
       propertyPath: stockPositions.Array.data[0].scale.x
