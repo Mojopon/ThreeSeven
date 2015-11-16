@@ -12,8 +12,6 @@ public class OutputBestMovement {
     private Direction directionToPut = Direction.Left;
     public List<Direction> Output()
     {
-        var tickCount = System.Environment.TickCount;
-
         _simulator.CreateSimulatedGridOriginal();
         var defaultGroupPosition = _simulator.SimulatedGroup.Location;
 
@@ -71,8 +69,6 @@ public class OutputBestMovement {
                 defaultGroupPosition += Direction.Left.ToCoord();
             }
         }
-
-        Debug.Log(System.Environment.TickCount - tickCount);
         return movementsToGetDestination;
     }
 
