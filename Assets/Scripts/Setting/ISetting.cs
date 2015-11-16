@@ -10,6 +10,7 @@ public interface ISetting : IGameTextManager
     IParticleSpawner ParticleSpawner { get; set; }
     IBlockColorRepository BlockColorRepository { get; set; }
     IFloatingTextRenderer FloatingTextRenderer { get; set; }
+    System.Random Random { get; set; }
 
     bool IsPlayer { get; }
     CPUMode CPUDifficulty { get; }

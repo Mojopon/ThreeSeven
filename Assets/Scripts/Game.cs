@@ -21,6 +21,7 @@ public class Game : IGame
     public IParticleSpawner ParticleSpawner { get { return _setting.ParticleSpawner; } set { _setting.ParticleSpawner = value; } }
     public IBlockColorRepository BlockColorRepository { get { return _setting.BlockColorRepository; } set { _setting.BlockColorRepository = value; } }
     public IFloatingTextRenderer FloatingTextRenderer { get { return _setting.FloatingTextRenderer; } set { _setting.FloatingTextRenderer = value; } }
+    public System.Random Random { get { return _setting.Random; } set { _setting.Random = value; } }
 
     public bool IsPlayer { get { return _setting.IsPlayer; } }
     public CPUMode CPUDifficulty { get { return _setting.CPUDifficulty; } }

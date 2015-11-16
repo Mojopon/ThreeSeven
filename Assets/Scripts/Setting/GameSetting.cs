@@ -71,6 +71,19 @@ public class GameSetting : MonoBehaviour, ISetting {
         }
     }
 
+    private System.Random random;
+    public System.Random Random {
+        get
+        {
+            if (random == null) random = new System.Random(UnityEngine.Random.Range(0, 10000));
+            return random;
+        }
+        set
+        {
+            random = value;
+        }
+    }
+
     public bool IsProduction { get { return isProduction; } }
     public bool IsPlayer { get { return isPlayer; } }
     public CPUMode CPUDifficulty { get { return cpuDifficulty; } }

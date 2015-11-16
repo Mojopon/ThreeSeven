@@ -11,7 +11,7 @@ public class BlockTypeHelperTest  {
     {
         for (int i = 0; i < 100; i++)
         {
-            int randomNumber = (int)BlockTypeHelper.GetRandom();
+            int randomNumber = (int)BlockTypeHelper.GetRandom(new System.Random(100));
             Assert.IsTrue(randomNumber >= 0 && randomNumber < (int)BlockType.AvailableBlocks);
         }
     }

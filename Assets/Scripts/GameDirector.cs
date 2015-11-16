@@ -47,6 +47,7 @@ public class GameDirector : MonoBehaviour, IGameDirector
     void Initialize()
     {
         gameSetting.Initialize();
+        gameSetting.Random = new System.Random(RandomSeed.Get);
 
         soundRepository.InitializeSingleton();
     }

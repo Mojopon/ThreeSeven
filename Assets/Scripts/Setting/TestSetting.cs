@@ -59,6 +59,20 @@ public class TestSetting : ISetting
         }
     }
 
+    private System.Random random;
+    public System.Random Random
+    {
+        get
+        {
+            if (random == null) random = new System.Random(100);
+            return random;
+        }
+        set
+        {
+            random = value;
+        }
+    }
+
     public bool IsProduction { get { return isProduction; } }
     public bool IsPlayer { get { return isPlayer; } }
     public CPUMode CPUDifficulty { get { return cpuDifficulty; } }

@@ -22,9 +22,9 @@ public enum BlockType
 
 public static class BlockTypeHelper
 {
-    public static BlockType GetRandom()
+    public static BlockType GetRandom(System.Random random)
     {
-        int number = Random.Range(0, (int)BlockType.AvailableBlocks);
+        int number = random.Next(0, (int)BlockType.AvailableBlocks);
 
         return (BlockType)number;
     }

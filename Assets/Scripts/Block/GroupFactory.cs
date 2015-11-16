@@ -48,11 +48,12 @@ public class GroupFactory : IGroupFactory {
             group.Parent.SetParent(setting.Parent, false);
         }
 
-        IGroupPattern groupPattern = _groupPatternList[Random.Range(0, _groupPatternList.Count)];
+        var random = setting.Random;
+        IGroupPattern groupPattern = _groupPatternList[random.Next(0, _groupPatternList.Count)];
 
         for (int i = 0; i < groupPattern.Patterns[0].Length; i++)
         {
-            IBlock block = _blockFactory.Create(groupHolder, setting, BlockTypeHelper.GetRandom(), groupPattern.Patterns[0][i]);
+            IBlock block = _blockFactory.Create(groupHolder, setting, BlockTypeHelper.GetRandom(setting.Random), groupPattern.Patterns[0][i]);
             group.AddBlock(block);
         }
 
