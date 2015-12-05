@@ -4,6 +4,8 @@ using System;
 
 public class GameSetting : MonoBehaviour, ISetting {
 
+
+
     private bool isProduction = true;
 
     [SerializeField]
@@ -97,6 +99,19 @@ public class GameSetting : MonoBehaviour, ISetting {
     public float WaitAfterDelete { get { return waitAfterDelete; } }
     public StockDisplayConfig[] StockPositions { get { return stockPositions; } }
 
+    private IGameTextManager gameTextManager;
+
+    public void Initialize()
+    {
+        Debug.Log("Game Setting Initializer called");
+        GameStartSettingValues settingValues = FindObjectOfType<GameStartSettingValues>();
+        if(settingValues!= null)
+        {
+            cpuDifficulty = settingValues.difficulty;
+        }
+        gameTextManager = new GameTextManager(gameTextComponents);
+    }
+
     public Vector3 GetGridCenterPosition()
     {
         Vector3 gridPosition = new Vector3(0, 0, 1);
@@ -115,13 +130,6 @@ public class GameSetting : MonoBehaviour, ISetting {
     {
         Vector3 gridScale = new Vector3(GridWidth, GridHeight, 1f);
         return gridScale;
-    }
-
-    private IGameTextManager gameTextManager;
-
-    public void  Initialize()
-    {
-        gameTextManager = new GameTextManager(gameTextComponents);
     }
 
     void OnDrawGizmos()
